@@ -1,68 +1,20 @@
-import 'package:doantotnghiep/src/common/constant.dart';
-import 'package:doantotnghiep/src/localization/locales.dart';
-import 'package:doantotnghiep/src/utilities/language/provider/locales_provider.dart';
-import 'package:doantotnghiep/src/modules/onboarding/screens/onboarding.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localization/flutter_localization.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
-void main() {
-  runApp(App());
+import 'UI/onboarding_screen.dart';
+
+void main(){
+  runApp(MyApp());
 }
 
-class App extends StatelessWidget {
-  const App({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<LocaLesProvider>(
-            create: (context) => LocaLesProvider()),
-      ],
-      child: ScreenUtilInit(
-          designSize: Size(WIDTH_DESIGN, HEIGHT_DESIGN),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) => AppScreen()),
-    );
-  }
-}
-
-class AppScreen extends StatefulWidget {
-  const AppScreen({Key? key}) : super(key: key);
-
-  @override
-  State<AppScreen> createState() => _AppScreenState();
-}
-
-class _AppScreenState extends State<AppScreen> {
-  final FlutterLocalization localization = FlutterLocalization.instance;
-
-  @override
-  void initState() {
-    configureLocalization();
-    super.initState();
-  }
-
-  void onTranslatedLanguage(Locale? locale) {
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Onboarding Screen',
       home: OnboardingScreen(),
       debugShowCheckedModeBanner: false,
-      supportedLocales: localization.supportedLocales,
-      localizationsDelegates: localization.localizationsDelegates,
     );
-  }
-
-  void configureLocalization() {
-    localization.init(mapLocales: LOCALES, initLanguageCode: "en");
-    localization.onTranslatedLanguage = onTranslatedLanguage;
   }
 }
