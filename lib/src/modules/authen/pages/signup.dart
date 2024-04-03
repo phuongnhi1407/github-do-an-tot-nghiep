@@ -2,6 +2,7 @@ import 'package:doantotnghiep/src/modules/authen/component/page_title_bar.dart';
 import 'package:doantotnghiep/src/modules/authen/component/under_part.dart';
 import 'package:doantotnghiep/src/modules/authen/component/upside.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/phone.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_button.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_confirm_password_field.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_input_field.dart';
@@ -60,7 +61,11 @@ class SignUpScreen extends StatelessWidget {
                                   hintText: "Căn cước công dân", icon: Icons.perm_contact_cal_outlined),
                               const RoundedPasswordField(),
                               const RoundedConfirmPasswordField(),
-                              RoundedButton(text: 'ĐĂNG KÝ', press: () {}),
+                              RoundedButton(text: 'ĐĂNG KÝ', press: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => const MyPhone())
+                                );
+                              }),
                               const SizedBox(
                                 height: 10,
                               ),
