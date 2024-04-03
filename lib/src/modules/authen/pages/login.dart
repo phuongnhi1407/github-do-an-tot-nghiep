@@ -1,6 +1,7 @@
 import 'package:doantotnghiep/src/modules/authen/component/page_title_bar.dart';
 import 'package:doantotnghiep/src/modules/authen/component/under_part.dart';
 import 'package:doantotnghiep/src/modules/authen/component/upside.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/signup.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_button.dart';
@@ -57,7 +58,11 @@ class LoginScreen extends StatelessWidget {
                                   hintText: "Số điện thoại", icon: Icons.phone),
                               const RoundedPasswordField(),
                               switchListTile(),
-                              RoundedButton(text: 'ĐĂNG NHẬP', press: () {}),
+                              RoundedButton(text: 'ĐĂNG NHẬP', press: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => const HomePage())
+                                );
+                              }),
                               const SizedBox(
                                 height: 10,
                               ),
