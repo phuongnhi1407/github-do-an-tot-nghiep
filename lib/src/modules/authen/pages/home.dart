@@ -1,3 +1,4 @@
+import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/menus.dart';
 import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/search.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +14,13 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
           backgroundColor: green2,
           elevation: 0,
-          toolbarHeight: 71,
+          toolbarHeight: 80,
           title: const Search()),
       body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             //children: const [Search(), Gopay(), Menus(), GoCLub(), Akses(), News()],
+            children: const [Menus()],
           )),
     );
   }

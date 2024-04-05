@@ -32,7 +32,7 @@ class AuthScreen extends StatelessWidget {
                   ),
                   Expanded(child: Image.asset("assets/images/logodapxe.png")),
                   Button(label: "LOGIN", press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>  const LoginScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));
                   }),
                   Button(label: "SIGN UP", press: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignUpScreen()));
