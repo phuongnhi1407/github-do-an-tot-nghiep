@@ -9,6 +9,10 @@ const kPrimaryLightColor = Color(0xfffeeeee4);
 // Colors
 Color green1 = const Color(0xFF097210);
 Color green2 = const Color(0xFF00880F);
+Color green3 = const Color(0xFF81C784);
+const kPrimaryColor1 = Color(0xff6849ef);
+const kPrimaryLight = Color(0xff8a72f1);
+
 
 Color dark1 = const Color(0xFF1C1C1C);
 Color dark2 = const Color(0xFF4A4A4A);
@@ -35,3 +39,5 @@ TextStyle bold16 = regular12_5.copyWith(
 TextStyle bold18 = bold16.copyWith(fontSize: 18, letterSpacing: -0.5);
 
 
+const kBottomNavigationBarItemSize = 24.0;
+const kCategoryCardImageSize = 120.0;

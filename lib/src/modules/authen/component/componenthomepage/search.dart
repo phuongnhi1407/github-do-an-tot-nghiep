@@ -1,98 +1,68 @@
 import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
+import 'package:doantotnghiep/src/modules/authen/widgets/circle_button.dart';
+import 'package:doantotnghiep/src/modules/authen/widgets/search_testfield.dart';
 import 'package:flutter/material.dart';
-import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 
 class Search extends StatelessWidget {
   const Search({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      },
-      child: Column( // Thêm một Column để chứa cả thanh tìm kiếm và dòng chữ "Xin chào bạn"
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-            child: Text(
-              "Xin chào bạn",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+    return AppBar(
+      elevation: 0,
+      toolbarHeight: 250,
+      title: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        },
+        child: Container(
+          alignment: Alignment.bottomCenter, // Căn chỉnh phần Search ở dưới cùng
+          height: 250, // Kích thước cố định cho phần Search
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Padding cho phần Search
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Hello,\nGood Morning",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  CircleButton(
+                    icon: Icons.notifications,
+                    onPressed: () {},
+                  ),
+                ],
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 6, left: 2, right: 6),
-            child: Row(
-              children: [
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFAFAFA),
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: const Color(0xFFE8E8E8)),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.search,
-                          color: dark1,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Tìm kiếm các trạm xe',
-                          style: regular14.copyWith(color: dark3),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 15),
-                SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: green1, width: 2),
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: Image.asset('assets/images/avt.png'),
-                      ),
-                      Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            width: 12,
-                            height: 12,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: green1, width: 2),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
 
-        ],
+              const SearchTextField(),
+            ],
+          ),
+        ),
+      ),
+      flexibleSpace: Container(
+        height: 150,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            stops: [0.1, 0.5],
+            colors: [
+              Color(0xff81ff8a),
+              Color(0xff64965e),
+            ],
+          ),
+        ),
       ),
     );
   }

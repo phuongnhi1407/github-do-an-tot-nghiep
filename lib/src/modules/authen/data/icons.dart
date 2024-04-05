@@ -1,13 +1,30 @@
 import 'package:doantotnghiep/src/modules/authen/models/modelshomepage/gojek_icon.dart';
 
 
+const _path = 'assets/images/';
 
+const icHome = '$_path/home.png';
+const icHomeOutlined = '$_path/homemo.png';
+const icTram = '$_path/tram.png';
+const icTramOutlined = '$_path/trammo.png';
+const icQr = '$_path/qr.png';
+const icQrOutlined = '$_path/qrmo.png';
+const icThongbao = '$_path/thongbao.png';
+const icThongbaoOutlined = '$_path/thongbaomo.png';
+const icTaikhoan = '$_path/taikhoan.png';
+const icTaikhoanOutlined = '$_path/taikhoanmo.png';
+const icDone = '$_path/done.png';
+const icLock = '$_path/lock.png';
+const icPlayNext = '$_path/play_next.png';
+const icPause = '$_path/pause.png';
 List<GojekIcon> menuIcons = [
-  GojekIcon(icon: '7', title: 'GoRide',),
-  GojekIcon(icon: '2', title: 'GoCar', ),
-  GojekIcon(icon: '3', title: 'GoFood', ),
-  GojekIcon(icon: '4', title: 'GoSend', ),
-  GojekIcon(icon: '5', title: 'GoMart',),
-  GojekIcon(icon: '6', title: 'GoPulsa', ),
+  GojekIcon(icon: 'assets/images/tramxe.png', title: 'Trạm xe',),
+  GojekIcon(icon: 'assets/images/vexe.png', title: 'Mua vé', ),
+  GojekIcon(icon: 'assets/images/chuyendi.png', title: 'Chuyến đi', ),
+  GojekIcon(icon: 'assets/images/map.png', title: 'Bản đồ', ),
+  GojekIcon(icon: 'assets/images/khuyenmai.png', title: 'Khuyến mãi',),
+  GojekIcon(icon: 'assets/images/huongdan.png', title: 'Hướng dẫn', ),
+  GojekIcon(icon: 'assets/images/vicuatoi.png', title: 'Ví của tôi', ),
+  GojekIcon(icon: 'assets/images/tintuc.png', title: 'Tin tức', ),
 
 ];
