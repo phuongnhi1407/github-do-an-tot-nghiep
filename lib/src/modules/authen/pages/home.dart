@@ -28,12 +28,12 @@ class _BaseScreenState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-        body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              //children: const [Search(), Gopay(), Menus(), GoCLub(), Akses(), News()],
-              children: const [ Search(),Menus(), News()],
-            )),
+      body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            //children: const [Search(), Gopay(), Menus(), GoCLub(), Akses(), News()],
+            children: const [ Search(),Menus(), News()],
+          )),
       // body: Center(
       //   child: _widgetOptions.elementAt(_selectedIndex),
       // ),
@@ -88,17 +88,17 @@ class _BaseScreenState extends State<HomePage> {
               label: "Thông báo",
             ),
 
-          BottomNavigationBarItem(
-            activeIcon: Image.asset(
-              icTaikhoan,
-              height: kBottomNavigationBarItemSize,
+            BottomNavigationBarItem(
+              activeIcon: Image.asset(
+                icTaikhoan,
+                height: kBottomNavigationBarItemSize,
+              ),
+              icon: Image.asset(
+                icTaikhoanOutlined,
+                height: kBottomNavigationBarItemSize,
+              ),
+              label: "Tài khoản",
             ),
-            icon: Image.asset(
-              icTaikhoanOutlined,
-              height: kBottomNavigationBarItemSize,
-            ),
-            label: "Tài khoản",
-          ),
           ],
 
           currentIndex: _selectedIndex,
@@ -110,29 +110,29 @@ class _BaseScreenState extends State<HomePage> {
     );
   }
 }
-    // return Scaffold(
-    //   backgroundColor: Colors.white,
-    //   appBar: AppBar(
-    //     elevation: 0, // Loại bỏ đường viền shadow của AppBar
-    //     toolbarHeight: 80,
-    //     title: const Search(),
-    //     flexibleSpace: Container(
-    //       decoration: BoxDecoration(
-    //         gradient: LinearGradient(
-    //           colors: [Color(0xff05386b), Color(0xff5cdb95)],
-    //           stops: [0, 1],
-    //           begin: Alignment.topLeft,
-    //           end: Alignment.bottomRight,
-    //         )
-    //
-    //
-    //       ),
-    //     ),
-    //   ),
-    //   body: SingleChildScrollView(
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         //children: const [Search(), Gopay(), Menus(), GoCLub(), Akses(), News()],
-    //         children: const [Menus(), News()],
-    //       )),
-    // );
+// return Scaffold(
+//   backgroundColor: Colors.white,
+//   appBar: AppBar(
+//     elevation: 0, // Loại bỏ đường viền shadow của AppBar
+//     toolbarHeight: 80,
+//     title: const Search(),
+//     flexibleSpace: Container(
+//       decoration: BoxDecoration(
+//         gradient: LinearGradient(
+//           colors: [Color(0xff05386b), Color(0xff5cdb95)],
+//           stops: [0, 1],
+//           begin: Alignment.topLeft,
+//           end: Alignment.bottomRight,
+//         )
+//
+//
+//       ),
+//     ),
+//   ),
+//   body: SingleChildScrollView(
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         //children: const [Search(), Gopay(), Menus(), GoCLub(), Akses(), News()],
+//         children: const [Menus(), News()],
+//       )),
+// );
