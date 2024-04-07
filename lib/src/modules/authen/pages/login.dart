@@ -1,17 +1,43 @@
 import 'package:doantotnghiep/src/modules/authen/component/page_title_bar.dart';
 import 'package:doantotnghiep/src/modules/authen/component/under_part.dart';
 import 'package:doantotnghiep/src/modules/authen/component/upside.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/signup.dart';
+import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
+import 'package:doantotnghiep/src/modules/authen/services/authen_service.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_button.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_input_number_field.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_password_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _userNameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  // authen login
+  AuthenProvider? authenProvider;
+  @override
+  void initState() {
+    super.initState();
+    authenProvider = Provider.of<AuthenProvider>(context, listen: false);
+    // _userNameController = TextEditingController();
+    // _passwordController = TextEditingController();
+  }
+
+  void hanleLogin({String? userName, String? password}) async {
+    LoginRequest request = LoginRequest(username: userName, password: password);
+    await authenProvider?.fetchLogin(context, request);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                 const Upside(
                   imgUrl: "assets/images/dapxetroitoithui.png",
                 ),
-                const PageTitleBar(title: 'Đăng nhập bằng tài khoản của bạn'),
+                const PageTitleBar(title: 'Đăng nhập'),
                 Padding(
                   padding: const EdgeInsets.only(top: 320.0),
                   child: Container(
@@ -45,23 +71,94 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(
                           height: 15,
                         ),
-
                         const SizedBox(
                           height: 20,
                         ),
-
                         Form(
                           child: Column(
                             children: [
-                              const RoundedInputNumberField(
-                                  hintText: "Số điện thoại", icon: Icons.phone),
-                              const RoundedPasswordField(),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                width: size.width * 0.8,
+                                decoration: BoxDecoration(
+                                  color: kPrimaryLightColor,
+                                  borderRadius: BorderRadius.circular(29),
+                                ),
+                                child: TextField(
+                                  controller: _userNameController,
+                                  cursorColor: kPrimaryColor,
+                                  keyboardType: TextInputType
+                                      .number, // Thay đổi kiểu nhập liệu thành số
+                                  decoration: InputDecoration(
+                                    icon: Icon(
+                                      Icons.phone,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Số điện thoại",
+                                    hintStyle:
+                                        const TextStyle(fontFamily: 'OpenSans'),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      // userName = value;
+                                      print(value);
+                                    });
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                width: size.width * 0.8,
+                                decoration: BoxDecoration(
+                                  color: kPrimaryLightColor,
+                                  borderRadius: BorderRadius.circular(29),
+                                ),
+                                child: TextFormField(
+                                  controller: _passwordController,
+                                  obscureText: true,
+                                  cursorColor: kPrimaryColor,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(
+                                      Icons.lock,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Mật khẩu",
+                                    hintStyle:
+                                        TextStyle(fontFamily: 'OpenSans'),
+                                    suffixIcon: Icon(
+                                      Icons.visibility,
+                                      color: kPrimaryColor,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      // password = value;
+                                      print(value);
+                                      // print(password);
+                                    });
+                                  },
+                                ),
+                              ),
+                              // const RoundedInputNumberField(
+                              //     hintText: "Số điện thoại", icon: Icons.phone , ),
+                              // const RoundedPasswordField(),
                               switchListTile(),
-                              RoundedButton(text: 'ĐĂNG NHẬP', press: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => const HomePage())
-                                );
-                              }),
+
+                              RoundedButton(
+                                  text: 'ĐĂNG NHẬP',
+                                  press: () async {
+                                    hanleLogin(
+                                        userName: _userNameController.text,
+                                        password: _passwordController.text);
+                                  }),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -69,9 +166,11 @@ class LoginScreen extends StatelessWidget {
                                 title: "Bạn chưa có tài khoản?",
                                 navigatorText: "Đăng ký ngay",
                                 onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => const SignUpScreen())
-                                  );
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignUpScreen()));
                                 },
                               ),
                               const SizedBox(
@@ -85,7 +184,9 @@ class LoginScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                     fontSize: 13),
                               ),
-                              const SizedBox(height: 20,)
+                              const SizedBox(
+                                height: 20,
+                              )
                             ],
                           ),
                         )
@@ -117,4 +218,3 @@ switchListTile() {
     ),
   );
 }
-

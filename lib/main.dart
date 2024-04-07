@@ -1,5 +1,6 @@
 import 'package:doantotnghiep/src/common/constant.dart';
 import 'package:doantotnghiep/src/localization/locales.dart';
+import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:doantotnghiep/src/utilities/language/provider/locales_provider.dart';
 import 'package:doantotnghiep/src/modules/onboarding/screens/onboarding.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,9 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<LocaLesProvider>(
             create: (context) => LocaLesProvider()),
+        ChangeNotifierProvider<AuthenProvider>(
+            create: (context) => AuthenProvider()),
+            // khi nao tao 1 provider phai khai bao
       ],
       child: ScreenUtilInit(
           designSize: Size(WIDTH_DESIGN, HEIGHT_DESIGN),
