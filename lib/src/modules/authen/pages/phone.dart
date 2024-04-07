@@ -1,14 +1,14 @@
-
+import 'package:doantotnghiep/src/modules/authen/pages/verify.dart';
 import 'package:flutter/material.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+class MyPhone extends StatefulWidget {
+  const MyPhone({Key? key}) : super(key: key);
 
   @override
-  State<SignUp> createState() => _MyPhoneState();
+  State<MyPhone> createState() => _MyPhoneState();
 }
 
-class _MyPhoneState extends State<SignUp> {
+class _MyPhoneState extends State<MyPhone> {
   TextEditingController countryController = TextEditingController();
 
   @override
@@ -30,8 +30,8 @@ class _MyPhoneState extends State<SignUp> {
             children: [
               Image.asset(
                 'assets/images/xacminh.png',
-                width: 150,
-                height: 150,
+                width: 300,
+                height: 300,
               ),
               SizedBox(
                 height: 25,
@@ -86,7 +86,7 @@ class _MyPhoneState extends State<SignUp> {
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Số điện thoại",
+                            hintText: "Phone",
                           ),
                         ))
                   ],
@@ -102,11 +102,15 @@ class _MyPhoneState extends State<SignUp> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green.shade600,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
+                            borderRadius: BorderRadius.circular(10)),
+                        textStyle: TextStyle(color: Colors.black)), // Thay đổi màu chữ thành màu đen
                     onPressed: () {
-                      Navigator.pushNamed(context, 'verify');
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const MyVerify())
+                      );
+
                     },
-                    child: Text("Gửi mã xác nhận")),
+                    child: Text("Gửi mã")),
               )
             ],
           ),

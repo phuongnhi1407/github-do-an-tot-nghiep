@@ -1,4 +1,4 @@
-import 'package:doantotnghiep/UI/auth.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/auth.dart';
 import 'package:doantotnghiep/UI/constants.dart';
 import 'package:doantotnghiep/src/localization/locales.dart';
 import 'package:doantotnghiep/src/modules/onboarding/widget/page_item.dart';
