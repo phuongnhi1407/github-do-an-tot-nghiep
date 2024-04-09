@@ -14,8 +14,8 @@ class Menus extends StatelessWidget {
       child: Column( // Thêm một Column để chứa cả chữ "Tiện ích" và menuIcons
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Thay đổi giá trị lề
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Thay đổi giá trị lề
             child: Text(
               "Tiện ích", // Thêm chữ "Tiện ích"
               style: TextStyle(
@@ -37,9 +37,9 @@ class Menus extends StatelessWidget {
                       onTap: () {
                         // Thực hiện chuyển hướng sang trang tương ứng với mỗi icon
                         if (icon.title == 'Trạm xe') {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));
                         } else if (icon.title == 'Hướng dẫn') {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> TutorialPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const TutorialPage()));
                         }
                         // Thêm các điều kiện khác tương tự cho các icon khác
                       },

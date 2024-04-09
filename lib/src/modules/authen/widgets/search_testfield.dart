@@ -1,3 +1,4 @@
+import 'package:doantotnghiep/src/modules/authen/component/searchcreen.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,13 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SearchScreen()),
+        );
+      },
+      readOnly: true,
       decoration: InputDecoration(
         prefixIcon: const Icon(
           Icons.search,
@@ -17,11 +25,9 @@ class SearchTextField extends StatelessWidget {
         ),
         suffixIcon: const Icon(
           Icons.mic,
-          color: kPrimaryColor1,
+          color: Colors.blue, // Thay đổi màu sắc tùy theo nhu cầu
           size: 26,
         ),
-        // helperText: "Search your topic",
-        floatingLabelBehavior: FloatingLabelBehavior.never,
         labelText: "Search your topic",
         labelStyle: const TextStyle(color: Colors.grey),
         filled: true,
