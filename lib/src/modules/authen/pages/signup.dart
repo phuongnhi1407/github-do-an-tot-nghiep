@@ -3,6 +3,7 @@ import 'package:doantotnghiep/src/modules/authen/component/under_part.dart';
 import 'package:doantotnghiep/src/modules/authen/component/upside.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/phone.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/verify.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_button.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_confirm_password_field.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_input_field.dart';
@@ -25,7 +26,7 @@ class SignUpScreen extends StatelessWidget {
             child: Stack(
               children: [
                 const Upside(
-                  imgUrl: "assets/images/dapxetroisangtung.png",
+                  imgUrl: "assets/images/logo.png",
                 ),
                 const PageTitleBar(title: 'Tạo một tài khỏan mới của bạn'),
                 Padding(
@@ -63,7 +64,7 @@ class SignUpScreen extends StatelessWidget {
                               const RoundedConfirmPasswordField(),
                               RoundedButton(text: 'ĐĂNG KÝ', press: () {
                                 Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => const MyPhone())
+                                    MaterialPageRoute(builder: (context) => const MyVerify())
                                 );
                               }),
                               const SizedBox(

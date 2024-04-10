@@ -1,4 +1,3 @@
-import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,36 +10,26 @@ class Upside extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        Container(
+        // Ảnh nền (kkk.png)
+        Image.asset(
+          'assets/images/nui.png', // Thay đổi đường dẫn của ảnh kkk.png theo đúng đường dẫn của bạn
           width: size.width,
           height: size.height / 2,
-          color: kPrimaryColor,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Image.asset(
-              imgUrl,
-              alignment: Alignment.topCenter,
-              scale: 2,
-            ),
-          ),
+          fit: BoxFit.cover,
         ),
-        iconBackButton(context),
+        // Ảnh chồng lên (imgUrl)
         Positioned(
-          left: 0,
-          top: 175,
-          child: Image.network(
-            "https://ouch-cdn2.icons8.com/gEMjZ4ZC639WYTYjpan-J3XByArwXzS7lUcNL-UMVdk/rs:fit:196:289/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMi80/NzU5OTI4ZS04OWE3/LTRhOTYtYjdjMi0w/ZDA0MWI2Y2E3MTQu/c3Zn.png",
-            scale: 3,
+          top: 10,
+          left: size.width * 0.5 - 100, // Đặt ảnh ở giữa màn hình theo chiều ngang
+          child: Image.asset(
+            imgUrl,
+            width: 200, // Chiều rộng của ảnh
+            height: 200, // Chiều cao của ảnh
           ),
         ),
-        Positioned(
-          right: 0,
-          top: 60,
-          child: Image.network(
-            "https://ouch-cdn2.icons8.com/vKz7XNZvZiNKlkUWT2HjP8oNZ8hZ0UblhuF8J6sGRGI/rs:fit:196:112/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvNjg3/LzA3ZDZiZjRmLWFj/OTYtNGRmMy05ZGYz/LTNhNWQzOWI5NGYz/MC5zdmc.png",
-            scale: 3,
-          ),
-        ),
+        // Các widget khác bạn muốn chồng lên ảnh
+        // iconBackButton(context),
+        // ...
       ],
     );
   }

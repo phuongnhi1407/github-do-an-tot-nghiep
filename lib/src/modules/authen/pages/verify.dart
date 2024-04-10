@@ -68,14 +68,14 @@ class _MyVerifyState extends State<MyVerify> {
                 height: 25,
               ),
               const Text(
-                "Xác minh điện thoại",
+                "Xác minh email của bạn",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
               const Text(
-                "We need to register your phone without getting started!",
+                "We need to register your email without getting started!",
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -109,7 +109,7 @@ class _MyVerifyState extends State<MyVerify> {
                           MaterialPageRoute(builder: (context) => const LoginScreen())
                       );
                     },
-                    child: const Text("Xác minh số điện thoại")),
+                    child: const Text("Xác minh email")),
               ),
               Row(
                 children: [
@@ -120,7 +120,7 @@ class _MyVerifyState extends State<MyVerify> {
                         );
                       },
                       child: const Text(
-                        "Chỉnh sửa số điện thoại ?",
+                        "Chỉnh sửa email ?",
                         style: TextStyle(color: Colors.black),
                       ))
                 ],
