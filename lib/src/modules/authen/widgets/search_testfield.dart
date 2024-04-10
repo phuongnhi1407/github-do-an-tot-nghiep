@@ -1,5 +1,5 @@
 import 'package:doantotnghiep/src/modules/authen/component/searchcreen.dart';
-import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
+//import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:flutter/material.dart';
 
 class SearchTextField extends StatelessWidget {
@@ -28,7 +28,7 @@ class SearchTextField extends StatelessWidget {
           color: Colors.blue, // Thay đổi màu sắc tùy theo nhu cầu
           size: 26,
         ),
-        labelText: "Search your topic",
+        labelText: "Tìm kiếm trạm xe",
         labelStyle: const TextStyle(color: Colors.grey),
         filled: true,
         fillColor: Colors.white,
