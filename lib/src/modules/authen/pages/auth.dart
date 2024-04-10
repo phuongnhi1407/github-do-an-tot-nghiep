@@ -1,7 +1,8 @@
 import 'package:doantotnghiep/UI/button.dart';
 import 'package:doantotnghiep/UI/constants.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
+import 'package:doantotnghiep/src/modules/authen/component/searchcreen.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/signup.dart';
 import 'package:flutter/material.dart';
 
 
@@ -35,7 +36,7 @@ class AuthScreen extends StatelessWidget {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));
                   }),
                   Button(label: "SIGN UP", press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const HomePage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignUpScreen()));
                   }),
                 ],
               ),

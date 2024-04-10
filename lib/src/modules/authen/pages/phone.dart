@@ -22,7 +22,7 @@ class _MyPhoneState extends State<MyPhone> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(left: 25, right: 25),
+        margin: const EdgeInsets.only(left: 25, right: 25),
         alignment: Alignment.center,
         child: SingleChildScrollView(
           child: Column(
@@ -33,24 +33,24 @@ class _MyPhoneState extends State<MyPhone> {
                 width: 300,
                 height: 300,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
-              Text(
+              const Text(
                 "Xác minh số điện thoại",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "We need to register your phone without getting started!",
                 style: TextStyle(
                   fontSize: 16,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
@@ -61,7 +61,7 @@ class _MyPhoneState extends State<MyPhone> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     SizedBox(
@@ -69,19 +69,19 @@ class _MyPhoneState extends State<MyPhone> {
                       child: TextField(
                         controller: countryController,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       "|",
                       style: TextStyle(fontSize: 33, color: Colors.grey),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    Expanded(
+                    const Expanded(
                         child: TextField(
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
@@ -92,7 +92,7 @@ class _MyPhoneState extends State<MyPhone> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
@@ -103,14 +103,14 @@ class _MyPhoneState extends State<MyPhone> {
                         backgroundColor: Colors.green.shade600,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        textStyle: TextStyle(color: Colors.black)), // Thay đổi màu chữ thành màu đen
+                        textStyle: const TextStyle(color: Colors.black)), // Thay đổi màu chữ thành màu đen
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => const MyVerify())
                       );
 
                     },
-                    child: Text("Gửi mã")),
+                    child: const Text("Gửi mã")),
               )
             ],
           ),

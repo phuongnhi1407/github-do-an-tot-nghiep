@@ -1,7 +1,6 @@
-import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
+import 'package:flutter/material.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/circle_button.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/search_testfield.dart';
-import 'package:flutter/material.dart';
 
 class Search extends StatelessWidget {
   const Search({Key? key}) : super(key: key);
@@ -11,44 +10,36 @@ class Search extends StatelessWidget {
     return AppBar(
       elevation: 0,
       toolbarHeight: 250,
-      title: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
-        },
-        child: Container(
-          alignment: Alignment.bottomCenter, // Căn chỉnh phần Search ở dưới cùng
-          height: 250, // Kích thước cố định cho phần Search
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Padding cho phần Search
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Hello,\nGood Morning",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  CircleButton(
-                    icon: Icons.notifications,
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+      title: Container(
+        alignment: Alignment.bottomCenter,
+        height: 250,
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Chào,\nchúc bạn có một ngày năng lượng",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                CircleButton(
+                  icon: Icons.notifications,
+                  onPressed: () {},
+                ),
+              ],
+            ),
 
-              const SearchTextField(),
-            ],
-          ),
+            const SearchTextField(),
+          ],
         ),
       ),
       flexibleSpace: Container(
         height: 150,
         width: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -64,6 +55,7 @@ class Search extends StatelessWidget {
           ),
         ),
       ),
+
     );
   }
 }
