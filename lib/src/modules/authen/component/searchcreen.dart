@@ -40,7 +40,7 @@ class SearchScreen extends StatelessWidget {
                         dataController.resetBack();
                       },
                       icon: Icon(Icons.mic_rounded),
-                    ),gi
+                    ),
                   ),
                 ),
                 SizedBox(
