@@ -2,10 +2,14 @@ import 'package:doantotnghiep/src/modules/authen/component/page_title_bar.dart';
 import 'package:doantotnghiep/src/modules/authen/component/under_part.dart';
 import 'package:doantotnghiep/src/modules/authen/component/upside.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/signup.dart';
 import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
+import 'package:doantotnghiep/src/modules/authen/services/authen_service.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_button.dart';
+import 'package:doantotnghiep/src/modules/authen/widgets/rounded_input_number_field.dart';
+import 'package:doantotnghiep/src/modules/authen/widgets/rounded_password_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -88,14 +92,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   cursorColor: kPrimaryColor,
                                   keyboardType: TextInputType
                                       .number, // Thay đổi kiểu nhập liệu thành số
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     icon: Icon(
                                       Icons.phone,
                                       color: kPrimaryColor,
                                     ),
                                     hintText: "Số điện thoại",
                                     hintStyle:
-                                    TextStyle(fontFamily: 'OpenSans'),
+                                        const TextStyle(fontFamily: 'OpenSans'),
                                     border: InputBorder.none,
                                   ),
                                   onChanged: (value) {

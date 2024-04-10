@@ -1,4 +1,4 @@
-import 'package:doantotnghiep/src/modules/authen/models/modelshomepage/gojek_icon.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/modelshomepage/gojek_icon.dart';
 
 
 const _path = 'assets/images/';

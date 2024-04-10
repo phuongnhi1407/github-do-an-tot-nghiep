@@ -15,7 +15,7 @@ class AuthenProvider extends ChangeNotifier {
         await prefs.setString('token', value.token.toString());
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => HomePage()),
           (Route<dynamic> route) => false,
         );
         print("Đăng nhập thành công: ${value.token}");

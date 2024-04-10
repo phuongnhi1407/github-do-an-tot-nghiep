@@ -1,6 +1,8 @@
 import 'dart:convert';
+
 import 'package:doantotnghiep/src/config.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/user_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
 import 'package:doantotnghiep/src/modules/authen/routes.dart';
 import 'package:doantotnghiep/src/utilities/api/api_utility.dart';
