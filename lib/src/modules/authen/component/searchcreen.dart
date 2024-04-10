@@ -40,12 +40,7 @@ class SearchScreen extends StatelessWidget {
                         dataController.resetBack();
                       },
                       icon: Icon(Icons.mic_rounded),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[200],
+                    ),gi
                   ),
                 ),
                 SizedBox(
