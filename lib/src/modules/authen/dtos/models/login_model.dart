@@ -7,6 +7,19 @@ class LoginModel {
     token = json['token'];
   }
 
+  Map<String, dynamic> toJson() {
+    // Map Set dart : key : value
+    // "name" : "John"
+    // "name" : 12
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['token'] = this.token;
+    return data;
+  }
+}
+// chua cai response ---> api tra ve chi thi chua trong file nay
+
+
+
 //Vidu
 // UserModel
 // jsonUser = {
@@ -24,14 +37,3 @@ class LoginModel {
 
 // var reponse = UserModel.fromJson (jsonUser) --> dart
 // response.name ; --> John
-
-  Map<String, dynamic> toJson() {
-    // Map Set dart : key : value
-    // "name" : "John"
-    // "name" : 12
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
-    return data;
-  }
-}
-// chua cai response ---> api tra ve chi thi chua trong file nay 
