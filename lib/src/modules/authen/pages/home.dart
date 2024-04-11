@@ -45,22 +45,22 @@ class _BaseScreenState extends State<HomePage> {
           items: [
             BottomNavigationBarItem(
               activeIcon: Image.asset(
-                icHome,
+                'assets/images/home.png',
                 height: kBottomNavigationBarItemSize,
               ),
               icon: Image.asset(
-                icHomeOutlined,
+                'assets/images/homemo.png',
                 height: kBottomNavigationBarItemSize,
               ),
               label: "Trang chủ",
             ),
             BottomNavigationBarItem(
               activeIcon: Image.asset(
-                icTram,
+                'assets/images/tram.png',
                 height: kBottomNavigationBarItemSize,
               ),
               icon: Image.asset(
-                icTramOutlined,
+                'assets/images/trammo.png',
                 height: kBottomNavigationBarItemSize,
               ),
               label: "Trạm xe",

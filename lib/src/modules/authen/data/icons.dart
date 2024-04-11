@@ -3,20 +3,20 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/modelshomepage/goje
 
 const _path = 'assets/images/';
 
-const icHome = '$_path/home.png';
-const icHomeOutlined = '$_path/homemo.png';
-const icTram = '$_path/tram.png';
-const icTramOutlined = '$_path/trammo.png';
-const icQr = '$_path/qr.png';
-const icQrOutlined = '$_path/qrmo.png';
-const icThongbao = '$_path/thongbao.png';
-const icThongbaoOutlined = '$_path/thongbaomo.png';
-const icTaikhoan = '$_path/taikhoan.png';
-const icTaikhoanOutlined = '$_path/taikhoanmo.png';
-const icDone = '$_path/done.png';
-const icLock = '$_path/lock.png';
-const icPlayNext = '$_path/play_next.png';
-const icPause = '$_path/pause.png';
+const icHome = 'assets/images//home.png';
+const icHomeOutlined = 'assets/images//homemo.png';
+const icTram = 'assets/images//tram.png';
+const icTramOutlined = 'assets/images/trammo.png';
+const icQr = 'assets/images/qr.png';
+const icQrOutlined = 'assets/images/qrmo.png';
+const icThongbao = 'assets/images/thongbao.png';
+const icThongbaoOutlined = 'assets/images/thongbaomo.png';
+const icTaikhoan = 'assets/images/taikhoan.png';
+const icTaikhoanOutlined = 'assets/images/taikhoanmo.png';
+const icDone = 'assets/images/done.png';
+const icLock = 'assets/images/lock.png';
+const icPlayNext = 'assets/images/play_next.png';
+const icPause = 'assets/images/pause.png';
 List<GojekIcon> menuIcons = [
   GojekIcon(icon: 'assets/images/tramxe.png', title: 'Trạm xe',),
   GojekIcon(icon: 'assets/images/vexe.png', title: 'Mua vé', ),
