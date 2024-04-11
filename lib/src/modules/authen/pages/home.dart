@@ -3,6 +3,7 @@ import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/men
 import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/news.dart';
 import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/search.dart';
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/huongdan.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -16,14 +17,6 @@ class HomePage extends StatefulWidget {
 
 class _BaseScreenState extends State<HomePage> {
   int _selectedIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    FeaturedScreen(),
-    FeaturedScreen(),
-    FeaturedScreen(),
-    FeaturedScreen(),
-    FeaturedScreen(),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +53,7 @@ class _BaseScreenState extends State<HomePage> {
                 height: kBottomNavigationBarItemSize,
               ),
               icon: Image.asset(
-                'assets/images/trammo.png',
+                icTramOutlined,
                 height: kBottomNavigationBarItemSize,
               ),
               label: "Trạm xe",
