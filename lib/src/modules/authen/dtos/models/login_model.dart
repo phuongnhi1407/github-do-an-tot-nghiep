@@ -1,39 +1,101 @@
 class LoginModel {
-  String? token;
+  String? accessToken;
+  String? expiredToken;
+  String? refreshToken;
+  String? expiredRefreshToken;
+  String? typeToken;
+  String? urlRedirect;
+  bool? isSuperAdmin;
+  List<String>? roles;
+  InfoUser? infoUser;
 
-  LoginModel({this.token});
+  LoginModel(
+      {this.accessToken,
+      this.expiredToken,
+      this.refreshToken,
+      this.expiredRefreshToken,
+      this.typeToken,
+      this.urlRedirect,
+      this.isSuperAdmin,
+      this.roles,
+      this.infoUser});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
-    token = json['token'];
+    accessToken = json['accessToken'];
+    expiredToken = json['expiredToken'];
+    refreshToken = json['refreshToken'];
+    expiredRefreshToken = json['expiredRefreshToken'];
+    typeToken = json['typeToken'];
+    urlRedirect = json['urlRedirect'];
+    isSuperAdmin = json['isSuperAdmin'];
+    roles = json['roles'].cast<String>();
+    infoUser = json['infoUser'] != null
+        ? new InfoUser.fromJson(json['infoUser'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    // Map Set dart : key : value
-    // "name" : "John"
-    // "name" : 12
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
+    data['accessToken'] = this.accessToken;
+    data['expiredToken'] = this.expiredToken;
+    data['refreshToken'] = this.refreshToken;
+    data['expiredRefreshToken'] = this.expiredRefreshToken;
+    data['typeToken'] = this.typeToken;
+    data['urlRedirect'] = this.urlRedirect;
+    data['isSuperAdmin'] = this.isSuperAdmin;
+    data['roles'] = this.roles;
+    if (this.infoUser != null) {
+      data['infoUser'] = this.infoUser!.toJson();
+    }
     return data;
   }
 }
-// chua cai response ---> api tra ve chi thi chua trong file nay
 
+class InfoUser {
+  int? id;
+  String? fullName;
+  String? userName;
+  String? address;
+  String? email;
+  String? phoneNumber;
+  String? dateOfBirth;
+  String? timeZone;
+  String? avatarPath;
 
+  InfoUser(
+      {this.id,
+      this.fullName,
+      this.userName,
+      this.address,
+      this.email,
+      this.phoneNumber,
+      this.dateOfBirth,
+      this.timeZone,
+      this.avatarPath});
 
-//Vidu
-// UserModel
-// jsonUser = {
-//   "name": "John",
-//   "age": 30,
-//   "city": "New York",
-//   "isStudent": false,
-//   "grades": [85, 90, 92]
-// }
+  InfoUser.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    fullName = json['fullName'];
+    userName = json['userName'];
+    address = json['address'];
+    email = json['email'];
+    phoneNumber = json['phoneNumber'];
+    dateOfBirth = json['dateOfBirth'];
+    timeZone = json['timeZone'];
+    avatarPath = json['avatarPath'];
+  }
 
-// jsonUser['name'] --> John
-// jsonUser['']
-
-// --> convert
-
-// var reponse = UserModel.fromJson (jsonUser) --> dart
-// response.name ; --> John
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['fullName'] = this.fullName;
+    data['userName'] = this.userName;
+    data['address'] = this.address;
+    data['email'] = this.email;
+    data['phoneNumber'] = this.phoneNumber;
+    data['dateOfBirth'] = this.dateOfBirth;
+    data['timeZone'] = this.timeZone;
+    data['avatarPath'] = this.avatarPath;
+    return data;
+  }
+}
