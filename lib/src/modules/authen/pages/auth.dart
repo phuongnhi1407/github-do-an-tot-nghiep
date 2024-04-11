@@ -2,6 +2,7 @@ import 'package:doantotnghiep/UI/button.dart';
 import 'package:doantotnghiep/UI/constants.dart';
 import 'package:doantotnghiep/src/modules/authen/component/searchcreen.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/qr.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/signup.dart';
 import 'package:flutter/material.dart';
 

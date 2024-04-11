@@ -22,40 +22,37 @@ class Search extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Chào,\nchúc bạn có một ngày năng lượng",
-                  style: Theme.of(context).textTheme.titleLarge,
+                  "Chào,\nNgày mới vui vẻ",
+                  style: TextStyle(
+                    color: Colors.white, // Thiết lập màu văn bản thành màu tím
+                    fontSize: 24, // Cỡ chữ
+                    fontWeight: FontWeight.bold, // Độ đậm của chữ
+                  ),
                 ),
                 CircleButton(
-                  icon: Icons.notifications,
+                  icon: Icons.person_outline_outlined,
                   onPressed: () {},
                 ),
               ],
             ),
-
             const SearchTextField(),
           ],
         ),
       ),
       flexibleSpace: Container(
-        height: 150,
+        height: 300,
         width: double.infinity,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
           ),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.1, 0.5],
-            colors: [
-              Color(0xff81ff8a),
-              Color(0xff64965e),
-            ],
+          image: DecorationImage(
+            image: AssetImage('assets/images/logosearch2.png'), // Đặt đường dẫn hình ảnh của bạn ở đây
+            fit: BoxFit.cover,
           ),
         ),
       ),
-
     );
   }
 }
