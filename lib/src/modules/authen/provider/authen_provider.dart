@@ -15,16 +15,18 @@ class AuthenProvider extends ChangeNotifier {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await _authenService.login(request).then((value) async {
       if (value != null) {
-        user = value;
-        await prefs.setString('token', user!.accessToken.toString());
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-          (Route<dynamic> route) => false,
-        );
-        print("Đăng nhập thành công: ${user!.accessToken}");
-      } else {
-        print("Đăng nhập thất bại");
+        if (value.statusCode != 200) {
+          print("Error: " + value.message.toString());
+        } else {
+          user = value.data;
+          if (user!.accessToken != null) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+              (Route<dynamic> route) => false,
+            );
+          }
+        }
       }
     });
   }
