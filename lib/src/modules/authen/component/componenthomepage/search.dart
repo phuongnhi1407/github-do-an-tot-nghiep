@@ -24,7 +24,7 @@ class Search extends StatelessWidget {
                 Text(
                   "Chào,\nNgày mới vui vẻ",
                   style: TextStyle(
-                    color: Colors.blueAccent, // Thiết lập màu văn bản thành màu tím
+                    color: Colors.white, // Thiết lập màu văn bản thành màu tím
                     fontSize: 24, // Cỡ chữ
                     fontWeight: FontWeight.bold, // Độ đậm của chữ
                   ),
