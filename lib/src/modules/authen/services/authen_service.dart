@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:doantotnghiep/src/config.dart';
-
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
 import 'package:doantotnghiep/src/modules/authen/routes.dart';
@@ -16,11 +15,10 @@ class AuthenService {
     // lay url
     final urlLogin = "${config.host}/$LOGIN_URL";
     final response =
-        await _apiUtility.post(urlLogin, body: jsonEncode(request));
+    await _apiUtility.post(urlLogin, body: jsonEncode(request));
     responseData = LoginResponse.fromJson(json.decode(response.body));
     print(responseData);
     return responseData;
   }
-  //  return user;
+//  return user;
 }
-// model view --> xu ly logic code 

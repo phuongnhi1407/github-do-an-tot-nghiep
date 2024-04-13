@@ -1,8 +1,5 @@
 import 'package:doantotnghiep/src/modules/authen/dtos/models/modelshomepage/gojek_icon.dart';
 
-
-const _path = 'assets/images/';
-
 const icHome = 'assets/images//home.png';
 const icHomeOutlined = 'assets/images//homemo.png';
 const icTram = 'assets/images//tram.png';

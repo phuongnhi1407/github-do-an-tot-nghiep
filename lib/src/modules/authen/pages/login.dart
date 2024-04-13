@@ -87,13 +87,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   controller: _userNameController,
                                   cursorColor: kPrimaryColor,
                                   keyboardType: TextInputType
-                                      .number, // Thay đổi kiểu nhập liệu thành số
+                                      .text, // Thay đổi kiểu nhập liệu thành số
                                   decoration: InputDecoration(
                                     icon: Icon(
-                                      Icons.phone,
+                                      Icons.email,
                                       color: kPrimaryColor,
                                     ),
-                                    hintText: "Số điện thoại",
+                                    hintText: "Email",
                                     hintStyle:
                                         const TextStyle(fontFamily: 'OpenSans'),
                                     border: InputBorder.none,
@@ -143,9 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                 ),
                               ),
-                              // const RoundedInputNumberField(
-                              //     hintText: "Số điện thoại", icon: Icons.phone , ),
-                              // const RoundedPasswordField(),
                               switchListTile(),
 
                               RoundedButton(
