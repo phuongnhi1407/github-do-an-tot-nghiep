@@ -8,6 +8,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() {
   runApp(App());
 }
@@ -23,7 +24,7 @@ class App extends StatelessWidget {
             create: (context) => LocaLesProvider()),
         ChangeNotifierProvider<AuthenProvider>(
             create: (context) => AuthenProvider()),
-            // khi nao tao 1 provider phai khai bao
+        // khi nao tao 1 provider phai khai bao
       ],
       child: ScreenUtilInit(
           designSize: Size(WIDTH_DESIGN, HEIGHT_DESIGN),
@@ -57,6 +58,7 @@ class _AppScreenState extends State<AppScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Onboarding Screen',
       home: OnboardingScreen(),
       debugShowCheckedModeBanner: false,

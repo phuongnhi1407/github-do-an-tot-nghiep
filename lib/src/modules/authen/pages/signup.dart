@@ -3,6 +3,7 @@ import 'package:doantotnghiep/src/modules/authen/component/upside.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
 import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
+import 'package:doantotnghiep/src/modules/authen/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,7 @@ class SignUpScreen extends StatefulWidget {
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
+
 class _SignUpScreenState extends State<SignUpScreen> {
   final _fullNameController = TextEditingController();
   final _userNameController = TextEditingController();
@@ -29,11 +31,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // _passwordController = TextEditingController();
   }
 
-  // void hanleSignup({String? fullName,String? userName,String? password,String? email,String? phoneNumber, String? address}) async {
-  //   SignUpRequest request = SignUpRequest(fullname: fullName,username: userName, password: password,email: email ,phonenumber: phoneNumber,address: address,);
-  //   await authenProvider?.fetchSignUp(context, request);
-  // }
-
+  void hanleSignup(
+      {String? fullName,
+      String? userName,
+      String? password,
+      String? email,
+      String? phoneNumber,
+      String? address}) async {
+    SignUpRequest request = SignUpRequest(
+        fullname: fullName,
+        username: userName,
+        password: password,
+        email: email,
+        phonenumber: phoneNumber,
+        address: address,
+        timeZone: DateTime.now().toString());
+    await authenProvider?.fetchSignUp(context, request);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,256 +84,252 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                    Form(
-                      child: Column(
-                        children: [
-                          Container(
-                            margin:
-                            const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: kPrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: TextField(
-                              controller: _fullNameController,
-                              cursorColor: kPrimaryColor,
-                              keyboardType: TextInputType
-                                  .text, // Thay đổi kiểu nhập liệu thành số
-                              decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.drive_file_rename_outline_sharp,
-                                  color: kPrimaryColor,
+                        Form(
+                          child: Column(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                width: size.width * 0.8,
+                                decoration: BoxDecoration(
+                                  color: kPrimaryLightColor,
+                                  borderRadius: BorderRadius.circular(29),
                                 ),
-                                hintText: "Tên đầy đủ của bạn",
-                                hintStyle:
-                                const TextStyle(fontFamily: 'OpenSans'),
-                                border: InputBorder.none,
+                                child: TextField(
+                                  controller: _fullNameController,
+                                  cursorColor: kPrimaryColor,
+                                  keyboardType: TextInputType
+                                      .text, // Thay đổi kiểu nhập liệu thành số
+                                  decoration: InputDecoration(
+                                    icon: Icon(
+                                      Icons.drive_file_rename_outline_sharp,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Tên đầy đủ của bạn",
+                                    hintStyle:
+                                        const TextStyle(fontFamily: 'OpenSans'),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      // userName = value;
+                                      print(value);
+                                    });
+                                  },
+                                ),
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  // userName = value;
-                                  print(value);
-                                });
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin:
-                            const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: kPrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: TextField(
-                              controller: _userNameController,
-                              cursorColor: kPrimaryColor,
-                              keyboardType: TextInputType
-                                  .text, // Thay đổi kiểu nhập liệu thành số
-                              decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.person_outline_sharp,
-                                  color: kPrimaryColor,
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                width: size.width * 0.8,
+                                decoration: BoxDecoration(
+                                  color: kPrimaryLightColor,
+                                  borderRadius: BorderRadius.circular(29),
                                 ),
-                                hintText: "Tên tài khoản",
-                                hintStyle:
-                                const TextStyle(fontFamily: 'OpenSans'),
-                                border: InputBorder.none,
+                                child: TextField(
+                                  controller: _userNameController,
+                                  cursorColor: kPrimaryColor,
+                                  keyboardType: TextInputType
+                                      .text, // Thay đổi kiểu nhập liệu thành số
+                                  decoration: InputDecoration(
+                                    icon: Icon(
+                                      Icons.person_outline_sharp,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Tên tài khoản",
+                                    hintStyle:
+                                        const TextStyle(fontFamily: 'OpenSans'),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      // userName = value;
+                                      print(value);
+                                    });
+                                  },
+                                ),
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  // userName = value;
-                                  print(value);
-                                });
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin:
-                            const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: kPrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: TextFormField(
-                              controller: _passwordController,
-                              obscureText: true,
-                              cursorColor: kPrimaryColor,
-                              decoration: const InputDecoration(
-                                icon: Icon(
-                                  Icons.lock,
-                                  color: kPrimaryColor,
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                width: size.width * 0.8,
+                                decoration: BoxDecoration(
+                                  color: kPrimaryLightColor,
+                                  borderRadius: BorderRadius.circular(29),
                                 ),
-                                hintText: "Mật khẩu",
-                                hintStyle:
-                                TextStyle(fontFamily: 'OpenSans'),
-                                suffixIcon: Icon(
-                                  Icons.visibility,
-                                  color: kPrimaryColor,
+                                child: TextFormField(
+                                  controller: _passwordController,
+                                  obscureText: true,
+                                  cursorColor: kPrimaryColor,
+                                  decoration: const InputDecoration(
+                                    icon: Icon(
+                                      Icons.lock,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Mật khẩu",
+                                    hintStyle:
+                                        TextStyle(fontFamily: 'OpenSans'),
+                                    suffixIcon: Icon(
+                                      Icons.visibility,
+                                      color: kPrimaryColor,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      // password = value;
+                                      print(value);
+                                      // print(password);
+                                    });
+                                  },
                                 ),
-                                border: InputBorder.none,
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  // password = value;
-                                  print(value);
-                                  // print(password);
-                                });
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin:
-                            const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: kPrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: TextField(
-                              controller: _emailController,
-                              cursorColor: kPrimaryColor,
-                              keyboardType: TextInputType
-                                  .text, // Thay đổi kiểu nhập liệu thành số
-                              decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.email,
-                                  color: kPrimaryColor,
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                width: size.width * 0.8,
+                                decoration: BoxDecoration(
+                                  color: kPrimaryLightColor,
+                                  borderRadius: BorderRadius.circular(29),
                                 ),
-                                hintText: "Email",
-                                hintStyle:
-                                const TextStyle(fontFamily: 'OpenSans'),
-                                border: InputBorder.none,
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  // userName = value;
-                                  print(value);
-                                });
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin:
-                            const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: kPrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: TextField(
-                              controller: _phoneNumberController,
-                              cursorColor: kPrimaryColor,
-                              keyboardType: TextInputType
-                                  .text, // Thay đổi kiểu nhập liệu thành số
-                              decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.phone,
-                                  color: kPrimaryColor,
+                                child: TextField(
+                                  controller: _emailController,
+                                  cursorColor: kPrimaryColor,
+                                  keyboardType: TextInputType
+                                      .text, // Thay đổi kiểu nhập liệu thành số
+                                  decoration: InputDecoration(
+                                    icon: Icon(
+                                      Icons.email,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Email",
+                                    hintStyle:
+                                        const TextStyle(fontFamily: 'OpenSans'),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      // userName = value;
+                                      print(value);
+                                    });
+                                  },
                                 ),
-                                hintText: "Số điện thoại",
-                                hintStyle:
-                                const TextStyle(fontFamily: 'OpenSans'),
-                                border: InputBorder.none,
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  // userName = value;
-                                  print(value);
-                                });
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin:
-                            const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            width: size.width * 0.8,
-                            decoration: BoxDecoration(
-                              color: kPrimaryLightColor,
-                              borderRadius: BorderRadius.circular(29),
-                            ),
-                            child: TextField(
-                              controller: _addressController,
-                              cursorColor: kPrimaryColor,
-                              keyboardType: TextInputType
-                                  .text, // Thay đổi kiểu nhập liệu thành số
-                              decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.home,
-                                  color: kPrimaryColor,
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                width: size.width * 0.8,
+                                decoration: BoxDecoration(
+                                  color: kPrimaryLightColor,
+                                  borderRadius: BorderRadius.circular(29),
                                 ),
-                                hintText: "Địa chỉ",
-                                hintStyle:
-                                const TextStyle(fontFamily: 'OpenSans'),
-                                border: InputBorder.none,
+                                child: TextField(
+                                  controller: _phoneNumberController,
+                                  cursorColor: kPrimaryColor,
+                                  keyboardType: TextInputType
+                                      .text, // Thay đổi kiểu nhập liệu thành số
+                                  decoration: InputDecoration(
+                                    icon: Icon(
+                                      Icons.phone,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Số điện thoại",
+                                    hintStyle:
+                                        const TextStyle(fontFamily: 'OpenSans'),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      // userName = value;
+                                      print(value);
+                                    });
+                                  },
+                                ),
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  // userName = value;
-                                  print(value);
-                                });
-                              },
-                            ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 5),
+                                width: size.width * 0.8,
+                                decoration: BoxDecoration(
+                                  color: kPrimaryLightColor,
+                                  borderRadius: BorderRadius.circular(29),
+                                ),
+                                child: TextField(
+                                  controller: _addressController,
+                                  cursorColor: kPrimaryColor,
+                                  keyboardType: TextInputType
+                                      .text, // Thay đổi kiểu nhập liệu thành số
+                                  decoration: InputDecoration(
+                                    icon: Icon(
+                                      Icons.home,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Địa chỉ",
+                                    hintStyle:
+                                        const TextStyle(fontFamily: 'OpenSans'),
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      // userName = value;
+                                      print(value);
+                                    });
+                                  },
+                                ),
+                              ),
+                              RoundedButton(
+                                  text: 'ĐĂNG KÝ',
+                                  press: () async {
+                                    hanleSignup(
+                                      fullName: _fullNameController.text,
+                                      userName: _userNameController.text,
+                                      password: _passwordController.text,
+                                      email: _emailController.text,
+                                      phoneNumber: _phoneNumberController.text,
+                                      address: _addressController.text,
+                                    );
+                                  }),
+                              // const SizedBox(
+                              //   height: 10,
+                              // ),
+                              // UnderPart(
+                              //   title: "Bạn đã có tài khoản?",
+                              //   navigatorText: "Đăng nhập ngay",
+                              //   onTap: () {
+                              //     Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) =>
+                              //             LoginScreen()));
+                              //   },
+                              // ),
+                              // const SizedBox(
+                              //   height: 20,
+                              // )
+                            ],
                           ),
-                          // RoundedButton(
-                          //     text: 'ĐĂNG KÝ',
-                          //     press: () async {
-                          //       hanleLogin(
-                          //           fullName: _fullNameController.text,
-                          //           userName: _userNameController.text,
-                          //           password: _passwordController.text,
-                          //           email: _emailController.text,
-                          //           phoneNumber: _phoneNumberController.text,
-                          //           address: _addressController.text,
-                          //
-                          //           );
-                          //     }),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
-                          // UnderPart(
-                          //   title: "Bạn đã có tài khoản?",
-                          //   navigatorText: "Đăng nhập ngay",
-                          //   onTap: () {
-                          //     Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //             builder: (context) =>
-                          //             LoginScreen()));
-                          //   },
-                          // ),
-                          // const SizedBox(
-                          //   height: 20,
-                          // )
-
-
+                        ),
                       ],
                     ),
                   ),
-
+                ),
               ],
             ),
           ),
         ),
-      ],
-        ),
       ),
-    ),
-    ),
     );
   }
 }

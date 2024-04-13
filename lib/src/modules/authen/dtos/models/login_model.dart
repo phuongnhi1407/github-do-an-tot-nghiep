@@ -1,7 +1,7 @@
 
 class LoginResponse {
   LoginModel? data;
-  String? message;
+  String? message;  
   int? statusCode;
 
   LoginResponse({this.data, this.message, this.statusCode});

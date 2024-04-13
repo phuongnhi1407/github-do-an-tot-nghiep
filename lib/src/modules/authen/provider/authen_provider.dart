@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/modules/authen/services/authen_service_signup.dart';
+import 'package:doantotnghiep/src/widgets/toast/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
@@ -19,10 +24,12 @@ class AuthenProvider extends ChangeNotifier {
         if (response.statusCode == 200) {
           user = response.data;
           if (user!.accessToken != null) {
+            ToastCustom().showBottom(context,
+                msg: "Đăng nhập thành công", color: Colors.green);
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
-                  (Route<dynamic> route) => false,
+              (Route<dynamic> route) => false,
             );
           }
         } else {
@@ -41,37 +48,24 @@ class AuthenProvider extends ChangeNotifier {
       // Show toast or alert with error message
     }
   }
-}
-class AuthenProviderr extends ChangeNotifier {
-  LoginModel? user;
-  AuthenServiceSignup _authenServiceSignup = AuthenServiceSignup();
 
   Future<void> fetchSignUp(BuildContext context, SignUpRequest request) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      final response = await _authenServiceSignup.register(request);
+      final response = await _authenService.register(request);
       if (response != null) {
         if (response.statusCode == 200) {
-          if (response.data is LoginModel) {
-            user = response.data as LoginModel?;
-            if (user!.accessToken != null) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-                    (Route<dynamic> route) => false,
-              );
-            }
-          } else {
-            print("Lỗi: Dữ liệu không hợp lệ");
-            // Hiển thị thông báo hoặc xử lý lỗi
-          }
+          ToastCustom().showBottom(context,
+              msg: "Đăng ký thành công", color: Colors.green);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+            (Route<dynamic> route) => false,
+          );
         } else {
-          print("Lỗi: ${response.message}");
-          // Hiển thị thông báo hoặc xử lý lỗi
+          ToastCustom().showBottom(context,
+              msg: "${json.decode(response.message.toString())[0]['value']}",
+              color: Colors.red);
         }
-      } else {
-        print("Lỗi: Phản hồi null");
-        // Hiển thị thông báo hoặc xử lý lỗi
       }
     } catch (error) {
       print("Lỗi: $error");
