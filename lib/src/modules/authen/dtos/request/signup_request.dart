@@ -5,7 +5,7 @@ class SignUpRequest {
   String? password;
   String? phonenumber;
   String? address;
-
+  String? timeZone;
   SignUpRequest({
     this.fullname,
     this.username,
@@ -13,6 +13,7 @@ class SignUpRequest {
     this.password,
     this.phonenumber,
     this.address,
+    this.timeZone,
   });
 
   SignUpRequest.fromJson(Map<String, dynamic> json) {
@@ -22,6 +23,7 @@ class SignUpRequest {
     password = json['password'];
     phonenumber = json['phoneNumber'];
     address = json['address'];
+    timeZone = json['timeZone'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +34,7 @@ class SignUpRequest {
     data['password'] = this.password;
     data['phoneNumber'] = this.phonenumber;
     data['address'] = this.address;
+    data['timeZone'] = this.timeZone;
     return data;
   }
 }
