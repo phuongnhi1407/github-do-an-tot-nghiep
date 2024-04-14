@@ -1,6 +1,8 @@
 import 'package:doantotnghiep/src/modules/authen/component/page_title_bar.dart';
+import 'package:doantotnghiep/src/modules/authen/component/under_part.dart';
 import 'package:doantotnghiep/src/modules/authen/component/upside.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:doantotnghiep/src/modules/authen/widgets/rounded_button.dart';
@@ -301,23 +303,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       address: _addressController.text,
                                     );
                                   }),
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              // UnderPart(
-                              //   title: "Bạn đã có tài khoản?",
-                              //   navigatorText: "Đăng nhập ngay",
-                              //   onTap: () {
-                              //     Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) =>
-                              //             LoginScreen()));
-                              //   },
-                              // ),
-                              // const SizedBox(
-                              //   height: 20,
-                              // )
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              UnderPart(
+                                title: "Bạn đã có tài khoản?",
+                                navigatorText: "Đăng nhập ngay",
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          LoginScreen()));
+                                },
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              )
                             ],
                           ),
                         ),
