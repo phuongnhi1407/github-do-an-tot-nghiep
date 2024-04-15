@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
-import 'package:doantotnghiep/src/modules/authen/services/authen_service_signup.dart';
 import 'package:doantotnghiep/src/widgets/toast/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
