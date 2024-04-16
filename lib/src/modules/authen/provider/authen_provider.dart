@@ -24,6 +24,7 @@ class AuthenProvider extends ChangeNotifier {
         if (response.statusCode == 200) {
           user = response.data;
           if (user!.accessToken != null) {
+            prefs.setString("token", user!.accessToken.toString());
             ToastCustom().showBottom(context,
                 msg: "Đăng nhập thành công", color: Colors.green);
             Navigator.pushAndRemoveUntil(

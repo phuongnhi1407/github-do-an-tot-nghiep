@@ -41,7 +41,7 @@ class AuthenService {
     try {
       final config = await AppConfig.forEnvironment();
       final url = "${config.host}/$PROFILE_URL";
-      final response = await _apiUtility.get(url);
+      final response = await _apiUtility.post(url);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         return ProfileResponse.fromJson(jsonResponse);
