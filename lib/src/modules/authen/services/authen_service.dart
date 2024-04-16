@@ -37,11 +37,11 @@ class AuthenService {
   }
 //  return user;
 
-  Future<ProfileResponse?> getProfile() async {
+  Future<ProfileResponse?> getProfile(int userId) async {
     try {
       final config = await AppConfig.forEnvironment();
-      final url = "${config.host}/$PROFILE_URL";
-      final response = await _apiUtility.post(url);
+      final url = "${config.host}/$PROFILE_URL?Id=${userId}";
+      final response = await _apiUtility.get(url);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         return ProfileResponse.fromJson(jsonResponse);

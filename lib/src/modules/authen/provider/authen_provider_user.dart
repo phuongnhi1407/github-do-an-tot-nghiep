@@ -8,7 +8,7 @@ class AuthenProviderUser extends ChangeNotifier {
   ProfileData? userInfo;
   AuthenServiceUser _authenServiceUser = AuthenServiceUser();
 
-  Future<void> fetchProfile(BuildContext context) async {
+  Future<void> fetchProfile(BuildContext context , int userId) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       final response = await _authenServiceUser.getProfile();

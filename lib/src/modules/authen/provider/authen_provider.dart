@@ -25,6 +25,7 @@ class AuthenProvider extends ChangeNotifier {
           user = response.data;
           if (user!.accessToken != null) {
             prefs.setString("token", user!.accessToken.toString());
+            prefs.setInt("userId", user!.infoUser!.id!.toInt());
             ToastCustom().showBottom(context,
                 msg: "Đăng nhập thành công", color: Colors.green);
             Navigator.pushAndRemoveUntil(
@@ -75,8 +76,10 @@ class AuthenProvider extends ChangeNotifier {
   }
   Future<void> fetchProfile(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+     int userId =  prefs.getInt("userId")!.toInt() ;
+
     try {
-      final response = await _authenService.getProfile();
+      final response = await _authenService.getProfile(userId);
       if (response != null) {
         if (response.statusCode == 200) {
           userInfo = response.data;
