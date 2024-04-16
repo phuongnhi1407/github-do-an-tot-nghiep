@@ -3,6 +3,7 @@ import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/new
 import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/search.dart';
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/huongdan.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/setting.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -19,10 +20,10 @@ class _BaseScreenState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [Search(), Menus(), News()],
+          children: [Search(), Menus(), News()],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -103,6 +104,18 @@ class _BaseScreenState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const TutorialPage()),
+              );
+            }
+            else if(index == 3){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TutorialPage()),
+              );
+            }
+            else if(index == 4){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsScreen()),
               );
             }
           });

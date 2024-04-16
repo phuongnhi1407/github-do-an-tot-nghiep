@@ -26,6 +26,15 @@ Color blue3 = const Color(0xFF38BBDA);
 Color red = const Color(0xFFED2739);
 Color purple = const Color(0xFF87027B);
 
+const kprimaryColor = Color(0xff212C42);
+const ksecondryColor = Color(0xff9CA2FF);
+const ksecondryLightColor = Color(0xffEDEFFE);
+const klightContentColor = Color(0xffF1F2F7);
+
+const double kbigFontSize = 25;
+const double knormalFontSize = 18;
+const double ksmallFontSize = 15;
+
 // Typography
 TextStyle regular12_5 =
 const TextStyle(fontFamily: 'SF-Pro-Display', fontSize: 12.5);

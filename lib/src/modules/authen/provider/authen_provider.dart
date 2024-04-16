@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/widgets/toast/toast.dart';
@@ -12,6 +13,7 @@ import 'package:doantotnghiep/src/modules/authen/services/authen_service.dart';
 
 class AuthenProvider extends ChangeNotifier {
   LoginModel? user;
+  ProfileData? userInfo;
   AuthenService _authenService = AuthenService();
 
   Future<void> fetchLogin(BuildContext context, LoginRequest request) async {
@@ -68,6 +70,31 @@ class AuthenProvider extends ChangeNotifier {
     } catch (error) {
       print("Lỗi: $error");
       // Hiển thị thông báo hoặc xử lý lỗi
+    }
+  }
+  Future<void> fetchProfile(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      final response = await _authenService.getProfile();
+      if (response != null) {
+        if (response.statusCode == 200) {
+          userInfo = response.data;
+          // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
+        } else {
+          // Xử lý lỗi nếu có
+          ToastCustom().showBottom(context,
+              msg: "Lỗi: ${response.message}", color: Colors.red);
+        }
+      } else {
+        // Xử lý lỗi khi response là null
+        ToastCustom().showBottom(context,
+            msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+      }
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      print("Lỗi: $error");
+      ToastCustom().showBottom(
+          context, msg: "Lỗi: $error", color: Colors.red);
     }
   }
 }

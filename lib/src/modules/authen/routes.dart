@@ -6,3 +6,6 @@ final REGITER_URL = '$PREFIX/register';
 // quan ly routes
 
 final SIGNUP_URL = '$PREFIX/sign-up';
+
+
+final PROFILE_URL = 'master-data/api/user';
