@@ -18,11 +18,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     authenProvider = Provider.of<AuthenProvider>(context, listen: false);
-    handleProfile(); // Call handleProfile to fetch user information
+    handleProfile(); // Gọi handleProfile để lấy thông tin người dùng
   }
 
   void handleProfile() async {
-    // Logic to fetch user information
+    // Logic để lấy thông tin người dùng
     await authenProvider?.fetchProfile(context);
   }
 
@@ -35,56 +35,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
           width: size.width,
           height: size.height,
           child: SingleChildScrollView(
-            child: Stack(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const PageTitleBar(title: 'Thông tin cá nhân'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 320.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50),
-                      ),
-                    ),
-                    child: Consumer<AuthenProvider>(
-                      builder: (context, authenProvider, child) {
-                        if (authenProvider.userInfo != null) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Họ và tên: ${authenProvider.userInfo!.fullName}',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                'Email: ${authenProvider.userInfo!.email}',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              // Add more widgets to display other user information
-                              // Example: phone number, address, etc.
-                            ],
-                          );
-                        } else {
-                          // Show loading indicator or error message if user information is not available yet
-                          return CircularProgressIndicator();
-                        }
-                      },
-                    ),
-                  ),
-                )
+                SizedBox(height: 20),
+                CircleAvatar(
+                  radius: 50,
+                  // backgroundImage: NetworkImage(
+                  //   authenProvider?.userInfo?.avatarId ?? 'assets/images/avt',
+                  // ),
+                ),
+                SizedBox(height: 20),
+                buildUserInfoTile(
+                  'Họ và tên',
+                  authenProvider?.userInfo?.fullName ?? '',
+                ),
+                buildUserInfoTile(
+                  'Ngày sinh',
+                  authenProvider?.userInfo?.dateOfBirth ?? '',
+                ),
+                buildUserInfoTile(
+                  'Địa chỉ',
+                  authenProvider?.userInfo?.address ?? '',
+                ),
+                buildUserInfoTile(
+                  'Email',
+                  authenProvider?.userInfo?.email ?? '',
+                ),
+                buildUserInfoTile(
+                  'Căn cước công dân',
+                  authenProvider?.userInfo?.cardId ?? '',
+                ),
+                buildUserInfoTile(
+                  'Số điện thoại',
+                  authenProvider?.userInfo?.phoneNumber ?? '',
+                ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildUserInfoTile(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[700],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -18,7 +18,7 @@ class AuthenService {
     // lay url
     final urlLogin = "${config.host}/$LOGIN_URL";
     final response =
-        await _apiUtility.post(urlLogin, body: jsonEncode(request));
+    await _apiUtility.post(urlLogin, body: jsonEncode(request));
     responseData = LoginResponse.fromJson(json.decode(response.body));
     print(responseData);
     return responseData;
@@ -30,7 +30,7 @@ class AuthenService {
     final urlRegister =
         "${config.host}/$SIGNUP_URL"; // Đảm bảo REGISTER_URL đã được định nghĩa trong routes.dart
     final response =
-        await _apiUtility.post(urlRegister, body: jsonEncode(request));
+    await _apiUtility.post(urlRegister, body: jsonEncode(request));
     responseData = SignUpResponse.fromJson(json.decode(response.body));
     print(responseData);
     return responseData;
@@ -39,8 +39,9 @@ class AuthenService {
 
   Future<ProfileResponse?> getProfile(int userId) async {
     try {
-      final config = await AppConfig.forEnvironment();
-      final url = "${config.host}/$PROFILE_URL?Id=${userId}";
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final url = "${config.host}/$PROFILE_URL?Id=3";
+      //final url = "${config.host}/$PROFILE_URL?Id=${userId}";
       final response = await _apiUtility.get(url);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
