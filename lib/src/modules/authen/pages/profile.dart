@@ -1,8 +1,6 @@
-import 'package:doantotnghiep/src/modules/authen/component/page_title_bar.dart';
-import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -28,7 +26,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
@@ -70,6 +70,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   'Số điện thoại',
                   authenProvider?.userInfo?.phoneNumber ?? '',
                 ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    // Cập nhật thông tin
+                  },
+                  child: Text('Cập nhật thông tin'),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    // Xóa tài khoản
+                    showConfirmationDialog(context);
+                  },
+                  child: Text('Xóa tài khoản'),
+                ),
               ],
             ),
           ),
@@ -101,6 +116,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Xác nhận"),
+          content: Text("Bạn có chắc chắn muốn xóa tài khoản không?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Đóng hộp thoại xác nhận
+              },
+              child: Text("Hủy"),
+            ),
+            TextButton(
+              onPressed: () {
+                authenProvider?.fetchDeleteProfile(context); // Gọi phương thức xóa tài khoản
+                Navigator.pop(context); // Đóng hộp thoại xác nhận
+              },
+              child: Text("Xác nhận"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

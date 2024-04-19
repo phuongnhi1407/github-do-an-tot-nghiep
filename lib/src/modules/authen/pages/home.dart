@@ -4,7 +4,7 @@ import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/sea
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/huongdan.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/qr.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/qrcccd.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/qrgenerator.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/setting.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +111,7 @@ class _BaseScreenState extends State<HomePage> {
             else if(index == 3){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ScanIDCardScreen()),
+                MaterialPageRoute(builder: (context) => const TutorialPage()),
               );
             }
             else if(index == 4){

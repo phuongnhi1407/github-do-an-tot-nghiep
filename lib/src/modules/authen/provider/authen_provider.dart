@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/delete_profile_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/widgets/toast/toast.dart';
@@ -31,7 +32,7 @@ class AuthenProvider extends ChangeNotifier {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
-              (Route<dynamic> route) => false,
+                  (Route<dynamic> route) => false,
             );
           }
         } else {
@@ -61,7 +62,7 @@ class AuthenProvider extends ChangeNotifier {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => LoginScreen()),
-            (Route<dynamic> route) => false,
+                (Route<dynamic> route) => false,
           );
         } else {
           ToastCustom().showBottom(context,
@@ -74,9 +75,10 @@ class AuthenProvider extends ChangeNotifier {
       // Hiển thị thông báo hoặc xử lý lỗi
     }
   }
+
   Future<void> fetchProfile(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-     int userId =  prefs.getInt("userId")!.toInt() ;
+    int userId = prefs.getInt("userId")!.toInt();
 
     try {
       final response = await _authenService.getProfile(userId);
@@ -99,6 +101,32 @@ class AuthenProvider extends ChangeNotifier {
       print("Lỗi: $error");
       ToastCustom().showBottom(
           context, msg: "Lỗi: $error", color: Colors.red);
+    }
+  }
+
+  Future<void> fetchDeleteProfile(BuildContext context) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      int userId = prefs.getInt("userId")!.toInt();
+      final response = await _authenService.deleteAccount(userId);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          // Xóa tài khoản thành công
+          // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
+        } else {
+          // Xử lý lỗi từ phản hồi
+          print("Error deleting account. Status code: ${response.statusCode}");
+          // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
+        }
+      } else {
+        // Xử lý khi response là null
+        print("Error deleting account: Null response");
+        // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
+      }
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      print("Error deleting account: $error");
+      // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
     }
   }
 }

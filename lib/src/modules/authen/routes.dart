@@ -9,3 +9,5 @@ final SIGNUP_URL = '$PREFIX/sign-up';
 
 
 final PROFILE_URL = 'master-data/api/user';
+final DELETE_ACCOUNT_URL = '$PROFILE_URL/del';
+
