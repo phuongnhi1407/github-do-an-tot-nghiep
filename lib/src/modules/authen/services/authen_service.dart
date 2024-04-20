@@ -1,18 +1,15 @@
 import 'dart:convert';
-
 import 'package:doantotnghiep/src/config.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/delete_profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signup_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/modules/authen/routes.dart';
 import 'package:doantotnghiep/src/utilities/api/api_utility.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class AuthenService {
   final _apiUtility = new ApiUtility();
@@ -81,21 +78,26 @@ class AuthenService {
       return null;
     }
   }
-  Future<void> logout(BuildContext context) async {
+  Future<LogoutResponse?> logout(int userId) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.remove("token");
-      prefs.remove("userId");
-      // Gọi hàm điều hướng người dùng đến màn hình đăng nhập hoặc màn hình chào mừng
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()), // Hoặc LoginPage()
-            (Route<dynamic> route) => false,
-      );
-    } catch (error) {
-      // Xử lý lỗi nếu có
-      print("Error logging out: $error");
-      // Hiển thị thông báo hoặc xử lý lỗi
+      final config = await AppConfig.forEnvironment();
+      final url = "${config.host}/$LOGOUT_URL";
+      final body = {'id': userId}; // Tạo request body từ userId
+
+      final response = await _apiUtility.post(url, body: jsonEncode(body));
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        return LogoutResponse.fromJson(responseData);
+      } else {
+        // Xử lý khi có lỗi từ server
+        print("Failed to logout. Status code: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      // Xử lý khi có lỗi xảy ra trong quá trình đăng xuất
+      print("Error during logout: $e");
+      return null;
     }
   }
 }

@@ -1,7 +1,8 @@
-import 'package:doantotnghiep/src/modules/authen/component/componentsettings/signout.dart';
+import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/profile.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
-import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Import provider để sử dụng context
 
 class AvatarCard extends StatelessWidget {
   const AvatarCard({
@@ -10,6 +11,8 @@ class AvatarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Sử dụng Provider để truy cập giá trị của userId
+
     return Row(
       children: [
         GestureDetector(
@@ -38,8 +41,8 @@ class AvatarCard extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                // Điều hướng đến trang xác thực khi người dùng nhấn vào nút
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SignoutScreen()));
+                // Gọi hàm đăng xuất từ AuthenProvider
+                //Provider.of<AuthenProvider>(context, listen: false).fetchLogoutAccount(context);
               },
               child: const Text(
                 "Đăng xuất",
