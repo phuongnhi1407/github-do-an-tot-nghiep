@@ -1,13 +1,16 @@
 class DeleteAccountRequest {
-  final int userId;
+  final int id;
+  final bool isSuperAdmin;
 
   DeleteAccountRequest({
-    required this.userId,
+    required this.id,
+    required this.isSuperAdmin,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'userId': userId,
+      'id': id,
+      'isSuperAdmin': isSuperAdmin,
     };
   }
 }

@@ -50,16 +50,27 @@ class ApiUtility {
   }
 
 //delete api
-  Future<http.Response> delete(String url) {
+  Future<http.Response> delete(String url, {body}) {
     return http.delete(
       Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
+      body: body,
     ).then((http.Response response) {
       return handleResponse(response);
     });
   }
+//   Future<http.Response> delete(String url) {
+//     return http.delete(
+//       Uri.parse(url),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//       },
+//     ).then((http.Response response) {
+//       return handleResponse(response);
+//     });
+//   }
 
 // check status code
   http.Response handleResponse(http.Response response) {

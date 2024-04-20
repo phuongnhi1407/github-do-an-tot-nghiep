@@ -1,3 +1,20 @@
+class DeleteAccountRequest {
+  final int id;
+  final bool isSuperAdmin;
+
+  DeleteAccountRequest({
+    required this.id,
+    required this.isSuperAdmin,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'isSuperAdmin': isSuperAdmin,
+    };
+  }
+}
+
 class DeleteAccountResponse {
   final String message;
   final int statusCode;
@@ -13,10 +30,10 @@ class DeleteAccountResponse {
 
   factory DeleteAccountResponse.fromJson(Map<String, dynamic> json) {
     return DeleteAccountResponse(
-      message: json['message'] ?? '',
-      statusCode: json['statusCode'] ?? 0,
-      data: json['data'] ?? false,
-      paging: Paging.fromJson(json['paging'] ?? {}),
+      message: json['message'],
+      statusCode: json['statusCode'],
+      data: json['data'],
+      paging: Paging.fromJson(json['paging']),
     );
   }
 }
@@ -36,10 +53,10 @@ class Paging {
 
   factory Paging.fromJson(Map<String, dynamic> json) {
     return Paging(
-      totalCount: json['totalCount'] ?? 0,
-      pageIndex: json['pageIndex'] ?? 0,
-      pageSize: json['pageSize'] ?? 0,
-      totalPages: json['totalPages'] ?? 0,
+      totalCount: json['totalCount'],
+      pageIndex: json['pageIndex'],
+      pageSize: json['pageSize'],
+      totalPages: json['totalPages'],
     );
   }
 }

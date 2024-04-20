@@ -2,14 +2,16 @@ import 'dart:convert';
 
 import 'package:doantotnghiep/src/config.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
-import 'package:doantotnghiep/src/modules/authen/dtos/models/modelshomepage/delete_profile_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/delete_profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signup_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/modules/authen/routes.dart';
 import 'package:doantotnghiep/src/utilities/api/api_utility.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenService {
@@ -64,7 +66,7 @@ class AuthenService {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
       final url = "${config.host}/$DELETE_ACCOUNT_URL";
-      final response = await _apiUtility.delete(url);
+      final response = await _apiUtility.delete(url, body: jsonEncode({"id": userId, "isSuperAdmin": true}));
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         return DeleteAccountResponse.fromJson(responseData);
@@ -77,6 +79,23 @@ class AuthenService {
       // Xử lý khi có lỗi xảy ra trong quá trình xóa tài khoản
       print("Error deleting account: $e");
       return null;
+    }
+  }
+  Future<void> logout(BuildContext context) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove("token");
+      prefs.remove("userId");
+      // Gọi hàm điều hướng người dùng đến màn hình đăng nhập hoặc màn hình chào mừng
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()), // Hoặc LoginPage()
+            (Route<dynamic> route) => false,
+      );
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      print("Error logging out: $error");
+      // Hiển thị thông báo hoặc xử lý lỗi
     }
   }
 }

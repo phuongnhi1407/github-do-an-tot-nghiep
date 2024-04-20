@@ -104,10 +104,11 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchDeleteProfile(BuildContext context) async {
+  Future<void> fetchDeleteAccount(BuildContext context) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       int userId = prefs.getInt("userId")!.toInt();
+
       final response = await _authenService.deleteAccount(userId);
       if (response != null) {
         if (response.statusCode == 200) {

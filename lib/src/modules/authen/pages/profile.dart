@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             TextButton(
               onPressed: () {
-                authenProvider?.fetchDeleteProfile(context); // Gọi phương thức xóa tài khoản
+                authenProvider?.fetchDeleteAccount(context); // Gọi phương thức xóa tài khoản
                 Navigator.pop(context); // Đóng hộp thoại xác nhận
               },
               child: Text("Xác nhận"),

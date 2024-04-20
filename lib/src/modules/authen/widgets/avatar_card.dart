@@ -42,7 +42,7 @@ class AvatarCard extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => SignoutScreen()));
               },
               child: const Text(
-                "Xác thực",
+                "Đăng xuất",
                 style: TextStyle(
                   fontSize: ksmallFontSize,
                   color: Colors.white,
