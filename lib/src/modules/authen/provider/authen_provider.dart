@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
-import 'package:doantotnghiep/src/modules/authen/dtos/request/delete_profile_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/widgets/toast/toast.dart';
@@ -114,6 +113,13 @@ class AuthenProvider extends ChangeNotifier {
       if (response != null) {
         if (response.statusCode == 200) {
           // Xóa tài khoản thành công
+          ToastCustom().showBottom(context,
+              msg: "Xóa tài khoản thành công", color: Colors.green);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+                (Route<dynamic> route) => false,
+          );
           // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
         } else {
           // Xử lý lỗi từ phản hồi
@@ -131,19 +137,24 @@ class AuthenProvider extends ChangeNotifier {
       // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
     }
   }
-  Future<LogoutResponse?> fetchLogoutAccount(BuildContext context, int userId) async {
+
+  Future<LogoutResponse?> fetchLogoutAccount(BuildContext context) async {
     try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      int userId = prefs.getInt("userId")!.toInt();
+
       final response = await _authenService.logout(userId);
 
       if (response != null) {
         if (response.statusCode == 200) {
           // Xử lý khi đăng xuất thành công
-          // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
-          print("Logout successful");
-          // Ví dụ: điều hướng đến trang đăng nhập sau khi đăng xuất
-          MaterialPageRoute(
-              builder: (context) =>
-                  LoginScreen());
+          ToastCustom().showBottom(context,
+              msg: "Đăng xuất thành công", color: Colors.green);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+                (Route<dynamic> route) => false,
+          );
         } else {
           // Xử lý khi có lỗi từ phản hồi
           print("Error during logout. Status code: ${response.statusCode}");

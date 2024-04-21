@@ -82,9 +82,9 @@ class AuthenService {
     try {
       final config = await AppConfig.forEnvironment();
       final url = "${config.host}/$LOGOUT_URL";
-      final body = {'id': userId}; // Tạo request body từ userId
+      //final body = {'id': userId}; // Tạo request body từ userId
 
-      final response = await _apiUtility.post(url, body: jsonEncode(body));
+      final response = await _apiUtility.put(url, body: jsonEncode({"id": userId}));
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);

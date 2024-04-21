@@ -74,8 +74,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ElevatedButton(
                   onPressed: () {
                     // Cập nhật thông tin
+                    authenProvider?.fetchLogoutAccount(context);
                   },
-                  child: Text('Cập nhật thông tin'),
+                  child: Text('Đăng xuẩt'),
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(

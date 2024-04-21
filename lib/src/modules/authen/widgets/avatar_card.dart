@@ -42,7 +42,7 @@ class AvatarCard extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Gọi hàm đăng xuất từ AuthenProvider
-                //Provider.of<AuthenProvider>(context, listen: false).fetchLogoutAccount(context);
+                Provider.of<AuthenProvider>(context, listen: false).fetchLogoutAccount(context);
               },
               child: const Text(
                 "Đăng xuất",
