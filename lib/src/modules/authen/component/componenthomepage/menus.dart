@@ -1,3 +1,4 @@
+import 'package:doantotnghiep/src/modules/authen/component/map_screen.dart';
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/huongdan.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
@@ -40,6 +41,9 @@ class Menus extends StatelessWidget {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));
                         } else if (icon.title == 'Hướng dẫn') {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> const TutorialPage()));
+                        }else if (icon.title == 'Bản đồ') {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => const MapScreen()));
                         }
                         // Thêm các điều kiện khác tương tự cho các icon khác
                       },
