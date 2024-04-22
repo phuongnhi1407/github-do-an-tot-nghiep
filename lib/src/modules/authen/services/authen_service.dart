@@ -59,14 +59,14 @@ class AuthenService {
       return null;
     }
   }
-  Future<DeleteAccountResponse?> deleteAccount(int userId) async {
+  Future<DeleteResponse?> deleteAccount(int userId) async {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
       final url = "${config.host}/$DELETE_ACCOUNT_URL";
       final response = await _apiUtility.delete(url, body: jsonEncode({"id": userId, "isSuperAdmin": true}));
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
-        return DeleteAccountResponse.fromJson(responseData);
+        return DeleteResponse.fromJson(responseData);
       } else {
         // Xử lý khi có lỗi từ server
         print("Failed to delete account. Status code: ${response.statusCode}");
@@ -78,26 +78,34 @@ class AuthenService {
       return null;
     }
   }
-  Future<LogoutResponse?> logout(int userId) async {
+  Future<SignoutResponse?> logout(int userId) async {
     try {
       final config = await AppConfig.forEnvironment();
       final url = "${config.host}/$LOGOUT_URL";
-      //final body = {'id': userId}; // Tạo request body từ userId
+      final body = jsonEncode({"id": userId});
 
-      final response = await _apiUtility.put(url, body: jsonEncode({"id": userId}));
+      final response = await _apiUtility.put(url, body: body);
 
-      if (response.statusCode == 200) {
+      if (response != null && response.statusCode == 200) {
         final responseData = json.decode(response.body);
-        return LogoutResponse.fromJson(responseData);
+        if (responseData is Map<String, dynamic>) {
+          return SignoutResponse.fromJson(responseData);
+        } else {
+          print("Error during logout: Unexpected response format");
+          return null;
+        }
       } else {
-        // Xử lý khi có lỗi từ server
-        print("Failed to logout. Status code: ${response.statusCode}");
-        return null;
+        // Xử lý khi có lỗi từ server hoặc response là null
+        final errorMessage = response?.statusCode != null
+            ? "Failed to logout. Status code: ${response.statusCode}"
+            : "Null response";
+        print(errorMessage);
+        throw Exception(errorMessage);
       }
     } catch (e) {
       // Xử lý khi có lỗi xảy ra trong quá trình đăng xuất
       print("Error during logout: $e");
-      return null;
+      throw Exception("Error during logout: $e");
     }
   }
 }

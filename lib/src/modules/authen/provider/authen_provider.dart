@@ -107,7 +107,7 @@ class AuthenProvider extends ChangeNotifier {
   Future<void> fetchDeleteAccount(BuildContext context) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      int userId = prefs.getInt("userId")!.toInt();
+      int userId = prefs.getInt("userId")!;
 
       final response = await _authenService.deleteAccount(userId);
       if (response != null) {
@@ -120,7 +120,7 @@ class AuthenProvider extends ChangeNotifier {
             MaterialPageRoute(builder: (context) => LoginScreen()),
                 (Route<dynamic> route) => false,
           );
-          // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
+          return; // Kết thúc hàm sau khi thực hiện chuyển hướng
         } else {
           // Xử lý lỗi từ phản hồi
           print("Error deleting account. Status code: ${response.statusCode}");
@@ -137,8 +137,7 @@ class AuthenProvider extends ChangeNotifier {
       // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
     }
   }
-
-  Future<LogoutResponse?> fetchLogoutAccount(BuildContext context) async {
+  Future<SignoutResponse?> fetchLogoutAccount(BuildContext context) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       int userId = prefs.getInt("userId")!.toInt();
@@ -146,19 +145,24 @@ class AuthenProvider extends ChangeNotifier {
       final response = await _authenService.logout(userId);
 
       if (response != null) {
-        if (response.statusCode == 200) {
-          // Xử lý khi đăng xuất thành công
-          ToastCustom().showBottom(context,
-              msg: "Đăng xuất thành công", color: Colors.green);
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-                (Route<dynamic> route) => false,
-          );
+        if (response is SignoutResponse) {
+          if (response.statusCode == 200) {
+            // Xử lý khi đăng xuất thành công
+            ToastCustom().showBottom(context,
+                msg: "Đăng xuất thành công", color: Colors.green);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+                  (Route<dynamic> route) => false,
+            );
+          } else {
+            // Xử lý khi có lỗi từ phản hồi
+            print("Error during logout. Status code: ${response.statusCode}");
+            // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
+          }
         } else {
-          // Xử lý khi có lỗi từ phản hồi
-          print("Error during logout. Status code: ${response.statusCode}");
-          // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
+          // Xử lý trường hợp response không phải là một đối tượng LogoutResponse
+          print("Error during logout: Unexpected response type");
         }
       } else {
         // Xử lý khi response là null
