@@ -31,65 +31,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .size;
     return SafeArea(
       child: Scaffold(
-        body: SizedBox(
-          width: size.width,
-          height: size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 20),
-                CircleAvatar(
-                  radius: 50,
-                  // backgroundImage: NetworkImage(
-                  //   authenProvider?.userInfo?.avatarId ?? 'assets/images/avt',
-                  // ),
-                ),
-                SizedBox(height: 20),
-                buildUserInfoTile(
-                  'Họ và tên',
-                  authenProvider?.userInfo?.fullName ?? '',
-                ),
-                buildUserInfoTile(
-                  'Ngày sinh',
-                  authenProvider?.userInfo?.dateOfBirth ?? '',
-                ),
-                buildUserInfoTile(
-                  'Địa chỉ',
-                  authenProvider?.userInfo?.address ?? '',
-                ),
-                buildUserInfoTile(
-                  'Email',
-                  authenProvider?.userInfo?.email ?? '',
-                ),
-                buildUserInfoTile(
-                  'Căn cước công dân',
-                  authenProvider?.userInfo?.cardId ?? '',
-                ),
-                buildUserInfoTile(
-                  'Số điện thoại',
-                  authenProvider?.userInfo?.phoneNumber ?? '',
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Cập nhật thông tin
-                    authenProvider?.fetchLogoutAccount(context);
-                  },
-                  child: Text('Đăng xuẩt'),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Xóa tài khoản
-                    showConfirmationDialog(context);
-                  },
-                  child: Text('Xóa tài khoản'),
-                ),
-              ],
+        body: Consumer<AuthenProvider>(builder: (context, _authenProvider, _) {
+          return _authenProvider.isLoadingUser ? const CircularProgressIndicator() : SizedBox(
+            width: size.width,
+            height: size.height,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20),
+                  CircleAvatar(
+                    radius: 50,
+                    // backgroundImage: NetworkImage(
+                    //   authenProvider?.userInfo?.avatarId ?? 'assets/images/avt',
+                    // ),
+                  ),
+                  SizedBox(height: 20),
+                  buildUserInfoTile(
+                    'Họ và tên',
+                    authenProvider?.userInfo?.fullName ?? '',
+                  ),
+                  buildUserInfoTile(
+                    'Ngày sinh',
+                    authenProvider?.userInfo?.dateOfBirth ?? '',
+                  ),
+                  buildUserInfoTile(
+                    'Địa chỉ',
+                    authenProvider?.userInfo?.address ?? '',
+                  ),
+                  buildUserInfoTile(
+                    'Email',
+                    authenProvider?.userInfo?.email ?? '',
+                  ),
+                  buildUserInfoTile(
+                    'Căn cước công dân',
+                    authenProvider?.userInfo?.cardId ?? '',
+                  ),
+                  buildUserInfoTile(
+                    'Số điện thoại',
+                    authenProvider?.userInfo?.phoneNumber ?? '',
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Cập nhật thông tin
+                      authenProvider?.fetchLogoutAccount(context);
+                    },
+                    child: Text('Đăng xuẩt'),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Xóa tài khoản
+                      showConfirmationDialog(context);
+                    },
+                    child: Text('Xóa tài khoản'),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        },)
       ),
     );
   }

@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       Icons.email,
                                       color: kPrimaryColor,
                                     ),
-                                    hintText: "Email",
+                                    hintText: "Tên tài khoản",
                                     hintStyle:
                                         const TextStyle(fontFamily: 'OpenSans'),
                                     border: InputBorder.none,
@@ -202,7 +202,7 @@ switchListTile() {
     child: SwitchListTile(
       dense: true,
       title: const Text(
-        'Remember Me',
+        'Nhớ tài khoản của tôi',
         style: TextStyle(fontSize: 16, fontFamily: 'OpenSans'),
       ),
       value: true,

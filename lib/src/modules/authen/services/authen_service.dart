@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:doantotnghiep/src/config.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/delete_profile_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/news_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signup_model.dart';
@@ -14,6 +15,8 @@ import 'package:doantotnghiep/src/utilities/api/api_utility.dart';
 class AuthenService {
   final _apiUtility = new ApiUtility();
 
+
+  //ĐĂNG NHẬP
   Future<LoginResponse?> login(LoginRequest request) async {
     LoginResponse responseData;
     final config = await AppConfig.forEnvironment();
@@ -26,6 +29,8 @@ class AuthenService {
     return responseData;
   }
 
+
+  //ĐĂNG KÝ
   Future<SignUpResponse?> register(SignUpRequest request) async {
     SignUpResponse responseData;
     final config = await AppConfig.forEnvironment();
@@ -39,8 +44,8 @@ class AuthenService {
     return responseData;
   }
 
-//  return user;
 
+  //THÔNG TIN CÁ NHÂN
   Future<ProfileResponse?> getProfile(int userId) async {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
@@ -51,7 +56,7 @@ class AuthenService {
         final jsonResponse = json.decode(response.body);
         return ProfileResponse.fromJson(jsonResponse);
       } else {
-        print("Failed to load profile");
+        print("Không tải được thông tin của bạn");
         return null;
       }
     } catch (e) {
@@ -59,6 +64,9 @@ class AuthenService {
       return null;
     }
   }
+
+
+  //XÓA TÀI KHOẢN
   Future<DeleteResponse?> deleteAccount(int userId) async {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
@@ -78,6 +86,9 @@ class AuthenService {
       return null;
     }
   }
+
+
+  //ĐĂNG XUẤT
   Future<SignoutResponse?> logout(int userId) async {
     try {
       final config = await AppConfig.forEnvironment();
@@ -108,5 +119,28 @@ class AuthenService {
       throw Exception("Error during logout: $e");
     }
   }
+
+
+
+  //THÔNG BÁO VÀ TIN TỨC
+  Future<NewsModel?> getNews(int NotificationId) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      //final url = "${config.host}/$PROFILE_URL?Id=${userId}";
+      final url = "${config.host}/$NEWS_URL?notificationId=${NotificationId}";
+      final response = await _apiUtility.get(url);
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return NewsModel.fromJson(jsonResponse);
+      } else {
+        print("Không tải được tin tức của bạn");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
+
 }
 

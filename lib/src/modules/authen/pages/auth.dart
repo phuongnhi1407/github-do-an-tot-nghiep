@@ -1,9 +1,7 @@
 import 'package:doantotnghiep/UI/button.dart';
 import 'package:doantotnghiep/UI/constants.dart';
-import 'package:doantotnghiep/src/modules/authen/component/searchcreen.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/qr.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/signup.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/qrscreen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -29,15 +27,25 @@ class AuthScreen extends StatelessWidget {
                         color: primary),
                   ),
                   const Text(
-                    "Đồng hành thông minh cho những cuộc phiêu lưu trên hai bánh.",
+                    "Đồng hành với những cuộc phiêu lưu trên hai bánh",
                     style: TextStyle(color: Colors.grey),
                   ),
                   Expanded(child: Image.asset("assets/images/logodapxe.png")),
-                  Button(label: "LOGIN", press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));
+                  // Button(label: "ĐĂNG NHẬP", press: () {
+                  //   Navigator.push(context, MaterialPageRoute(
+                  //       builder: (context)=> const LoginScreen()));
+                  // }),
+                  // Button(label: "ĐĂNG KÝ", press: () {
+                  //   Navigator.push(context, MaterialPageRoute(
+                  //       builder: (context)=> const SignUpScreen()));
+                  // }),
+                  Button(label: "ĐĂNG NHẬP", press: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context)=> MapScreen()));
                   }),
-                  Button(label: "SIGN UP", press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignUpScreen()));
+                  Button(label: "ĐĂNG KÝ", press: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context)=> const Qrscreen(title: 'Flutter Demo Home Page')));
                   }),
                 ],
               ),

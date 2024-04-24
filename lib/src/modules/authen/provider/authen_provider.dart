@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:doantotnghiep/src/modules/authen/dtos/models/news_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
@@ -15,8 +15,14 @@ import 'package:doantotnghiep/src/modules/authen/services/authen_service.dart';
 class AuthenProvider extends ChangeNotifier {
   LoginModel? user;
   ProfileData? userInfo;
+  NewsData? newsInfo;
   AuthenService _authenService = AuthenService();
 
+  bool isLoadingUser = false ;
+  bool isLoadingNews = false ;
+
+
+  //ĐĂNG NHẬP
   Future<void> fetchLogin(BuildContext context, LoginRequest request) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
@@ -52,6 +58,8 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
 
+
+  //ĐĂNG KÝ
   Future<void> fetchSignUp(BuildContext context, SignUpRequest request) async {
     try {
       final response = await _authenService.register(request);
@@ -76,10 +84,13 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
 
+
+  //THÔNG TIN CÁ NHÂN
   Future<void> fetchProfile(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int userId = prefs.getInt("userId")!.toInt();
-
+    userInfo = null;
+    isLoadingUser = true ;
     try {
       final response = await _authenService.getProfile(userId);
       if (response != null) {
@@ -91,19 +102,25 @@ class AuthenProvider extends ChangeNotifier {
           ToastCustom().showBottom(context,
               msg: "Lỗi: ${response.message}", color: Colors.red);
         }
+        isLoadingUser = false ;
       } else {
         // Xử lý lỗi khi response là null
         ToastCustom().showBottom(context,
             msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+
       }
     } catch (error) {
+      isLoadingUser = false ;
       // Xử lý lỗi nếu có
       print("Lỗi: $error");
       ToastCustom().showBottom(
           context, msg: "Lỗi: $error", color: Colors.red);
     }
+    notifyListeners() ;
   }
 
+
+  //XÓA TÀI KHOẢN
   Future<void> fetchDeleteAccount(BuildContext context) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -137,6 +154,9 @@ class AuthenProvider extends ChangeNotifier {
       // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
     }
   }
+
+
+  //ĐĂNG XUẤT
   Future<SignoutResponse?> fetchLogoutAccount(BuildContext context) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -176,5 +196,43 @@ class AuthenProvider extends ChangeNotifier {
       // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
       return null;
     }
+  }
+
+
+
+  //TIN TỨC VÀ THÔNG BÁO
+  Future<void> fetchNews(BuildContext context) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      int? notificationId = prefs.getInt("NotificationId");
+      if (notificationId != null) {
+        newsInfo = null;
+        isLoadingNews = true;
+        final response = await _authenService.getNews(notificationId);
+        if (response != null) {
+          if (response.statusCode == 200) {
+            newsInfo = response.data;
+            // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
+          } else {
+            // Xử lý lỗi nếu có
+            ToastCustom().showBottom(context,
+                msg: "Lỗi: ${response.message}", color: Colors.red);
+          }
+        } else {
+          // Xử lý lỗi khi response là null
+          ToastCustom().showBottom(context,
+              msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+        }
+      } else {
+        // Xử lý khi prefs.getInt("NotificationId") trả về null
+      }
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      print("Lỗi: $error");
+      ToastCustom().showBottom(
+          context, msg: "Lỗi: $error", color: Colors.red);
+    }
+    isLoadingNews = false;
+    notifyListeners();
   }
 }
