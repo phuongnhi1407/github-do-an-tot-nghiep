@@ -201,38 +201,49 @@ class AuthenProvider extends ChangeNotifier {
 
 
   //TIN TỨC VÀ THÔNG BÁO
+  // Phương thức để lấy tin tức từ máy chủ
   Future<void> fetchNews(BuildContext context) async {
     try {
+      // Hiển thị loading indicator
+      isLoadingNews = true;
+      notifyListeners();
+
+      // Lấy notificationId từ SharedPreferences (đã lưu ở nơi khác)
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       int? notificationId = prefs.getInt("NotificationId");
-      if (notificationId != null) {
-        newsInfo = null;
-        isLoadingNews = true;
-        final response = await _authenService.getNews(notificationId);
-        if (response != null) {
-          if (response.statusCode == 200) {
-            newsInfo = response.data;
-            // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
-          } else {
-            // Xử lý lỗi nếu có
-            ToastCustom().showBottom(context,
-                msg: "Lỗi: ${response.message}", color: Colors.red);
-          }
+
+      // Gửi yêu cầu lấy tin tức đến AuthenService
+      final response = await _authenService.getNews(notificationId ?? 0);
+
+      // Xử lý phản hồi từ AuthenService
+      if (response != null) {
+        if (response.statusCode == 200) {
+          // Lưu thông tin tin tức vào newsInfo
+          newsInfo = response.data;
+          // Hiển thị thông tin tin tức hoặc thực hiện hành động phù hợp
         } else {
-          // Xử lý lỗi khi response là null
-          ToastCustom().showBottom(context,
-              msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+          // Xử lý khi có lỗi từ máy chủ
+          print("Error fetching news: ${response.message}");
+          // Hiển thị thông báo lỗi
+          ToastCustom().showBottom(context, msg: "Error: ${response.message}", color: Colors.red);
         }
       } else {
-        // Xử lý khi prefs.getInt("NotificationId") trả về null
+        // Xử lý khi response là null
+        print("Error fetching news: Null response");
+        // Hiển thị thông báo lỗi
+        ToastCustom().showBottom(context, msg: "Error: Null response", color: Colors.red);
       }
     } catch (error) {
       // Xử lý lỗi nếu có
-      print("Lỗi: $error");
-      ToastCustom().showBottom(
-          context, msg: "Lỗi: $error", color: Colors.red);
+      print("Error fetching news: $error");
+      // Hiển thị thông báo lỗi
+      ToastCustom().showBottom(context, msg: "Error: $error", color: Colors.red);
     }
+
+    // Tắt loading indicator sau khi kết thúc việc tải dữ liệu
     isLoadingNews = false;
     notifyListeners();
   }
+
+
 }

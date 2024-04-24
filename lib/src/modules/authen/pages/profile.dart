@@ -31,7 +31,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .size;
     return SafeArea(
       child: Scaffold(
-        body: Consumer<AuthenProvider>(builder: (context, _authenProvider, _) {
+        body: Consumer<AuthenProvider>
+          (builder: (context, _authenProvider, _) {
           return _authenProvider.isLoadingUser ? const CircularProgressIndicator() : SizedBox(
             width: size.width,
             height: size.height,

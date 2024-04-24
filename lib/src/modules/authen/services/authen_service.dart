@@ -123,24 +123,26 @@ class AuthenService {
 
 
   //THÔNG BÁO VÀ TIN TỨC
-  Future<NewsModel?> getNews(int NotificationId) async {
+  Future<NewsResponse?> getNews(int notificationId) async {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
-      //final url = "${config.host}/$PROFILE_URL?Id=${userId}";
-      final url = "${config.host}/$NEWS_URL?notificationId=${NotificationId}";
-      final response = await _apiUtility.get(url);
-      if (response.statusCode == 200) {
+      //final url = "${config.host}/$NEWS_URL?NotificationId=$notificationId";
+      final url = "${config.host}/$NEWS_URL?NotificationId=1";
+      final response = await _apiUtility.get(url); // Gửi yêu cầu GET đến máy chủ
+      if (response != null && response.statusCode == 200) {
+        // Nếu phản hồi thành công và không null
         final jsonResponse = json.decode(response.body);
-        return NewsModel.fromJson(jsonResponse);
+        return NewsResponse.fromJson(jsonResponse); // Trả về đối tượng NewsResponse từ dữ liệu JSON
       } else {
-        print("Không tải được tin tức của bạn");
+        print("Error fetching news: ${response?.statusCode}");
         return null;
       }
     } catch (e) {
-      print("Error: $e");
+      print("Error fetching news: $e");
       return null;
     }
   }
+
 
 }
 

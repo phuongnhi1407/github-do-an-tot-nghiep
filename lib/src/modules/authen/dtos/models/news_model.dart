@@ -1,29 +1,18 @@
-class NewsModel {
+class NewsResponse {
   String? message;
   int? statusCode;
   NewsData? data;
   Paging? paging;
 
-  NewsModel({this.message, this.statusCode, this.data, this.paging});
+  NewsResponse({this.message, this.statusCode, this.data, this.paging});
 
-  NewsModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    statusCode = json['statusCode'];
-    data = json['data'] != null ? NewsData.fromJson(json['data']) : null;
-    paging = json['paging'] != null ? Paging.fromJson(json['paging']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['message'] = this.message;
-    data['statusCode'] = this.statusCode;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    if (this.paging != null) {
-      data['paging'] = this.paging!.toJson();
-    }
-    return data;
+  factory NewsResponse.fromJson(Map<String, dynamic> json) {
+    return NewsResponse(
+      message: json['message'],
+      statusCode: json['statusCode'],
+      data: json['data'] != null ? NewsData.fromJson(json['data']) : null,
+      paging: json['paging'] != null ? Paging.fromJson(json['paging']) : null,
+    );
   }
 }
 
@@ -48,28 +37,17 @@ class NewsData {
     this.createdDate,
   });
 
-  NewsData.fromJson(Map<String, dynamic> json) {
-    notificationId = json['notificationId'];
-    senderId = json['senderId'];
-    senderUsername = json['senderUsername'];
-    senderAvatar = json['senderAvatar'];
-    title = json['title'];
-    image = json['image'];
-    content = json['content'];
-    createdDate = json['createdDate'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['notificationId'] = this.notificationId;
-    data['senderId'] = this.senderId;
-    data['senderUsername'] = this.senderUsername;
-    data['senderAvatar'] = this.senderAvatar;
-    data['title'] = this.title;
-    data['image'] = this.image;
-    data['content'] = this.content;
-    data['createdDate'] = this.createdDate;
-    return data;
+  factory NewsData.fromJson(Map<String, dynamic> json) {
+    return NewsData(
+      notificationId: json['notificationId'],
+      senderId: json['senderId'],
+      senderUsername: json['senderUsername'],
+      senderAvatar: json['senderAvatar'],
+      title: json['title'],
+      image: json['image'],
+      content: json['content'],
+      createdDate: json['createdDate'],
+    );
   }
 }
 
@@ -81,19 +59,12 @@ class Paging {
 
   Paging({this.totalCount, this.pageIndex, this.pageSize, this.totalPages});
 
-  Paging.fromJson(Map<String, dynamic> json) {
-    totalCount = json['totalCount'];
-    pageIndex = json['pageIndex'];
-    pageSize = json['pageSize'];
-    totalPages = json['totalPages'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['totalCount'] = this.totalCount;
-    data['pageIndex'] = this.pageIndex;
-    data['pageSize'] = this.pageSize;
-    data['totalPages'] = this.totalPages;
-    return data;
+  factory Paging.fromJson(Map<String, dynamic> json) {
+    return Paging(
+      totalCount: json['totalCount'],
+      pageIndex: json['pageIndex'],
+      pageSize: json['pageSize'],
+      totalPages: json['totalPages'],
+    );
   }
 }

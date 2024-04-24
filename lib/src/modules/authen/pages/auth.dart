@@ -1,6 +1,6 @@
 import 'package:doantotnghiep/UI/button.dart';
 import 'package:doantotnghiep/UI/constants.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/qrscreen.dart';
 import 'package:flutter/material.dart';
 
@@ -31,18 +31,18 @@ class AuthScreen extends StatelessWidget {
                     style: TextStyle(color: Colors.grey),
                   ),
                   Expanded(child: Image.asset("assets/images/logodapxe.png")),
-                  // Button(label: "ĐĂNG NHẬP", press: () {
-                  //   Navigator.push(context, MaterialPageRoute(
-                  //       builder: (context)=> const LoginScreen()));
-                  // }),
+                  Button(label: "ĐĂNG NHẬP", press: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context)=> const LoginScreen()));
+                  }),
                   // Button(label: "ĐĂNG KÝ", press: () {
                   //   Navigator.push(context, MaterialPageRoute(
                   //       builder: (context)=> const SignUpScreen()));
                   // }),
-                  Button(label: "ĐĂNG NHẬP", press: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context)=> MapScreen()));
-                  }),
+                  // Button(label: "ĐĂNG NHẬP", press: () {
+                  //   Navigator.push(context, MaterialPageRoute(
+                  //       builder: (context)=> MapScreen()));
+                  // }),
                   Button(label: "ĐĂNG KÝ", press: () {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context)=> const Qrscreen(title: 'Flutter Demo Home Page')));
