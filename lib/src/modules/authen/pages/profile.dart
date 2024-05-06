@@ -1,3 +1,4 @@
+import 'package:doantotnghiep/src/modules/authen/pages/changepassword.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
@@ -71,6 +72,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   buildUserInfoTile(
                     'Số điện thoại',
                     authenProvider?.userInfo?.phoneNumber ?? '',
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => ChangePasswordScreen())
+                      );
+                      ;
+                    },
+                    child: Text('Đổi mật khẩu'),
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(

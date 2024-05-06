@@ -1,8 +1,11 @@
 import 'dart:convert';
-import 'package:doantotnghiep/src/modules/authen/dtos/models/news_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/notificationlist_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/tutorial.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/widgets/toast/toast.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +16,35 @@ import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
 import 'package:doantotnghiep/src/modules/authen/services/authen_service.dart';
 
 class AuthenProvider extends ChangeNotifier {
-  LoginModel? user;
-  ProfileData? userInfo;
-  NewsData? newsInfo;
   AuthenService _authenService = AuthenService();
 
-  bool isLoadingUser = false ;
-  bool isLoadingNews = false ;
+  //dangnhap
+  LoginModel? user;
+
+  //thongtincanhan
+  ProfileData? userInfo;
+  bool isLoadingUser = false;
+
+  //thongbao
+  List<NotificationData>? notificationList; //dstbao
+  bool isLoading = false;
+  String? errorMessage;
+
+  //tintuc
+  bool isLoadingNews = false;
+
+  //naptien
+
+  //lichsunaptien
+  bool isLoadingHistory = false;
+  List<TransactionHistoryData>? transactionhistoryList; //dslsnt
+
+  //thay đổi mật khẩu
+  bool isLoadingchagepass = false;
+
+
+  String? errorMessagechangepass;
+
 
 
   //ĐĂNG NHẬP
@@ -90,7 +115,7 @@ class AuthenProvider extends ChangeNotifier {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int userId = prefs.getInt("userId")!.toInt();
     userInfo = null;
-    isLoadingUser = true ;
+    isLoadingUser = true;
     try {
       final response = await _authenService.getProfile(userId);
       if (response != null) {
@@ -102,21 +127,20 @@ class AuthenProvider extends ChangeNotifier {
           ToastCustom().showBottom(context,
               msg: "Lỗi: ${response.message}", color: Colors.red);
         }
-        isLoadingUser = false ;
+        isLoadingUser = false;
       } else {
         // Xử lý lỗi khi response là null
         ToastCustom().showBottom(context,
             msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
-
       }
     } catch (error) {
-      isLoadingUser = false ;
+      isLoadingUser = false;
       // Xử lý lỗi nếu có
       print("Lỗi: $error");
       ToastCustom().showBottom(
           context, msg: "Lỗi: $error", color: Colors.red);
     }
-    notifyListeners() ;
+    notifyListeners();
   }
 
 
@@ -199,51 +223,226 @@ class AuthenProvider extends ChangeNotifier {
   }
 
 
+  // //TIN TỨC VÀ THÔNG BÁO
+  // // Phương thức để lấy tin tức từ máy chủ
+  // Future<void> fetchNews(BuildContext context) async {
+  //   try {
+  //     // Hiển thị loading indicator
+  //     isLoadingNews = true;
+  //     notifyListeners();
+  //
+  //     // Lấy notificationId từ SharedPreferences (đã lưu ở nơi khác)
+  //     final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     int? notificationId = prefs.getInt("NotificationId");
+  //
+  //     // Gửi yêu cầu lấy tin tức đến AuthenService
+  //     final response = await _authenService.getNews(notificationId ?? 0);
+  //
+  //     // Xử lý phản hồi từ AuthenService
+  //     if (response != null) {
+  //       if (response.statusCode == 200) {
+  //         // Lưu thông tin tin tức vào newsInfo
+  //         newsInfo = response.data;
+  //         // Hiển thị thông tin tin tức hoặc thực hiện hành động phù hợp
+  //       } else {
+  //         // Xử lý khi có lỗi từ máy chủ
+  //         print("Error fetching news: ${response.message}");
+  //         // Hiển thị thông báo lỗi
+  //         ToastCustom().showBottom(context, msg: "Error: ${response.message}", color: Colors.red);
+  //       }
+  //     } else {
+  //       // Xử lý khi response là null
+  //       print("Error fetching news: Null response");
+  //       // Hiển thị thông báo lỗi
+  //       ToastCustom().showBottom(context, msg: "Error: Null response", color: Colors.red);
+  //     }
+  //   } catch (error) {
+  //     // Xử lý lỗi nếu có
+  //     print("Error fetching news: $error");
+  //     // Hiển thị thông báo lỗi
+  //     ToastCustom().showBottom(context, msg: "Error: $error", color: Colors.red);
+  //   }
+  //
+  //   // Tắt loading indicator sau khi kết thúc việc tải dữ liệu
+  //   isLoadingNews = false;
+  //   notifyListeners();
+  // }
 
-  //TIN TỨC VÀ THÔNG BÁO
-  // Phương thức để lấy tin tức từ máy chủ
-  Future<void> fetchNews(BuildContext context) async {
+
+  // Future<void> fetchNotification(BuildContext context, int userId) async {
+  //   isLoading = true;
+  //   errorMessage = null;
+  //   notifyListeners();
+  //
+  //   try {
+  //     final notificationResponse = await _authenService.getNotification(userId);
+  //     if (notificationResponse != null) {
+  //       notificationList = notificationResponse.data;
+  //     } else {
+  //       errorMessage = "Failed to fetch notifications";
+  //     }
+  //   } catch (e) {
+  //     errorMessage = "Error: $e";
+  //   } finally {
+  //     isLoading = false;
+  //     notifyListeners();
+  //   }
+  // }
+
+
+  //THÔNG BÁO
+  Future<void> fetchNoti(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt("userId")!.toInt();
+    userInfo = null;
+    isLoading = true;
+    errorMessage = null;
     try {
-      // Hiển thị loading indicator
-      isLoadingNews = true;
-      notifyListeners();
-
-      // Lấy notificationId từ SharedPreferences (đã lưu ở nơi khác)
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      int? notificationId = prefs.getInt("NotificationId");
-
-      // Gửi yêu cầu lấy tin tức đến AuthenService
-      final response = await _authenService.getNews(notificationId ?? 0);
-
-      // Xử lý phản hồi từ AuthenService
-      if (response != null) {
-        if (response.statusCode == 200) {
-          // Lưu thông tin tin tức vào newsInfo
-          newsInfo = response.data;
-          // Hiển thị thông tin tin tức hoặc thực hiện hành động phù hợp
+      final notificationResponse = await _authenService.getNotification(userId);
+      if (notificationResponse != null) {
+        if (notificationResponse.statusCode == 200) {
+          notificationList = notificationResponse.data;
+          // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
         } else {
-          // Xử lý khi có lỗi từ máy chủ
-          print("Error fetching news: ${response.message}");
-          // Hiển thị thông báo lỗi
-          ToastCustom().showBottom(context, msg: "Error: ${response.message}", color: Colors.red);
+          // Xử lý lỗi nếu có
+          ToastCustom().showBottom(context,
+              msg: "Lỗi: ${notificationResponse.message}", color: Colors.red);
         }
+        isLoading = false;
       } else {
-        // Xử lý khi response là null
-        print("Error fetching news: Null response");
-        // Hiển thị thông báo lỗi
-        ToastCustom().showBottom(context, msg: "Error: Null response", color: Colors.red);
+        // Xử lý lỗi khi response là null
+        ToastCustom().showBottom(context,
+            msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
       }
     } catch (error) {
+      isLoading = false;
       // Xử lý lỗi nếu có
-      print("Error fetching news: $error");
-      // Hiển thị thông báo lỗi
-      ToastCustom().showBottom(context, msg: "Error: $error", color: Colors.red);
+      print("Lỗi: $error");
+      ToastCustom().showBottom(
+          context, msg: "Lỗi: $error", color: Colors.red);
     }
-
-    // Tắt loading indicator sau khi kết thúc việc tải dữ liệu
-    isLoadingNews = false;
     notifyListeners();
   }
 
 
+  //NAP TIEN
+  Future<void> fetchBakingTransaction(BuildContext context, BakingRequest request) async {
+    try {
+      final response = await _authenService.getbaking(request);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          ToastCustom().showBottom(context,
+              msg: "Giao dịch nạp tiền thành công", color: Colors.green);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const TutorialPage()),
+                (Route<dynamic> route) => false,
+          );
+        } else {
+          // Xử lý khi giao dịch không thành công
+          final errorMessage = response.message.toString();
+          ToastCustom().showBottom(context,
+              msg: "${json.decode(errorMessage)[0]['value']}",
+              color: Colors.red);
+        }
+      } else {
+        // Xử lý khi không nhận được phản hồi từ server
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text("No response received from server"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (error) {
+      print("Error: $error");
+      // Hiển thị thông báo hoặc xử lý lỗi
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("An error occurred: $error"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+
+
+  //LỊCH SỬ NẠP TIỀN
+  Future<void> fetchTransactionHistory(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt("userId")!.toInt();
+    userInfo = null;
+    isLoading = true;
+    errorMessage = null;
+    try {
+      final TransactionHistoryResponse = await _authenService.getTransactionHistory(userId);
+      if (TransactionHistoryResponse != null) {
+        if (TransactionHistoryResponse.statusCode == 200) {
+          transactionhistoryList = TransactionHistoryResponse.data;
+          // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
+        } else {
+          // Xử lý lỗi nếu có
+          ToastCustom().showBottom(context,
+              msg: "Lỗi: ${TransactionHistoryResponse.message}", color: Colors.red);
+        }
+        isLoading = false;
+      } else {
+        // Xử lý lỗi khi response là null
+        ToastCustom().showBottom(context,
+            msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+      }
+    } catch (error) {
+      isLoading = false;
+      // Xử lý lỗi nếu có
+      print("Lỗi: $error");
+      ToastCustom().showBottom(
+          context, msg: "Lỗi: $error", color: Colors.red);
+    }
+    notifyListeners();
+  }
+
+  //THAY ĐỔI MẬT KHẨU
+  Future<void> changePassword(String oldPassword, String newPassword) async {
+    try {
+      isLoadingchagepass = true;
+      notifyListeners();
+
+      final response = await _authenService.changePassword(oldPassword, newPassword);
+
+      if (response != null && response.statusCode == 200) {
+        // Handle successful password change
+        print("Password changed successfully");
+      } else {
+        // Handle failed password change
+        errorMessagechangepass = "Failed to change password";
+        print(errorMessagechangepass);
+      }
+    } catch (e) {
+      // Handle error
+      errorMessagechangepass = "Error: $e";
+      print(errorMessagechangepass);
+    } finally {
+      isLoadingchagepass = false;
+      notifyListeners();
+    }
+  }
 }

@@ -2,8 +2,8 @@ import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/men
 import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/news.dart';
 import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/search.dart';
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/huongdan.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/news.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/transactionhistory.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/newslist.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/qrscreen.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/setting.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
@@ -99,7 +99,7 @@ class _BaseScreenState extends State<HomePage> {
               // Điều hướng sang màn hình hướng dẫn khi chọn mục "Quét QR"
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const TutorialPage()),
+                MaterialPageRoute(builder: (context) => const TransactionHistoryScreen()),
               );
             }
             else if(index == 2){
@@ -111,8 +111,7 @@ class _BaseScreenState extends State<HomePage> {
             else if(index == 3){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const NewsScreen()),
-              );
+                MaterialPageRoute(builder: (context) => const NotificationScreen()));
             }
             else if(index == 4){
               Navigator.push(

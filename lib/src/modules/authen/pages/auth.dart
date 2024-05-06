@@ -1,7 +1,7 @@
 import 'package:doantotnghiep/UI/button.dart';
 import 'package:doantotnghiep/UI/constants.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/qrscreen.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/signup.dart';
 import 'package:flutter/material.dart';
 
 
@@ -45,7 +45,7 @@ class AuthScreen extends StatelessWidget {
                   // }),
                   Button(label: "ĐĂNG KÝ", press: () {
                     Navigator.push(context, MaterialPageRoute(
-                        builder: (context)=> const Qrscreen(title: 'Flutter Demo Home Page')));
+                        builder: (context)=> const SignUpScreen()));
                   }),
                 ],
               ),

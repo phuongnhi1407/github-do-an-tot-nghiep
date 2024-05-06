@@ -1,11 +1,16 @@
 import 'dart:convert';
 import 'package:doantotnghiep/src/config.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/bakingtransaction_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/changepassword_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/delete_profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/news_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/notificationlist_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signup_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
 import 'package:doantotnghiep/src/modules/authen/routes.dart';
@@ -122,7 +127,7 @@ class AuthenService {
 
 
 
-  //THÔNG BÁO VÀ TIN TỨC
+  //CHI TIẾT THÔNG BÁO VÀ TIN TỨC
   Future<NewsResponse?> getNews(int notificationId) async {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
@@ -139,6 +144,112 @@ class AuthenService {
       }
     } catch (e) {
       print("Error fetching news: $e");
+      return null;
+    }
+  }
+
+  //THÔNG BÁO VÀ TIN TỨC
+  Future<NotificationResponse?> getNotification(int userId) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final url = "${config.host}/$NOTIFICATIONLIST_URL?UserId=${userId}";
+      final response = await _apiUtility.get(url);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return NotificationResponse.fromJson(jsonResponse);
+      } else {
+        print("Failed to fetch notifications");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
+
+  //NẠP TIỀN
+  Future<Baking?> gettBaking(BakingRequest request) async {
+    Baking? resData; // Đổi kiểu dữ liệu sang Baking? (nullable)
+    final config = await AppConfig.forEnvironment(baseUser: true);
+    final urlbaking = "${config.host}/$BAKINGTRASACTION_URL";
+    final response = await _apiUtility.post(urlbaking, body: jsonEncode(request));
+    resData = Baking.fromJson(json.decode(response.body));
+    print(resData);
+    return resData;
+
+  }
+
+
+  //NẠP TIỀN
+  Future<Baking?> getbaking(BakingRequest request) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final urlbaking = "${config.host}/$BAKINGTRASACTION_URL";
+      final response = await _apiUtility.post(urlbaking, body: jsonEncode(request));
+
+      if (response.statusCode == 200) {
+        if (response.body != null && response.body.isNotEmpty) {
+          Baking responseData = Baking.fromJson(json.decode(response.body));
+          print('Response data: $responseData');
+          print('Transaction successful');
+          return responseData;
+        } else {
+          print('Response body is empty');
+        }
+      } else {
+        print('Transaction failed: ${response.statusCode}');
+        // Xử lý lỗi khi giao dịch nạp tiền không thành công
+        // Ví dụ: throw Exception('Transaction failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Xử lý exception nếu có lỗi xảy ra trong quá trình giao dịch
+      print('Error: $e');
+      // Ví dụ: throw Exception('Error: $e');
+    }
+    return null;
+  }
+
+  //LỊCH SỬ NẠP TIỀN
+  Future<TransactionHistoryResponse?> getTransactionHistory(int userId) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final url = "${config.host}/$TRANSACTIONHISTORY_URL?UserId=${userId}";
+      final response = await _apiUtility.get(url);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return TransactionHistoryResponse.fromJson(jsonResponse);
+      } else {
+        print("Failed to fetch transaction history");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
+
+  //THAY ĐỔI MẬT KHẨU
+  Future<ChangePasswordResponse?> changePassword(String oldPassword, String newPassword) async {
+    try {
+      final config = await AppConfig.forEnvironment();
+      final url = "${config.host}/$CHANGEPASSWORD_URL";
+      final body = {
+        "passwordOld": oldPassword,
+        "passwordNew": newPassword,
+      };
+      final response = await _apiUtility.put(url, body: jsonEncode(body));
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return ChangePasswordResponse.fromJson(jsonResponse);
+      } else {
+        print("Failed to change password: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
       return null;
     }
   }
