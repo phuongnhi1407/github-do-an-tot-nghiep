@@ -4,15 +4,20 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/bakingtransaction_m
 import 'package:doantotnghiep/src/modules/authen/dtos/models/changepassword_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/delete_profile_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/news_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/notificationlist_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/recharge_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signup_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/station_request.dart';
 import 'package:doantotnghiep/src/modules/authen/routes.dart';
 import 'package:doantotnghiep/src/utilities/api/api_utility.dart';
 
@@ -254,6 +259,63 @@ class AuthenService {
     }
   }
 
+  //THÔNG TIN VÍ TIỀN
+  Future<MyWalletResponse?> getMyWallet(int userId) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      //final url = "${config.host}/$PROFILE_URL?Id=3";
+      final url = "${config.host}/$MYWALLET_URL?UserId=${userId}";
+      final response = await _apiUtility.get(url);
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return MyWalletResponse.fromJson(jsonResponse);
+      } else {
+        print("Không tải được thông tin của bạn");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
+
+  Future<RechargeResponse?> recharge(RechargeRequest request) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final urlRecharge = "${config.host}/$BAKINGTRASACTION_URL"; // Đảm bảo BAKINGTRASACTION_URL đã được định nghĩa trong routes.dart
+      final response = await _apiUtility.post(urlRecharge, body: jsonEncode(request));
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return RechargeResponse.fromJson(jsonResponse);
+      } else {
+        print('Failed to recharge: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error during recharge: $e');
+      return null;
+    }
+  }
+//DANH SÁCH TRẠM XE
+  Future<StationResponse?> getStation(StationRequest request) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final url = "${config.host}/$STATION_URL";
+      final response = await _apiUtility.get(url);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return StationResponse.fromJson(jsonResponse);
+      } else {
+        print("Failed to fetch transaction history");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
 
 }
 

@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/notificationlist_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/tutorial.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
@@ -34,6 +37,8 @@ class AuthenProvider extends ChangeNotifier {
   bool isLoadingNews = false;
 
   //naptien
+  bool _isLoadingRecharge = false;
+  bool get isLoadingRecharge => _isLoadingRecharge;
 
   //lichsunaptien
   bool isLoadingHistory = false;
@@ -41,10 +46,15 @@ class AuthenProvider extends ChangeNotifier {
 
   //thay đổi mật khẩu
   bool isLoadingchagepass = false;
-
-
   String? errorMessagechangepass;
 
+  //vitien
+  MyWalletData? walletInfo;
+  bool isLoadingWallet = false;
+
+  //ds tram
+  bool isLoadingStation = false;
+  List<StationData>? stationList; //dslsnt
 
 
   //ĐĂNG NHẬP
@@ -445,4 +455,106 @@ class AuthenProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  //THÔNG TIN VÍ TIỀN
+  Future<void> fetchMyWallet(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt("userId")!.toInt();
+    walletInfo = null;
+    isLoadingWallet = true;
+    try {
+      final response = await _authenService.getMyWallet(userId);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          walletInfo = response.data;
+          // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
+        } else {
+          // Xử lý lỗi nếu có
+          ToastCustom().showBottom(context,
+              msg: "Lỗi: ${response.message}", color: Colors.red);
+        }
+        isLoadingWallet = false;
+      } else {
+        // Xử lý lỗi khi response là null
+        ToastCustom().showBottom(context,
+            msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+      }
+    } catch (error) {
+      isLoadingWallet = false;
+      // Xử lý lỗi nếu có
+      print("Lỗi: $error");
+      ToastCustom().showBottom(
+          context, msg: "Lỗi: $error", color: Colors.red);
+    }
+    notifyListeners();
+  }
+
+  Future<void> performRecharge(BuildContext context, RechargeRequest request) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      _isLoadingRecharge = true;
+      notifyListeners();
+
+      final response = await _authenService.recharge(request);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          // Handle successful recharge
+          ToastCustom().showBottom(context,
+              msg: "Giao dịch nạp tiền thành công", color: Colors.green);
+          // Perform any necessary actions after successful recharge
+        } else {
+          // Handle error
+          print("Failed to recharge: ${response.statusCode}");
+          // Show toast or alert with error message
+        }
+      } else {
+        // Handle null response
+        print("Error: Null response");
+        // Show toast or alert with error message
+      }
+
+      _isLoadingRecharge = false;
+      notifyListeners();
+    } catch (error) {
+      // Handle error
+      print("Error during recharge: $error");
+      // Show toast or alert with error message
+      _isLoadingRecharge = false;
+      notifyListeners();
+    }
+  }
+
+  //DANH SÁCH TRẠM XE
+//LỊCH SỬ NẠP TIỀN
+//   Future<void> fetchStation(BuildContext context) async {
+//     final SharedPreferences prefs = await SharedPreferences.getInstance();
+//     userInfo = null;
+//     isLoading = true;
+//     errorMessage = null;
+//     try {
+//       final StationResponse = await _authenService.getStation(request);
+//       if (StationResponse != null) {
+//         if (StationResponse.statusCode == 200) {
+//           stationList = StationResponse.data;
+//           // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
+//         } else {
+//           // Xử lý lỗi nếu có
+//           ToastCustom().showBottom(context,
+//               msg: "Lỗi: ${StationResponse.message}", color: Colors.red);
+//         }
+//         isLoading = false;
+//       } else {
+//         // Xử lý lỗi khi response là null
+//         ToastCustom().showBottom(context,
+//             msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+//       }
+//     } catch (error) {
+//       isLoading = false;
+//       // Xử lý lỗi nếu có
+//       print("Lỗi: $error");
+//       ToastCustom().showBottom(
+//           context, msg: "Lỗi: $error", color: Colors.red);
+//     }
+//     notifyListeners();
+//   }
 }

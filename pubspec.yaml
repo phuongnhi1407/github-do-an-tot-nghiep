@@ -48,12 +48,13 @@ dependencies:
   flutter_svg: ^1.1.4
   fluttertoast: ^8.2.4
   search_helper: ^0.0.7
-  qr_flutter: ^4.1.0
+  qr_flutter: ^4.0.0
   simple_barcode_scanner: ^0.1.1
   flutter_map: ^6.1.0
   open_route_service: ^1.2.4
-  latlong2: ^0.9.0
-  google_maps_flutter: ^2.6.1
+  latlong2: ^0.9.1
+  latlng: ^2.0.7
+  geolocator: ^11.0.0
   
 
 dev_dependencies:

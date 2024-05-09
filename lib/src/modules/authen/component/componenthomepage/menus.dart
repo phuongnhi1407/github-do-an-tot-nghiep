@@ -1,5 +1,7 @@
-import 'package:doantotnghiep/src/modules/authen/component/map_screen.dart';
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/mywallet.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/recharge.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/tutorial.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/newslist.dart';
@@ -39,7 +41,7 @@ class Menus extends StatelessWidget {
                       onTap: () {
                         // Thực hiện chuyển hướng sang trang tương ứng với mỗi icon
                         if (icon.title == 'Trạm xe') {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> RechargeScreen()));
                         } else if (icon.title == 'Hướng dẫn') {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> const TutorialPage()));
                         }else if (icon.title == 'Bản đồ') {
@@ -49,6 +51,10 @@ class Menus extends StatelessWidget {
                         else if (icon.title == 'Tin tức') {
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) => const NotificationScreen()));
+                        }
+                        else if (icon.title == 'Ví của tôi') {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => MyWalletScreen()));
                         }
                         // Thêm các điều kiện khác tương tự cho các icon khác
                       },
