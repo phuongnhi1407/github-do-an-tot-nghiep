@@ -3,7 +3,6 @@ import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/mywallet.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/recharge.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/tutorial.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/newslist.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:flutter/material.dart';
