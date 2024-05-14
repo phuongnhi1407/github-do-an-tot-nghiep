@@ -12,7 +12,7 @@ class SearchTextField extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SearchScreen()),
+          MaterialPageRoute(builder: (context) => StationScreenn()),
         );
       },
       readOnly: true,

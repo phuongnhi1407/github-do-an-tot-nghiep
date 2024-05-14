@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:open_route_service/open_route_service.dart';
-
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key});
 
@@ -13,18 +14,47 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  late LatLng myPoint;
+  Position? _currentPosition; // Biến để lưu trữ vị trí
+  LatLng? myPoint =  LatLng(16.4760518, 107.6022504);
   bool isLoading = false;
+
+  Future<void> _getLocation() async {
+    try {
+      var status = await Permission.location.request();
+      if (status.isGranted) {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        setState(() {
+          _currentPosition = position;
+          // myPoint = LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
+          //16.4760518 : 107.6022504
+          myPoint = LatLng(16.4760518, 107.6022504);
+          print("lat ${_currentPosition!.latitude} : ${ _currentPosition!.longitude}") ;
+        });
+      } else {
+        // Handle the case if permission is denied
+        print('Location permission denied');
+      }
+    } catch (e) {
+      // Handle errors
+      print("Error getting location: $e");
+    }
+  }
+
+  Future<bool> _checkLocationPermission() async {
+    if (await Permission.location.isGranted) {
+      return true;
+    } else {
+      var status = await Permission.location.request();
+      return status.isGranted;
+    }
+  }
 
   @override
   void initState() {
-    myPoint = defaultPoint;
     super.initState();
+    _getLocation();
   }
-
-  final defaultPoint = LatLng(11.12345, 123.123456);
-
-  List listOfPoints = [];
   List<LatLng> points = [];
   List<Marker> markers = [];
 
@@ -34,7 +64,7 @@ class _MapScreenState extends State<MapScreen> {
     });
 
     final OpenRouteService client = OpenRouteService(
-      apiKey: 'YOUR-API-KEY',
+      apiKey: '5b3ce3597851110001cf6248a3ce3120e8ee44a1a1ecabf9e9cbc72a',
     );
 
     final List<ORSCoordinate> routeCoordinates =
@@ -75,7 +105,8 @@ class _MapScreenState extends State<MapScreen> {
               ),
               onDragEnd: (details) {
                 setState(() {
-                  print("Latitude: ${latLng.latitude}, Longitude: ${latLng.longitude}");
+                  print(
+                      "Latitude: ${latLng.latitude}, Longitude: ${latLng.longitude}");
                 });
               },
               child: IconButton(
@@ -197,27 +228,27 @@ class _MapScreenState extends State<MapScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           const SizedBox(height: 10),
-          FloatingActionButton(
-            backgroundColor: Colors.black,
-            onPressed: () {
-              mapController.move(mapController.center, mapController.zoom + 1);
-            },
-            child: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
+          // FloatingActionButton(
+          //   backgroundColor: Colors.black,
+          //   onPressed: () {
+          //     mapController.move(mapController.center, mapController.zoom + 1);
+          //   },
+          //   child: const Icon(
+          //     Icons.add,
+          //     color: Colors.white,
+          //   ),
+          // ),
           const SizedBox(height: 10),
-          FloatingActionButton(
-            backgroundColor: Colors.black,
-            onPressed: () {
-              mapController.move(mapController.center, mapController.zoom - 1);
-            },
-            child: const Icon(
-              Icons.remove,
-              color: Colors.white,
-            ),
-          ),
+          // FloatingActionButton(
+          //   backgroundColor: Colors.black,
+          //   onPressed: () {
+          //     mapController.move(mapController.center, mapController.zoom - 1);
+          //   },
+          //   child: const Icon(
+          //     Icons.remove,
+          //     color: Colors.white,
+          //   ),
+          // ),
         ],
       ),
     );

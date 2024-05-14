@@ -8,6 +8,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/station_request.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/tutorial.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
 import 'package:doantotnghiep/src/widgets/toast/toast.dart';
@@ -525,36 +526,66 @@ class AuthenProvider extends ChangeNotifier {
   }
 
   //DANH SÁCH TRẠM XE
-//LỊCH SỬ NẠP TIỀN
-//   Future<void> fetchStation(BuildContext context) async {
-//     final SharedPreferences prefs = await SharedPreferences.getInstance();
-//     userInfo = null;
-//     isLoading = true;
-//     errorMessage = null;
-//     try {
-//       final StationResponse = await _authenService.getStation(request);
-//       if (StationResponse != null) {
-//         if (StationResponse.statusCode == 200) {
-//           stationList = StationResponse.data;
-//           // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
-//         } else {
-//           // Xử lý lỗi nếu có
-//           ToastCustom().showBottom(context,
-//               msg: "Lỗi: ${StationResponse.message}", color: Colors.red);
-//         }
-//         isLoading = false;
-//       } else {
-//         // Xử lý lỗi khi response là null
-//         ToastCustom().showBottom(context,
-//             msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
-//       }
-//     } catch (error) {
-//       isLoading = false;
-//       // Xử lý lỗi nếu có
-//       print("Lỗi: $error");
-//       ToastCustom().showBottom(
-//           context, msg: "Lỗi: $error", color: Colors.red);
-//     }
-//     notifyListeners();
-//   }
+  Future<void> fetchStation(BuildContext context) async {
+    try {
+      final StationRequest request = StationRequest(); // Tạo đối tượng StationRequest
+      // Gửi yêu cầu lấy danh sách trạm đến AuthenService và nhận phản hồi
+      final StationResponse? stationResponse = await _authenService.getStation(request);
+
+      if (stationResponse != null) {
+        if (stationResponse.statusCode == 200) {
+          // Lấy danh sách trạm từ phản hồi và cập nhật trạng thái của Provider
+          stationList = stationResponse.data;
+          // Thông báo cho các widget nghe Provider biết rằng dữ liệu đã thay đổi
+          notifyListeners();
+        } else {
+          // Xử lý lỗi từ phản hồi
+          errorMessage = "Lỗi: ${stationResponse.message}";
+          print(errorMessage);
+        }
+      } else {
+        // Xử lý khi không nhận được phản hồi
+        errorMessage = "Lỗi: Không nhận được dữ liệu từ máy chủ";
+        print(errorMessage);
+      }
+    } catch (error) {
+      // Xử lý ngoại lệ
+      errorMessage = "Lỗi: $error";
+      print(errorMessage);
+    } finally {
+      isLoadingStation = false; // Dừng hiển thị biểu tượng tải
+      notifyListeners();
+    }
+  }
+
+  // Future<void> fetchStationn(BuildContext context) async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final StationRequest request = StationRequest();
+  //   try {
+  //     final StationResponse? stationResponse = await _authenService.getStation(request);
+  //     if (stationResponse  != null) {
+  //       if (stationResponse.statusCode == 200) {
+  //         stationList = stationResponse.data;
+  //         // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
+  //       } else {
+  //         // Xử lý lỗi nếu có
+  //         ToastCustom().showBottom(context,
+  //             msg: "Lỗi: ${stationResponse.message}", color: Colors.red);
+  //       }
+  //       isLoadingStation = false;
+  //     } else {
+  //       // Xử lý lỗi khi response là null
+  //       ToastCustom().showBottom(context,
+  //           msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+  //     }
+  //   } catch (error) {
+  //     isLoading = false;
+  //     // Xử lý lỗi nếu có
+  //     print("Lỗi: $error");
+  //     ToastCustom().showBottom(
+  //         context, msg: "Lỗi: $error", color: Colors.red);
+  //   }
+  //   notifyListeners();
+  // }
 }
+

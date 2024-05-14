@@ -16,7 +16,16 @@ class TransactionHistoryScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lịch sử giao dịch'),
+        backgroundColor: Colors.lightGreen,
+        title: Text(
+          'Lịch sử giao dịch',
+          style: TextStyle(
+            color: Colors.black, // Màu chữ đen
+            fontSize: 20, // Kích thước chữ lớn hơn
+            fontWeight: FontWeight.bold, // Chữ đậm
+          ),
+        ),
+        centerTitle: true, // Căn giữa tiêu đề của AppBar
       ),
       body: authenProvider.isLoading
           ? Center(

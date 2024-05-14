@@ -40,6 +40,8 @@ class StationData {
   int? quantityAvaiable;
   int? numOfSeats;
   int? locationId;
+  String? longitude;
+  String? latitude;
   String? locationName;
   int? statusId;
   String? statusName;
@@ -54,6 +56,8 @@ class StationData {
         this.quantityAvaiable,
         this.numOfSeats,
         this.locationId,
+        this.longitude,
+        this.latitude,
         this.locationName,
         this.statusId,
         this.statusName,
@@ -68,6 +72,8 @@ class StationData {
     quantityAvaiable = json['quantityAvaiable'];
     numOfSeats = json['numOfSeats'];
     locationId = json['locationId'];
+    longitude = json['longitude'];
+    latitude = json['latitude'];
     locationName = json['locationName'];
     statusId = json['statusId'];
     statusName = json['statusName'];
@@ -84,6 +90,8 @@ class StationData {
     data['quantityAvaiable'] = this.quantityAvaiable;
     data['numOfSeats'] = this.numOfSeats;
     data['locationId'] = this.locationId;
+    data['longitude'] = this.longitude;
+    data['latitude'] = this.latitude;
     data['locationName'] = this.locationName;
     data['statusId'] = this.statusId;
     data['statusName'] = this.statusName;

@@ -2,6 +2,7 @@ import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/mywallet.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/recharge.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/station.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/tutorial.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/newslist.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
@@ -40,7 +41,7 @@ class Menus extends StatelessWidget {
                       onTap: () {
                         // Thực hiện chuyển hướng sang trang tương ứng với mỗi icon
                         if (icon.title == 'Trạm xe') {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> RechargeScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> StationScreen()));
                         } else if (icon.title == 'Hướng dẫn') {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> const TutorialPage()));
                         }else if (icon.title == 'Bản đồ') {

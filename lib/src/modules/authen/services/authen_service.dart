@@ -60,7 +60,7 @@ class AuthenService {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
       //final url = "${config.host}/$PROFILE_URL?Id=3";
-      final url = "${config.host}/$PROFILE_URL?Id=${userId}";
+      final url = "${config.host}/$PROFILE_URL?UserId=${userId}";
       final response = await _apiUtility.get(url);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
