@@ -16,11 +16,13 @@ class Menus extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 27, right: 27, top: 32),
-      child: Column( // Thêm một Column để chứa cả chữ "Tiện ích" và menuIcons
+      child: Column(
+        // Thêm một Column để chứa cả chữ "Tiện ích" và menuIcons
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Thay đổi giá trị lề
+            padding: EdgeInsets.symmetric(
+                horizontal: 16, vertical: 8), // Thay đổi giá trị lề
             child: Text(
               "Tiện ích", // Thêm chữ "Tiện ích"
               style: TextStyle(
@@ -43,24 +45,37 @@ class Menus extends StatelessWidget {
                         // Thực hiện chuyển hướng sang trang tương ứng với mỗi icon
                         if (icon.title == 'Trạm xe') {
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context)=> StationScreen()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StationScreen()));
                         } else if (icon.title == 'Hướng dẫn') {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const TutorialPage()));
-                        }else if (icon.title == 'Bản đồ') {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => const MapScreen()));
-                        }
-                        else if (icon.title == 'Chuyến đi') {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => const StationBikeScreen()));
-                        }
-                        else if (icon.title == 'Tin tức') {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => const NotificationScreen()));
-                        }
-                        else if (icon.title == 'Ví của tôi') {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => MyWalletScreen()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const TutorialPage()));
+                        } else if (icon.title == 'Bản đồ') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MapScreen()));
+                        } else if (icon.title == 'Chuyến đi') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const StationBikeScreen(
+                                        stationId: 1,
+                                      )));
+                        } else if (icon.title == 'Tin tức') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const NotificationScreen()));
+                        } else if (icon.title == 'Ví của tôi') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyWalletScreen()));
                         }
                         // Thêm các điều kiện khác tương tự cho các icon khác
                       },

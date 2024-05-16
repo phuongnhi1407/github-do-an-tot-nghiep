@@ -596,7 +596,7 @@ class AuthenProvider extends ChangeNotifier {
   }
 
   //HIỂN THỊ THÔNG TIN CHI TIẾT XE
-  Future<void> fetchStationBike(BuildContext context) async {
+  Future<void> fetchStationBike(BuildContext context, int stationId) async {
     try {
       final BikeStationRequest request = BikeStationRequest(); // Tạo đối tượng StationRequest
       // Gửi yêu cầu lấy danh sách trạm đến AuthenService và nhận phản hồi
