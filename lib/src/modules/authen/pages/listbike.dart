@@ -1,18 +1,20 @@
 import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/bike.dart';
 import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
+import 'station_bike_screen.dart'; // Import màn hình chi tiết
 
-class StationScreenn extends StatefulWidget {
-  const StationScreenn({Key? key}) : super(key: key);
+class StationScreen extends StatefulWidget {
+  const StationScreen({Key? key}) : super(key: key);
 
   @override
-  _StationScreennState createState() => _StationScreennState();
+  _StationScreenState createState() => _StationScreenState();
 }
 
-class _StationScreennState extends State<StationScreenn> {
+class _StationScreenState extends State<StationScreen> {
   TextEditingController searchController = TextEditingController();
   List<StationData> filteredStations = [];
 
@@ -20,7 +22,9 @@ class _StationScreennState extends State<StationScreenn> {
   void initState() {
     super.initState();
     final authenProvider = Provider.of<AuthenProvider>(context, listen: false);
-    authenProvider.fetchStation(context);
+    authenProvider.fetchStation(context).then((_) {
+      findNearestStations();
+    });
   }
 
   void filterStations(String query, List<StationData> stations) {
@@ -77,7 +81,7 @@ class _StationScreennState extends State<StationScreenn> {
       appBar: AppBar(
         backgroundColor: Colors.teal,
         title: Text(
-          'Tìm kiếm trạm xe',
+          'Danh sách trạm xe gần nhất',
           style: TextStyle(
             color: Colors.white, // Màu chữ trắng
             fontSize: 20, // Kích thước chữ lớn hơn
@@ -106,17 +110,6 @@ class _StationScreennState extends State<StationScreenn> {
               onChanged: (query) {
                 filterStations(query, authenProvider.stationList ?? []);
               },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: ElevatedButton(
-              onPressed: findNearestStations,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal, // Background color
-                foregroundColor: Colors.white, // Text color
-              ),
-              child: Text('Trạm xe gần nhất'),
             ),
           ),
           Expanded(
@@ -159,13 +152,23 @@ class _StationScreennState extends State<StationScreenn> {
                         SizedBox(height: 5),
                         Text(
                             'Vị trí: ${station.locationName ?? ''}'),
+                        if (station.distance != null)
+                          Text(
+                              'Khoảng cách: ${station.distance!.toStringAsFixed(2)} m'),
                       ],
                     ),
                     trailing: Icon(Icons.arrow_forward_ios,
                         color: Colors.grey),
                     onTap: () {
-                      // Xử lý khi người dùng chọn một trạm cụ thể
-                      // Ví dụ: mở chi tiết trạm
+                      // Điều hướng đến màn hình chi tiết
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StationBikeScreen(
+                            stationId: station.id!, // Truyền ID trạm xe
+                          ),
+                        ),
+                      );
                     },
                   ),
                 );

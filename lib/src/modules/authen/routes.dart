@@ -42,3 +42,6 @@ final LOCATION_URL = 'master-data/api/map-location/list';
 
 //STATION
 final STATION_URL = 'master-data/api/station/list';
+
+//LISTBIKEINSTATION
+final LISTBIKEINSTATION_URL = 'master-data/api/bike/list';

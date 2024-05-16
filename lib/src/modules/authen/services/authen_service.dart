@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:doantotnghiep/src/config.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/bakingtransaction_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/changepassword_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/listbikeinstation_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/delete_profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
@@ -14,6 +15,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/signup_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/listbikestation_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
@@ -264,7 +266,7 @@ class AuthenService {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
       //final url = "${config.host}/$PROFILE_URL?Id=3";
-      final url = "${config.host}/$MYWALLET_URL?UserId=${userId}";
+      final url = "${config.host}/$MYWALLET_URL";
       final response = await _apiUtility.get(url);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
@@ -316,6 +318,24 @@ class AuthenService {
       return null;
     }
   }
+ //DANH SÁCH XE TRONG TRẠM
+  Future<ListBikeResponse?> getBikeStation(BikeStationRequest request) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final url = "${config.host}/$LISTBIKEINSTATION_URL";
+      final response = await _apiUtility.get(url);
 
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return ListBikeResponse.fromJson(jsonResponse);
+      } else {
+        print("Failed to fetch transaction history");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
 }
 

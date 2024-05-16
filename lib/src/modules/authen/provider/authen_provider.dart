@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/listbikeinstation_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/notificationlist_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
@@ -6,6 +7,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart'
 import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/listbikestation_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/station_request.dart';
@@ -57,7 +59,16 @@ class AuthenProvider extends ChangeNotifier {
   bool isLoadingStation = false;
   List<StationData>? stationList; //dslsnt
 
+  List<StationData>? stationnList = [];
+  String errorrMessage = '';
+  bool isLoadingStationn = true;
+  //ds chi tiết xe
+  bool isLoadingStationBike = false;
+  List<ListBikeData>? stationListBike; //dslsnt
 
+  List<ListBikeData>? stationnListBike = [];
+  String errorrMessageBike = '';
+  bool isLoadingStationnBike = true;
   //ĐĂNG NHẬP
   Future<void> fetchLogin(BuildContext context, LoginRequest request) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -525,7 +536,7 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
 
-  //DANH SÁCH TRẠM XE
+  //HIỂN THỊ DANH SÁCH TRẠM XE VÀ TÌM KIẾM TRẠM XE
   Future<void> fetchStation(BuildContext context) async {
     try {
       final StationRequest request = StationRequest(); // Tạo đối tượng StationRequest
@@ -557,35 +568,65 @@ class AuthenProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  //HIỂN THỊ TRẠM TRÊN BẢN ĐỒ
+  Future<void> fetchStationn() async {
+    try {
+      final StationRequest request = StationRequest();
+      final StationResponse? stationResponse = await _authenService.getStation(request);
 
-  // Future<void> fetchStationn(BuildContext context) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   final StationRequest request = StationRequest();
-  //   try {
-  //     final StationResponse? stationResponse = await _authenService.getStation(request);
-  //     if (stationResponse  != null) {
-  //       if (stationResponse.statusCode == 200) {
-  //         stationList = stationResponse.data;
-  //         // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
-  //       } else {
-  //         // Xử lý lỗi nếu có
-  //         ToastCustom().showBottom(context,
-  //             msg: "Lỗi: ${stationResponse.message}", color: Colors.red);
-  //       }
-  //       isLoadingStation = false;
-  //     } else {
-  //       // Xử lý lỗi khi response là null
-  //       ToastCustom().showBottom(context,
-  //           msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
-  //     }
-  //   } catch (error) {
-  //     isLoading = false;
-  //     // Xử lý lỗi nếu có
-  //     print("Lỗi: $error");
-  //     ToastCustom().showBottom(
-  //         context, msg: "Lỗi: $error", color: Colors.red);
-  //   }
-  //   notifyListeners();
-  // }
+      if (stationResponse != null) {
+        if (stationResponse.statusCode == 200) {
+          stationnList = stationResponse.data;
+          notifyListeners();
+        } else {
+          errorrMessage = "Lỗi: ${stationResponse.message}";
+          print(errorrMessage);
+        }
+      } else {
+        errorrMessage = "Lỗi: Không nhận được dữ liệu từ máy chủ";
+        print(errorrMessage);
+      }
+    } catch (error) {
+      errorrMessage = "Lỗi: $error";
+      print(errorrMessage);
+    } finally {
+      isLoadingStationn = false;
+      notifyListeners();
+    }
+  }
+
+  //HIỂN THỊ THÔNG TIN CHI TIẾT XE
+  Future<void> fetchStationBike(BuildContext context) async {
+    try {
+      final BikeStationRequest request = BikeStationRequest(); // Tạo đối tượng StationRequest
+      // Gửi yêu cầu lấy danh sách trạm đến AuthenService và nhận phản hồi
+      final ListBikeResponse? bikestationResponse = await _authenService.getBikeStation(request);
+
+      if (bikestationResponse != null) {
+        if (bikestationResponse.statusCode == 200) {
+          // Lấy danh sách trạm từ phản hồi và cập nhật trạng thái của Provider
+          stationListBike = bikestationResponse.data;
+          // Thông báo cho các widget nghe Provider biết rằng dữ liệu đã thay đổi
+          notifyListeners();
+        } else {
+          // Xử lý lỗi từ phản hồi
+          errorMessage = "Lỗi: ${bikestationResponse.message}";
+          print(errorMessage);
+        }
+      } else {
+        // Xử lý khi không nhận được phản hồi
+        errorMessage = "Lỗi: Không nhận được dữ liệu từ máy chủ";
+        print(errorMessage);
+      }
+    } catch (error) {
+      // Xử lý ngoại lệ
+      errorMessage = "Lỗi: $error";
+      print(errorMessage);
+    } finally {
+      isLoadingStationnBike = false; // Dừng hiển thị biểu tượng tải
+      notifyListeners();
+    }
+  }
 }
+
 

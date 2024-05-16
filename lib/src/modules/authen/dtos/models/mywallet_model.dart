@@ -25,21 +25,20 @@ class MyWalletResponse {
 class MyWalletData {
   int? userId;
   int? currentPoint;
-  int? debtCharge;
 
-  MyWalletData({this.userId, this.currentPoint, this.debtCharge});
+
+  MyWalletData({this.userId, this.currentPoint});
 
   MyWalletData.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     currentPoint = json['currentPoint'];
-    debtCharge = json['debtCharge'];
+
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['userId'] = this.userId;
     data['currentPoint'] = this.currentPoint;
-    data['debtCharge'] = this.debtCharge;
     return data;
   }
 }

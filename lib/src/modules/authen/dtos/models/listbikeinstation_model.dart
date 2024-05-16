@@ -1,18 +1,16 @@
-import 'dart:ffi';
-
-class StationResponse {
-  List<StationData>? data;
+class ListBikeResponse {
+  List<ListBikeData>? data;
   Paging? paging;
   String? message;
   int? statusCode;
 
-  StationResponse({this.data, this.paging, this.message, this.statusCode});
+  ListBikeResponse({this.data, this.paging, this.message, this.statusCode});
 
-  StationResponse.fromJson(Map<String, dynamic> json) {
+  ListBikeResponse.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = <StationData>[];
+      data = <ListBikeData>[];
       json['data'].forEach((v) {
-        data!.add(new StationData.fromJson(v));
+        data!.add(new ListBikeData.fromJson(v));
       });
     }
     paging =
@@ -35,73 +33,88 @@ class StationResponse {
   }
 }
 
-class StationData {
-  int? index;
+class ListBikeData {
+  Index? index;
   int? id;
-  String? stationName;
-  int? quantityAvaiable;
-  int? numOfSeats;
+  String? bikeName;
   int? locationId;
-  double? longitude;
-  double? latitude;
-  double? distance; // Thêm thuộc tính distance
   String? locationName;
+  int? lockId;
+  String? lockName;
   int? statusId;
   String? statusName;
+  int? stationId;
+  String? stationName;
   String? createdDate;
-  String? updatedDate;
   int? totalRows;
 
-  StationData(
+  ListBikeData(
       {this.index,
         this.id,
-        this.stationName,
-        this.quantityAvaiable,
-        this.numOfSeats,
+        this.bikeName,
         this.locationId,
-        this.longitude,
-        this.latitude,
-        this.distance,
         this.locationName,
+        this.lockId,
+        this.lockName,
         this.statusId,
         this.statusName,
+        this.stationId,
+        this.stationName,
         this.createdDate,
-        this.updatedDate,
         this.totalRows});
 
-  StationData.fromJson(Map<String, dynamic> json) {
-    index = json['index'];
+  ListBikeData.fromJson(Map<String, dynamic> json) {
+    index = json['index'] != null ? new Index.fromJson(json['index']) : null;
     id = json['id'];
-    stationName = json['stationName'];
-    quantityAvaiable = json['quantityAvaiable'];
-    numOfSeats = json['numOfSeats'];
+    bikeName = json['bikeName'];
     locationId = json['locationId'];
-    longitude = json['longitude'];
-    latitude = json['latitude'];
     locationName = json['locationName'];
+    lockId = json['lockId'];
+    lockName = json['lockName'];
     statusId = json['statusId'];
     statusName = json['statusName'];
+    stationId = json['stationId'];
+    stationName = json['stationName'];
     createdDate = json['createdDate'];
-    updatedDate = json['updatedDate'];
     totalRows = json['totalRows'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['index'] = this.index;
+    if (this.index != null) {
+      data['index'] = this.index;
+    }
     data['id'] = this.id;
-    data['stationName'] = this.stationName;
-    data['quantityAvaiable'] = this.quantityAvaiable;
-    data['numOfSeats'] = this.numOfSeats;
+    data['bikeName'] = this.bikeName;
     data['locationId'] = this.locationId;
-    data['longitude'] = this.longitude;
-    data['latitude'] = this.latitude;
     data['locationName'] = this.locationName;
+    data['lockId'] = this.lockId;
+    data['lockName'] = this.lockName;
     data['statusId'] = this.statusId;
     data['statusName'] = this.statusName;
+    data['stationId'] = this.stationId;
+    data['stationName'] = this.stationName;
     data['createdDate'] = this.createdDate;
-    data['updatedDate'] = this.updatedDate;
     data['totalRows'] = this.totalRows;
+    return data;
+  }
+}
+
+class Index {
+  int? value;
+  bool? isFromEnd;
+
+  Index({this.value, this.isFromEnd});
+
+  Index.fromJson(Map<String, dynamic> json) {
+    value = json['value'];
+    isFromEnd = json['isFromEnd'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['value'] = this.value;
+    data['isFromEnd'] = this.isFromEnd;
     return data;
   }
 }

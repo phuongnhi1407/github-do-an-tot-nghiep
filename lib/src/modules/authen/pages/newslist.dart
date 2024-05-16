@@ -15,17 +15,18 @@ class NotificationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.teal, // Đổi màu nền sang màu teal
         title: Text(
           'Thông báo',
           style: TextStyle(
-            color: Colors.black, // Màu chữ đen
-            fontSize: 20, // Kích thước chữ lớn hơn
+            color: Colors.white, // Màu chữ trắng
+            fontSize: 24, // Kích thước chữ lớn hơn
             fontWeight: FontWeight.bold, // Chữ đậm
           ),
         ),
         centerTitle: true, // Căn giữa tiêu đề của AppBar
       ),
+
       body: authenProvider.isLoading
           ? Center(
         child: CircularProgressIndicator(),
@@ -36,48 +37,65 @@ class NotificationScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final NotificationData notification =
           authenProvider.notificationList![index];
-          return ListTile(
-            title: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: notification.image != null
-                      ? Image.network(
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 8.0, vertical: 4.0),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              elevation: 3,
+              child: ListTile(
+                leading: notification.image != null
+                    ? ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(
                     notification.image!,
                     width: 50,
                     height: 50,
                     fit: BoxFit.cover,
-                  )
-                      : Container(),
-                ),
-                SizedBox(width: 10), // Khoảng cách giữa ảnh và title
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        notification.title ?? '',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 5), // Khoảng cách giữa title và content
-                      Text(notification.content ?? ''),
-
-                      SizedBox(height: 5), // Khoảng cách giữa title và content
-                      Text(notification.createdDate ?? ''),
-                    ],
+                  ),
+                )
+                    : Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Icon(
+                    Icons.image,
+                    color: Colors.grey[700],
                   ),
                 ),
-              ],
+                title: Text(
+                  notification.title ?? '',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 5),
+                    Text(notification.content ?? ''),
+                    SizedBox(height: 5),
+                    Text(
+                      notification.createdDate ?? '',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  // Xử lý khi người dùng chọn một thông báo cụ thể
+                  // Ví dụ: mở chi tiết thông báo
+                },
+              ),
             ),
-            //subtitle: Text(notification.createdDate ?? ''),
-            onTap: () {
-              // Xử lý khi người dùng chọn một thông báo cụ thể
-              // Ví dụ: mở chi tiết thông báo
-            },
           );
         },
       )
@@ -88,5 +106,3 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 }
-
-

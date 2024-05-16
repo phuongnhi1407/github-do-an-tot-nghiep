@@ -1,4 +1,5 @@
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/bike.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/mywallet.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/recharge.dart';
@@ -41,12 +42,17 @@ class Menus extends StatelessWidget {
                       onTap: () {
                         // Thực hiện chuyển hướng sang trang tương ứng với mỗi icon
                         if (icon.title == 'Trạm xe') {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> StationScreen()));
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context)=> StationScreen()));
                         } else if (icon.title == 'Hướng dẫn') {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=> const TutorialPage()));
                         }else if (icon.title == 'Bản đồ') {
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) => const MapScreen()));
+                        }
+                        else if (icon.title == 'Chuyến đi') {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => const StationBikeScreen()));
                         }
                         else if (icon.title == 'Tin tức') {
                           Navigator.push(context, MaterialPageRoute(

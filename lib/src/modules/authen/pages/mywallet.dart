@@ -38,10 +38,10 @@ class MyWalletScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(height: 10),
-                  Text(
-                    'Nợ phí: ${authenProvider.walletInfo!.debtCharge}',
-                    style: TextStyle(fontSize: 18),
-                  ),
+                  // Text(
+                  //   'Nợ phí: ${authenProvider.walletInfo!.debtCharge}',
+                  //   style: TextStyle(fontSize: 18),
+                  // ),
                 ],
               ),
             )
