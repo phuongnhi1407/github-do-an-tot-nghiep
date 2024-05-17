@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:doantotnghiep/src/config.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/bakingtransaction_model.dart';
-import 'package:doantotnghiep/src/modules/authen/dtos/models/changepassword_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/changepass_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/listbikeinstation_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
-import 'package:doantotnghiep/src/modules/authen/dtos/models/delete_profile_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/news_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/notificationlist_model.dart';
@@ -15,6 +14,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/signup_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/changepass_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/listbikestation_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
@@ -77,27 +77,26 @@ class AuthenService {
     }
   }
 
-
-  //XÓA TÀI KHOẢN
-  Future<DeleteResponse?> deleteAccount(int userId) async {
-    try {
-      final config = await AppConfig.forEnvironment(baseUser: true);
-      final url = "${config.host}/$DELETE_ACCOUNT_URL";
-      final response = await _apiUtility.delete(url, body: jsonEncode({"id": userId, "isSuperAdmin": true}));
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        return DeleteResponse.fromJson(responseData);
-      } else {
-        // Xử lý khi có lỗi từ server
-        print("Failed to delete account. Status code: ${response.statusCode}");
-        return null;
-      }
-    } catch (e) {
-      // Xử lý khi có lỗi xảy ra trong quá trình xóa tài khoản
-      print("Error deleting account: $e");
-      return null;
-    }
-  }
+  // //XÓA TÀI KHOẢN
+  // Future<DeleteResponse?> deleteAccount(int userId) async {
+  //   try {
+  //     final config = await AppConfig.forEnvironment(baseUser: true);
+  //     final url = "${config.host}/$DELETE_ACCOUNT_URL";
+  //     final response = await _apiUtility.delete(url, body: jsonEncode({"id": userId, "isSuperAdmin": true}));
+  //     if (response.statusCode == 200) {
+  //       final responseData = json.decode(response.body);
+  //       return DeleteResponse.fromJson(responseData);
+  //     } else {
+  //       // Xử lý khi có lỗi từ server
+  //       print("Failed to delete account. Status code: ${response.statusCode}");
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     // Xử lý khi có lỗi xảy ra trong quá trình xóa tài khoản
+  //     print("Error deleting account: $e");
+  //     return null;
+  //   }
+  // }
 
 
   //ĐĂNG XUẤT
@@ -238,28 +237,38 @@ class AuthenService {
   }
 
   //THAY ĐỔI MẬT KHẨU
-  Future<ChangePasswordResponse?> changePassword(String oldPassword, String newPassword) async {
+  Future<ChangePasswordResponse?> changePassword(ChangePasswordRequest request) async {
     try {
       final config = await AppConfig.forEnvironment();
-      final url = "${config.host}/$CHANGEPASSWORD_URL";
-      final body = {
-        "passwordOld": oldPassword,
-        "passwordNew": newPassword,
-      };
-      final response = await _apiUtility.put(url, body: jsonEncode(body));
+      final url = "${config.host}/$CHANGEPASS_URL";
+      final response = await _apiUtility.put(
+        url,
+        body: json.encode(request.toJson()), // Chuyển đổi request thành JSON
+      );
 
       if (response.statusCode == 200) {
-        final jsonResponse = json.decode(response.body);
-        return ChangePasswordResponse.fromJson(jsonResponse);
+        final responseData = json.decode(response.body);
+        if (responseData is Map<String, dynamic>) {
+          return ChangePasswordResponse.fromJson(responseData);
+        } else {
+          // Phản hồi không có định dạng mong đợi
+          throw Exception('Invalid response format');
+        }
       } else {
-        print("Failed to change password: ${response.statusCode}");
-        return null;
+        // Xử lý lỗi theo status code
+        final responseData = json.decode(response.body);
+        throw Exception(responseData['message'] ?? 'An unknown error occurred');
       }
-    } catch (e) {
-      print("Error: $e");
-      return null;
+    } catch (error) {
+      // Xử lý lỗi mạng
+      print('Error: $error');
+      throw Exception('Error while fetching data: $error');
     }
   }
+
+
+
+
 
   //THÔNG TIN VÍ TIỀN
   Future<MyWalletResponse?> getMyWallet(int userId) async {

@@ -1,5 +1,6 @@
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/bike.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/listbike.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/mywallet.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/recharge.dart';
@@ -62,9 +63,7 @@ class Menus extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const StationBikeScreen(
-                                        stationId: 1,
-                                      )));
+                                  builder: (context) => const BikeStationScreen()));
                         } else if (icon.title == 'Tin tức') {
                           Navigator.push(
                               context,

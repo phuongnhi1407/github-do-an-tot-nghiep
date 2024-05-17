@@ -1,8 +1,11 @@
 class ChangePasswordRequest {
-  String passwordOld;
-  String passwordNew;
+  final String passwordOld;
+  final String passwordNew;
 
-  ChangePasswordRequest({required this.passwordOld, required this.passwordNew});
+  ChangePasswordRequest({
+    required this.passwordOld,
+    required this.passwordNew,
+  });
 
   Map<String, dynamic> toJson() {
     return {

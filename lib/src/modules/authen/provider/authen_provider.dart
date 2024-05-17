@@ -7,6 +7,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart'
 import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/changepass_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/listbikestation_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
@@ -48,8 +49,8 @@ class AuthenProvider extends ChangeNotifier {
   List<TransactionHistoryData>? transactionhistoryList; //dslsnt
 
   //thay đổi mật khẩu
-  bool isLoadingchagepass = false;
-  String? errorMessagechangepass;
+  bool isLoadingChangePassword = false;
+  String? errorMessageChangePassword;
 
   //vitien
   MyWalletData? walletInfo;
@@ -166,40 +167,40 @@ class AuthenProvider extends ChangeNotifier {
   }
 
 
-  //XÓA TÀI KHOẢN
-  Future<void> fetchDeleteAccount(BuildContext context) async {
-    try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      int userId = prefs.getInt("userId")!;
-
-      final response = await _authenService.deleteAccount(userId);
-      if (response != null) {
-        if (response.statusCode == 200) {
-          // Xóa tài khoản thành công
-          ToastCustom().showBottom(context,
-              msg: "Xóa tài khoản thành công", color: Colors.green);
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-                (Route<dynamic> route) => false,
-          );
-          return; // Kết thúc hàm sau khi thực hiện chuyển hướng
-        } else {
-          // Xử lý lỗi từ phản hồi
-          print("Error deleting account. Status code: ${response.statusCode}");
-          // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
-        }
-      } else {
-        // Xử lý khi response là null
-        print("Error deleting account: Null response");
-        // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
-      }
-    } catch (error) {
-      // Xử lý lỗi nếu có
-      print("Error deleting account: $error");
-      // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
-    }
-  }
+  // //XÓA TÀI KHOẢN
+  // Future<void> fetchDeleteAccount(BuildContext context) async {
+  //   try {
+  //     final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     int userId = prefs.getInt("userId")!;
+  //
+  //     final response = await _authenService.deleteAccount(userId);
+  //     if (response != null) {
+  //       if (response.statusCode == 200) {
+  //         // Xóa tài khoản thành công
+  //         ToastCustom().showBottom(context,
+  //             msg: "Xóa tài khoản thành công", color: Colors.green);
+  //         Navigator.pushAndRemoveUntil(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => LoginScreen()),
+  //               (Route<dynamic> route) => false,
+  //         );
+  //         return; // Kết thúc hàm sau khi thực hiện chuyển hướng
+  //       } else {
+  //         // Xử lý lỗi từ phản hồi
+  //         print("Error deleting account. Status code: ${response.statusCode}");
+  //         // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
+  //       }
+  //     } else {
+  //       // Xử lý khi response là null
+  //       print("Error deleting account: Null response");
+  //       // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
+  //     }
+  //   } catch (error) {
+  //     // Xử lý lỗi nếu có
+  //     print("Error deleting account: $error");
+  //     // Hiển thị thông báo hoặc thực hiện các hành động khác tùy thuộc vào yêu cầu của bạn
+  //   }
+  // }
 
 
   //ĐĂNG XUẤT
@@ -442,31 +443,32 @@ class AuthenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //THAY ĐỔI MẬT KHẨU
-  Future<void> changePassword(String oldPassword, String newPassword) async {
+//THAY ĐỔI MẬT KHẨU
+  Future<void> changePassword(BuildContext context, String oldPassword, String newPassword) async {
     try {
-      isLoadingchagepass = true;
-      notifyListeners();
+      final request = ChangePasswordRequest(passwordOld: oldPassword, passwordNew: newPassword);
+      final response = await _authenService.changePassword(request);
 
-      final response = await _authenService.changePassword(oldPassword, newPassword);
-
-      if (response != null && response.statusCode == 200) {
-        // Handle successful password change
-        print("Password changed successfully");
+      if (response != null) {
+        if (response.statusCode == 200) {
+          ToastCustom().showBottom(context, msg: response.message, color: Colors.green);
+        } else if (response.statusCode == 400) {
+          ToastCustom().showBottom(context, msg: 'Tài khoản hoặc mật khẩu không đúng!', color: Colors.red);
+        } else {
+          ToastCustom().showBottom(context, msg: response.message ?? 'Failed to change password', color: Colors.red);
+        }
       } else {
-        // Handle failed password change
-        errorMessagechangepass = "Failed to change password";
-        print(errorMessagechangepass);
+        ToastCustom().showBottom(context, msg: 'Failed to change password', color: Colors.red);
       }
     } catch (e) {
-      // Handle error
-      errorMessagechangepass = "Error: $e";
-      print(errorMessagechangepass);
-    } finally {
-      isLoadingchagepass = false;
-      notifyListeners();
+      print("Error: $e"); // Print the error for debugging purposes
+      ToastCustom().showBottom(context, msg: 'Failed to change password', color: Colors.red);
     }
   }
+
+
+
+
 
   //THÔNG TIN VÍ TIỀN
   Future<void> fetchMyWallet(BuildContext context) async {

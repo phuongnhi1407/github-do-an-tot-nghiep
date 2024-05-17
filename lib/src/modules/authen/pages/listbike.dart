@@ -4,17 +4,16 @@ import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart'; // Import màn hình xe đạp
 
-
-class StationScreen extends StatefulWidget {
-  const StationScreen({Key? key}) : super(key: key);
+class BikeStationScreen extends StatefulWidget {
+  const BikeStationScreen({Key? key}) : super(key: key);
 
   @override
-  _StationScreenState createState() => _StationScreenState();
+  _BikeStationScreenState createState() => _BikeStationScreenState();
 }
 
-class _StationScreenState extends State<StationScreen> {
+class _BikeStationScreenState extends State<BikeStationScreen> {
   TextEditingController searchController = TextEditingController();
   List<StationData> filteredStations = [];
 
@@ -147,26 +146,20 @@ class _StationScreenState extends State<StationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 5),
-                        Text(
-                            'Số lượng xe: ${station.quantityAvaiable ?? ''}'),
+                        Text('Số lượng xe: ${station.quantityAvaiable ?? ''}'),
                         SizedBox(height: 5),
-                        Text(
-                            'Vị trí: ${station.locationName ?? ''}'),
+                        Text('Vị trí: ${station.locationName ?? ''}'),
                         if (station.distance != null)
-                          Text(
-                              'Khoảng cách: ${station.distance!.toStringAsFixed(2)} m'),
+                          Text('Khoảng cách: ${station.distance!.toStringAsFixed(2)} m'),
                       ],
                     ),
                     trailing: Icon(Icons.arrow_forward_ios,
                         color: Colors.grey),
                     onTap: () {
-                      // Điều hướng đến màn hình chi tiết
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => StationBikeScreen(
-                            stationId: station.id!, // Truyền ID trạm xe
-                          ),
+                          builder: (context) => StationBikeScreen(locationId: station.locationId!),
                         ),
                       );
                     },

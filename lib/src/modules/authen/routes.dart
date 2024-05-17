@@ -10,9 +10,10 @@ final SIGNUP_URL = '$PREFIX/sign-up';
 //SIGN OUT
 final LOGOUT_URL = '$PREFIX/revoke-token';
 
-//CHANGE PASSWORD
-final CHANGEPASSWORD_URL = '$PREFIX/change-password';
-
+//CHANGE PASS
+final CHANGEPASS_URL = '$PREFIX/change-password';
+//FORGOT PASS
+final FOGOTPASS_URL = '$PREFIX/forgot-password';
 
 //2
 

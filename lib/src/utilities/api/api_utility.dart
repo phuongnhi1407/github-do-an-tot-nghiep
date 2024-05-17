@@ -39,15 +39,25 @@ class ApiUtility {
   Future<http.Response> put(String url, {body, encoding}) {
     return http
         .put(Uri.parse(url),
-            body: body,
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            encoding: encoding)
+        body: body,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        encoding: encoding)
         .then((http.Response response) {
-      return handleResponse(response);
+      if (response.statusCode == 200) {
+        // Nếu phản hồi thành công, trả về phản hồi
+        return response;
+      } else {
+        // Nếu có lỗi, ném ra một ngoại lệ với thông báo lỗi
+        throw Exception('Failed to fetch data: ${response.statusCode}');
+      }
+    }).catchError((error) {
+      // Xử lý các lỗi trong quá trình gửi yêu cầu hoặc nhận phản hồi
+      throw Exception('Error while fetching data: $error');
     });
   }
+
 
 //delete api
   Future<http.Response> delete(String url, {body}) {

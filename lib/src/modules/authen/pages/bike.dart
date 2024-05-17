@@ -1,19 +1,20 @@
 import 'package:doantotnghiep/src/modules/authen/dtos/models/listbikeinstation_model.dart';
 import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class StationBikeScreen extends StatelessWidget {
-  final int stationId; // Thêm ID trạm để lấy thông tin chi tiết
+  final int locationId;
 
-  const StationBikeScreen({Key? key, required this.stationId}) : super(key: key);
+  const StationBikeScreen({Key? key, required this.locationId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final authenProvider = Provider.of<AuthenProvider>(context);
 
-    // Gọi phương thức fetchStationBike để lấy danh sách xe đạp từ API
-    authenProvider.fetchStationBike(context, stationId);
+    // Gọi phương thức fetchStationBike để lấy danh sách xe từ API dựa trên locationId
+    authenProvider.fetchStationBike(context, locationId);
 
     return Scaffold(
       appBar: AppBar(
@@ -36,11 +37,9 @@ class StationBikeScreen extends StatelessWidget {
           ? ListView.builder(
         itemCount: authenProvider.stationListBike!.length,
         itemBuilder: (context, index) {
-          final ListBikeData stationbike =
-          authenProvider.stationListBike![index];
+          final ListBikeData stationBike = authenProvider.stationListBike![index];
           return Card(
-            margin:
-            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             elevation: 5,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -49,11 +48,10 @@ class StationBikeScreen extends StatelessWidget {
               contentPadding: EdgeInsets.all(15),
               leading: CircleAvatar(
                 backgroundColor: Colors.lightGreen,
-                child: Icon(Icons.directions_bike_outlined,
-                    color: Colors.white),
+                child: Icon(Icons.directions_bike_outlined, color: Colors.white),
               ),
               title: Text(
-                stationbike.bikeName ?? '',
+                stationBike.bikeName ?? '',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -63,16 +61,15 @@ class StationBikeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 5),
-                  Text('Trạm: ${stationbike.stationName ?? ''}'),
+                  Text('Trạm: ${stationBike.stationName ?? ''}'),
                   SizedBox(height: 5),
-                  Text('Trạng thái: ${stationbike.statusName ?? ''}'),
+                  Text('Trạng thái: ${stationBike.statusName ?? ''}'),
                 ],
               ),
-              trailing:
-              Icon(Icons.arrow_forward_ios, color: Colors.grey),
+              trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
               onTap: () {
-                // Xử lý khi người dùng chọn một xe đạp cụ thể
-                // Ví dụ: mở chi tiết xe đạp
+                // Xử lý khi người dùng chọn một trạm cụ thể
+                // Ví dụ: mở chi tiết trạm
               },
             ),
           );
@@ -80,7 +77,7 @@ class StationBikeScreen extends StatelessWidget {
       )
           : Center(
         child: Text(
-          authenProvider.errorMessage ?? 'Không có xe đạp nào',
+          authenProvider.errorMessage ?? 'Không có trạm nào',
           style: TextStyle(fontSize: 16, color: Colors.red),
         ),
       ),
