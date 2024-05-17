@@ -21,6 +21,7 @@ class _MapScreenState extends State<MapScreen> {
   Position? _currentPosition;
   LatLng? myPoint;
   bool isLoading = false;
+// tao 1 stream theo doi vi tri nguoi dung
   BehaviorSubject<LatLng> _userLocationStream =
       BehaviorSubject<LatLng>.seeded(LatLng(0, 0));
   StreamSubscription<Position>? _positionStreamSubscription;
@@ -31,7 +32,6 @@ class _MapScreenState extends State<MapScreen> {
     _getLocation();
     context.read<AuthenProvider>().fetchStationn(); // Fetch stations on init
 
-    // Subscribe to the user location stream
     _userLocationStream.listen((LatLng newPosition) {
       setState(() {
         myPoint = newPosition;
@@ -173,7 +173,7 @@ class _MapScreenState extends State<MapScreen> {
     final stationnList = context.watch<AuthenProvider>().stationnList;
 
     return Scaffold(
-      body: myPoint == null
+      body: _currentPosition == null 
           ? Center(
               child: CircularProgressIndicator(),
             )
