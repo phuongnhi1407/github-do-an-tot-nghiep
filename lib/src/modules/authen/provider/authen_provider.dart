@@ -86,7 +86,7 @@ class AuthenProvider extends ChangeNotifier {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => HomePage()),
-                  (Route<dynamic> route) => false,
+              (Route<dynamic> route) => false,
             );
           }
         } else {
@@ -106,7 +106,6 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
 
-
   //ĐĂNG KÝ
   Future<void> fetchSignUp(BuildContext context, SignUpRequest request) async {
     try {
@@ -118,7 +117,7 @@ class AuthenProvider extends ChangeNotifier {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => LoginScreen()),
-                (Route<dynamic> route) => false,
+            (Route<dynamic> route) => false,
           );
         } else {
           ToastCustom().showBottom(context,
@@ -131,7 +130,6 @@ class AuthenProvider extends ChangeNotifier {
       // Hiển thị thông báo hoặc xử lý lỗi
     }
   }
-
 
   //THÔNG TIN CÁ NHÂN
   Future<void> fetchProfile(BuildContext context) async {
@@ -160,12 +158,10 @@ class AuthenProvider extends ChangeNotifier {
       isLoadingUser = false;
       // Xử lý lỗi nếu có
       print("Lỗi: $error");
-      ToastCustom().showBottom(
-          context, msg: "Lỗi: $error", color: Colors.red);
+      ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
     }
     notifyListeners();
   }
-
 
   // //XÓA TÀI KHOẢN
   // Future<void> fetchDeleteAccount(BuildContext context) async {
@@ -202,7 +198,6 @@ class AuthenProvider extends ChangeNotifier {
   //   }
   // }
 
-
   //ĐĂNG XUẤT
   Future<SignoutResponse?> fetchLogoutAccount(BuildContext context) async {
     try {
@@ -214,13 +209,14 @@ class AuthenProvider extends ChangeNotifier {
       if (response != null) {
         if (response is SignoutResponse) {
           if (response.statusCode == 200) {
+            prefs.setString("token", "");
             // Xử lý khi đăng xuất thành công
             ToastCustom().showBottom(context,
                 msg: "Đăng xuất thành công", color: Colors.green);
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => LoginScreen()),
-                  (Route<dynamic> route) => false,
+              (Route<dynamic> route) => false,
             );
           } else {
             // Xử lý khi có lỗi từ phản hồi
@@ -244,7 +240,6 @@ class AuthenProvider extends ChangeNotifier {
       return null;
     }
   }
-
 
   // //TIN TỨC VÀ THÔNG BÁO
   // // Phương thức để lấy tin tức từ máy chủ
@@ -291,7 +286,6 @@ class AuthenProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-
   // Future<void> fetchNotification(BuildContext context, int userId) async {
   //   isLoading = true;
   //   errorMessage = null;
@@ -311,7 +305,6 @@ class AuthenProvider extends ChangeNotifier {
   //     notifyListeners();
   //   }
   // }
-
 
   //THÔNG BÁO
   Future<void> fetchNoti(BuildContext context) async {
@@ -341,15 +334,14 @@ class AuthenProvider extends ChangeNotifier {
       isLoading = false;
       // Xử lý lỗi nếu có
       print("Lỗi: $error");
-      ToastCustom().showBottom(
-          context, msg: "Lỗi: $error", color: Colors.red);
+      ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
     }
     notifyListeners();
   }
 
-
   //NAP TIEN
-  Future<void> fetchBakingTransaction(BuildContext context, BakingRequest request) async {
+  Future<void> fetchBakingTransaction(
+      BuildContext context, BakingRequest request) async {
     try {
       final response = await _authenService.getbaking(request);
       if (response != null) {
@@ -359,7 +351,7 @@ class AuthenProvider extends ChangeNotifier {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const TutorialPage()),
-                (Route<dynamic> route) => false,
+            (Route<dynamic> route) => false,
           );
         } else {
           // Xử lý khi giao dịch không thành công
@@ -407,8 +399,6 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
 
-
-
   //LỊCH SỬ NẠP TIỀN
   Future<void> fetchTransactionHistory(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -417,7 +407,8 @@ class AuthenProvider extends ChangeNotifier {
     isLoading = true;
     errorMessage = null;
     try {
-      final TransactionHistoryResponse = await _authenService.getTransactionHistory(userId);
+      final TransactionHistoryResponse =
+          await _authenService.getTransactionHistory(userId);
       if (TransactionHistoryResponse != null) {
         if (TransactionHistoryResponse.statusCode == 200) {
           transactionhistoryList = TransactionHistoryResponse.data;
@@ -425,7 +416,8 @@ class AuthenProvider extends ChangeNotifier {
         } else {
           // Xử lý lỗi nếu có
           ToastCustom().showBottom(context,
-              msg: "Lỗi: ${TransactionHistoryResponse.message}", color: Colors.red);
+              msg: "Lỗi: ${TransactionHistoryResponse.message}",
+              color: Colors.red);
         }
         isLoading = false;
       } else {
@@ -437,38 +429,42 @@ class AuthenProvider extends ChangeNotifier {
       isLoading = false;
       // Xử lý lỗi nếu có
       print("Lỗi: $error");
-      ToastCustom().showBottom(
-          context, msg: "Lỗi: $error", color: Colors.red);
+      ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
     }
     notifyListeners();
   }
 
 //THAY ĐỔI MẬT KHẨU
-  Future<void> changePassword(BuildContext context, String oldPassword, String newPassword) async {
+  Future<void> changePassword(
+      BuildContext context, String oldPassword, String newPassword) async {
     try {
-      final request = ChangePasswordRequest(passwordOld: oldPassword, passwordNew: newPassword);
+      final request = ChangePasswordRequest(
+          passwordOld: oldPassword, passwordNew: newPassword);
       final response = await _authenService.changePassword(request);
 
       if (response != null) {
         if (response.statusCode == 200) {
-          ToastCustom().showBottom(context, msg: response.message, color: Colors.green);
+          ToastCustom()
+              .showBottom(context, msg: response.message, color: Colors.green);
         } else if (response.statusCode == 400) {
-          ToastCustom().showBottom(context, msg: 'Tài khoản hoặc mật khẩu không đúng!', color: Colors.red);
+          ToastCustom().showBottom(context,
+              msg: 'Tài khoản hoặc mật khẩu không đúng!', color: Colors.red);
         } else {
-          ToastCustom().showBottom(context, msg: response.message ?? 'Failed to change password', color: Colors.red);
+          ToastCustom().showBottom(context,
+              msg: response.message ?? 'Failed to change password',
+              color: Colors.red);
         }
-      } else {
-        ToastCustom().showBottom(context, msg: 'Failed to change password', color: Colors.red);
       }
+      // else {
+      //   ToastCustom().showBottom(context,
+      //       msg: 'Failed to change password', color: Colors.red);
+      // }
     } catch (e) {
       print("Error: $e"); // Print the error for debugging purposes
-      ToastCustom().showBottom(context, msg: 'Failed to change password', color: Colors.red);
+      ToastCustom().showBottom(context,
+          msg: 'Failed to change password 1', color: Colors.red);
     }
   }
-
-
-
-
 
   //THÔNG TIN VÍ TIỀN
   Future<void> fetchMyWallet(BuildContext context) async {
@@ -497,13 +493,13 @@ class AuthenProvider extends ChangeNotifier {
       isLoadingWallet = false;
       // Xử lý lỗi nếu có
       print("Lỗi: $error");
-      ToastCustom().showBottom(
-          context, msg: "Lỗi: $error", color: Colors.red);
+      ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
     }
     notifyListeners();
   }
 
-  Future<void> performRecharge(BuildContext context, RechargeRequest request) async {
+  Future<void> performRecharge(
+      BuildContext context, RechargeRequest request) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       _isLoadingRecharge = true;
@@ -541,9 +537,11 @@ class AuthenProvider extends ChangeNotifier {
   //HIỂN THỊ DANH SÁCH TRẠM XE VÀ TÌM KIẾM TRẠM XE
   Future<void> fetchStation(BuildContext context) async {
     try {
-      final StationRequest request = StationRequest(); // Tạo đối tượng StationRequest
+      final StationRequest request =
+          StationRequest(); // Tạo đối tượng StationRequest
       // Gửi yêu cầu lấy danh sách trạm đến AuthenService và nhận phản hồi
-      final StationResponse? stationResponse = await _authenService.getStation(request);
+      final StationResponse? stationResponse =
+          await _authenService.getStation(request);
 
       if (stationResponse != null) {
         if (stationResponse.statusCode == 200) {
@@ -570,11 +568,13 @@ class AuthenProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
   //HIỂN THỊ TRẠM TRÊN BẢN ĐỒ
   Future<void> fetchStationn() async {
     try {
       final StationRequest request = StationRequest();
-      final StationResponse? stationResponse = await _authenService.getStation(request);
+      final StationResponse? stationResponse =
+          await _authenService.getStation(request);
 
       if (stationResponse != null) {
         if (stationResponse.statusCode == 200) {
@@ -600,9 +600,11 @@ class AuthenProvider extends ChangeNotifier {
   //HIỂN THỊ THÔNG TIN CHI TIẾT XE
   Future<void> fetchStationBike(BuildContext context, int stationId) async {
     try {
-      final BikeStationRequest request = BikeStationRequest(); // Tạo đối tượng StationRequest
+      final BikeStationRequest request =
+          BikeStationRequest(); // Tạo đối tượng StationRequest
       // Gửi yêu cầu lấy danh sách trạm đến AuthenService và nhận phản hồi
-      final ListBikeResponse? bikestationResponse = await _authenService.getBikeStation(request);
+      final ListBikeResponse? bikestationResponse =
+          await _authenService.getBikeStation(request);
 
       if (bikestationResponse != null) {
         if (bikestationResponse.statusCode == 200) {
@@ -630,5 +632,3 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
 }
-
-

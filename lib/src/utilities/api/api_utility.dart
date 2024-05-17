@@ -36,14 +36,18 @@ class ApiUtility {
   }
 
   // put api
-  Future<http.Response> put(String url, {body, encoding}) {
+  Future<http.Response> put(String url,
+      {body, encoding, hasToken = false}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     return http
         .put(Uri.parse(url),
-        body: body,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        encoding: encoding)
+            body: body,
+            headers: <String, String>{
+              'Content-Type': 'application/json-patch+json',
+              'Authorization':
+                  'Bearer ${hasToken ? prefs.getString("token").toString() : ""}',
+            },
+            encoding: encoding)
         .then((http.Response response) {
       if (response.statusCode == 200) {
         // Nếu phản hồi thành công, trả về phản hồi
@@ -58,16 +62,17 @@ class ApiUtility {
     });
   }
 
-
 //delete api
   Future<http.Response> delete(String url, {body}) {
-    return http.delete(
+    return http
+        .delete(
       Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: body,
-    ).then((http.Response response) {
+    )
+        .then((http.Response response) {
       return handleResponse(response);
     });
   }

@@ -25,13 +25,13 @@ class ChangePasswordResponse {
   final String message;
   final int statusCode;
   final bool data;
-  final Paging paging;
+  // final Paging paging;
 
   ChangePasswordResponse({
     required this.message,
     required this.statusCode,
     required this.data,
-    required this.paging,
+    // required this.paging,
   });
 
   factory ChangePasswordResponse.fromJson(Map<String, dynamic> json) {
@@ -39,7 +39,7 @@ class ChangePasswordResponse {
       message: json['message'],
       statusCode: json['statusCode'],
       data: json['data'],
-      paging: Paging.fromJson(json['paging']),
+      // paging: Paging.fromJson(json['paging']),
     );
   }
 }
