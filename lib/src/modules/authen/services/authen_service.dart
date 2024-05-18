@@ -29,7 +29,7 @@ class AuthenService {
   //ĐĂNG NHẬP
   Future<LoginResponse?> login(LoginRequest request) async {
     LoginResponse responseData;
-    final config = await AppConfig.forEnvironment();
+    final config = await AppConfig.forEnvironment(baseUser: true);
     // lay url
     final urlLogin = "${config.host}/$LOGIN_URL";
     final response =
@@ -42,7 +42,7 @@ class AuthenService {
   //ĐĂNG KÝ
   Future<SignUpResponse?> register(SignUpRequest request) async {
     SignUpResponse responseData;
-    final config = await AppConfig.forEnvironment();
+    final config = await AppConfig.forEnvironment(baseUser: true);
     final urlRegister =
         "${config.host}/$SIGNUP_URL"; // Đảm bảo REGISTER_URL đã được định nghĩa trong routes.dart
     final response =
@@ -96,7 +96,7 @@ class AuthenService {
   //ĐĂNG XUẤT
   Future<SignoutResponse?> logout(int userId) async {
     try {
-      final config = await AppConfig.forEnvironment();
+      final config = await AppConfig.forEnvironment(baseUser: true);
       final url = "${config.host}/$LOGOUT_URL";
       final body = jsonEncode({"id": userId});
 
@@ -235,7 +235,7 @@ class AuthenService {
   Future<ChangePasswordResponse?> changePassword(
       ChangePasswordRequest request) async {
     try {
-      final config = await AppConfig.forEnvironment();
+      final config = await AppConfig.forEnvironment(baseUser: true);
       final url = "${config.host}/$CHANGEPASS_URL";
       final response = await _apiUtility.put(
         hasToken: true,

@@ -1,6 +1,6 @@
 //QUAN LY ROUTER
 //1
-final PREFIX  = 'authen/api/account';
+final PREFIX  = 'master-data/api/account';
 //LOGIN
 final LOGIN_URL = '$PREFIX/sign-in';
 
