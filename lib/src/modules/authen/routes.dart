@@ -46,3 +46,6 @@ final STATION_URL = 'master-data/api/station/list';
 
 //LISTBIKEINSTATION
 final LISTBIKEINSTATION_URL = 'master-data/api/bike/list';
+
+//RECHARFE
+final RECHARGE_URL ='master-data/api/transaction/get-payment-url';

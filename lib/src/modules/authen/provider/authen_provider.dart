@@ -498,41 +498,41 @@ class AuthenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> performRecharge(
-      BuildContext context, RechargeRequest request) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      _isLoadingRecharge = true;
-      notifyListeners();
-
-      final response = await _authenService.recharge(request);
-      if (response != null) {
-        if (response.statusCode == 200) {
-          // Handle successful recharge
-          ToastCustom().showBottom(context,
-              msg: "Giao dịch nạp tiền thành công", color: Colors.green);
-          // Perform any necessary actions after successful recharge
-        } else {
-          // Handle error
-          print("Failed to recharge: ${response.statusCode}");
-          // Show toast or alert with error message
-        }
-      } else {
-        // Handle null response
-        print("Error: Null response");
-        // Show toast or alert with error message
-      }
-
-      _isLoadingRecharge = false;
-      notifyListeners();
-    } catch (error) {
-      // Handle error
-      print("Error during recharge: $error");
-      // Show toast or alert with error message
-      _isLoadingRecharge = false;
-      notifyListeners();
-    }
-  }
+  // Future<void> performRecharge(
+  //     BuildContext context, RechargeRequest request) async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   try {
+  //     _isLoadingRecharge = true;
+  //     notifyListeners();
+  //
+  //     final response = await _authenService.recharge(request);
+  //     if (response != null) {
+  //       if (response.statusCode == 200) {
+  //         // Handle successful recharge
+  //         ToastCustom().showBottom(context,
+  //             msg: "Giao dịch nạp tiền thành công", color: Colors.green);
+  //         // Perform any necessary actions after successful recharge
+  //       } else {
+  //         // Handle error
+  //         print("Failed to recharge: ${response.statusCode}");
+  //         // Show toast or alert with error message
+  //       }
+  //     } else {
+  //       // Handle null response
+  //       print("Error: Null response");
+  //       // Show toast or alert with error message
+  //     }
+  //
+  //     _isLoadingRecharge = false;
+  //     notifyListeners();
+  //   } catch (error) {
+  //     // Handle error
+  //     print("Error during recharge: $error");
+  //     // Show toast or alert with error message
+  //     _isLoadingRecharge = false;
+  //     notifyListeners();
+  //   }
+  // }
 
   //HIỂN THỊ DANH SÁCH TRẠM XE VÀ TÌM KIẾM TRẠM XE
   Future<void> fetchStation(BuildContext context) async {
@@ -631,4 +631,27 @@ class AuthenProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  Future<void> fetchRecharge(BuildContext context, RechargeRequest request) async {
+    try {
+      final response = await _authenService.recharge(request);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          ToastCustom().showBottom(context,
+              msg: "Thanh toán thành công", color: Colors.green);
+        } else {
+          String errorMessage = response.message ?? "Không có thông báo lỗi từ máy chủ";
+          ToastCustom().showBottom(context,
+              msg: errorMessage, color: Colors.red);
+        }
+      } else {
+        ToastCustom().showBottom(context,
+            msg: "Không nhận được phản hồi từ máy chủ", color: Colors.red);
+      }
+    } catch (error) {
+      print("Lỗi: $error");
+      ToastCustom().showBottom(context,
+          msg: "Đã xảy ra lỗi trong quá trình thanh toán", color: Colors.red);
+    }
+  }
+
 }

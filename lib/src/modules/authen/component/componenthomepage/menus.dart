@@ -71,10 +71,10 @@ class Menus extends StatelessWidget {
                                   builder: (context) =>
                                       const NotificationScreen()));
                         } else if (icon.title == 'Ví của tôi') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyWalletScreen()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => PaymentScreen(paymentUrl: paymentUrl)));
                         }
                         // Thêm các điều kiện khác tương tự cho các icon khác
                       },

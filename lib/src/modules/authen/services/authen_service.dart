@@ -283,26 +283,26 @@ class AuthenService {
     }
   }
 
-  Future<RechargeResponse?> recharge(RechargeRequest request) async {
-    try {
-      final config = await AppConfig.forEnvironment(baseUser: true);
-      final urlRecharge =
-          "${config.host}/$BAKINGTRASACTION_URL"; // Đảm bảo BAKINGTRASACTION_URL đã được định nghĩa trong routes.dart
-      final response =
-          await _apiUtility.post(urlRecharge, body: jsonEncode(request));
-
-      if (response.statusCode == 200) {
-        final jsonResponse = json.decode(response.body);
-        return RechargeResponse.fromJson(jsonResponse);
-      } else {
-        print('Failed to recharge: ${response.statusCode}');
-        return null;
-      }
-    } catch (e) {
-      print('Error during recharge: $e');
-      return null;
-    }
-  }
+  // Future<RechargeResponse?> recharge(RechargeRequest request) async {
+  //   try {
+  //     final config = await AppConfig.forEnvironment(baseUser: true);
+  //     final urlRecharge =
+  //         "${config.host}/$BAKINGTRASACTION_URL"; // Đảm bảo BAKINGTRASACTION_URL đã được định nghĩa trong routes.dart
+  //     final response =
+  //         await _apiUtility.post(urlRecharge, body: jsonEncode(request));
+  //
+  //     if (response.statusCode == 200) {
+  //       final jsonResponse = json.decode(response.body);
+  //       return RechargeResponse.fromJson(jsonResponse);
+  //     } else {
+  //       print('Failed to recharge: ${response.statusCode}');
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     print('Error during recharge: $e');
+  //     return null;
+  //   }
+  // }
 
 //DANH SÁCH TRẠM XE
   Future<StationResponse?> getStation(StationRequest request) async {
@@ -340,6 +340,28 @@ class AuthenService {
       }
     } catch (e) {
       print("Error: $e");
+      return null;
+    }
+  }
+
+  //THANH TOÁN
+  Future<RechargeResponse?> recharge(RechargeRequest request) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final urlRecharge = "${config.host}/$RECHARGE_URL";
+
+      final response = await _apiUtility.post(urlRecharge, body: jsonEncode(request));
+
+      if (response.statusCode == 200) {
+        final recharData = RechargeResponse.fromJson(json.decode(response.body));
+        print(recharData);
+        return recharData;
+      } else {
+        print('Error: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error: $e');
       return null;
     }
   }
