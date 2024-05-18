@@ -632,6 +632,16 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
   Future<void> fetchRecharge(BuildContext context, RechargeRequest request) async {
+    // "price": 0,
+    // "amount": 0,
+    // "discount": 0,
+    // "totalPrice": 10000,
+    // "returnUrl": "string",
+    // "cardList": "string",
+    // "redirect": "string",
+    // "lang": "vi_VN",
+    // "baseUrl": "string"
+
     try {
       final response = await _authenService.recharge(request);
       if (response != null) {

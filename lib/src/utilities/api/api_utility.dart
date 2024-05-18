@@ -18,16 +18,28 @@ class ApiUtility {
 // post api
 
   Future<http.Response> post(String url,
-      {body, hasToken = false, encoding}) async {
+      {body, hasToken = false, encoding, hasAuthen = true}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var headers  ;
+    if(hasToken) {
+      headers = {
+        'lang': prefs.getString('culture') ?? "",
+        'Content-Type': 'application/json',
+        'Token': hasToken ? prefs.getString("token").toString() : "",
+      }  ;
+    }
+     if(hasAuthen) {
+      headers = {
+       'Content-Type': 'application/json-patch+json',
+        // 'Token': hasToken ? prefs.getString("token").toString() : "",
+        'Authorization': 'Bearer ${hasAuthen ? prefs.getString("token").toString() : ""}'
+
+      }  ;
+    }
     return http
         .post(Uri.parse(url),
             body: body,
-            headers: {
-              'lang': prefs.getString('culture') ?? "",
-              'Content-Type': 'application/json',
-              'Token': hasToken ? prefs.getString("token").toString() : "",
-            },
+            headers:headers ,
             encoding: encoding)
         .timeout(Duration(seconds: DURATION_SECONDS_TIME_OUT))
         .then((http.Response response) {

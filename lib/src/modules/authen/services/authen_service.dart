@@ -350,18 +350,22 @@ class AuthenService {
       final config = await AppConfig.forEnvironment(baseUser: true);
       final urlRecharge = "${config.host}/$RECHARGE_URL";
 
-      final response = await _apiUtility.post(urlRecharge, body: jsonEncode(request));
+      final response = await _apiUtility.post(urlRecharge, body: jsonEncode(request) , hasToken: false , hasAuthen: true);
 
       if (response.statusCode == 200) {
         final recharData = RechargeResponse.fromJson(json.decode(response.body));
         print(recharData);
         return recharData;
       } else {
+        // Xử lý phản hồi không thành công
         print('Error: ${response.statusCode}');
+        // In ra thông báo lỗi cụ thể hoặc xử lý các trường hợp lỗi khác
         return null;
       }
     } catch (e) {
+      // Xử lý lỗi trong quá trình gửi yêu cầu
       print('Error: $e');
+      // In ra thông báo lỗi cụ thể hoặc xử lý các trường hợp lỗi khác
       return null;
     }
   }

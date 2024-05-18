@@ -1,4 +1,7 @@
+import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
+import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -8,8 +11,28 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  TextEditingController _amountController = TextEditingController();
-  TextEditingController _langController = TextEditingController();
+  final TextEditingController _totalPriceController = TextEditingController();
+  final TextEditingController _langController = TextEditingController();
+
+  AuthenProvider? authenProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    authenProvider = Provider.of<AuthenProvider>(context, listen: false); // Khởi tạo AuthenProvider
+  }
+
+  void _handleRecharge() async {
+    String totalPrice = _totalPriceController.text;
+    String lang = _langController.text;
+
+    RechargeRequest request = RechargeRequest(
+      totalPrice: int.parse(totalPrice),
+      lang: lang,
+    );
+
+    await authenProvider?.fetchRecharge(context, request);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +50,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: TextField(
-                controller: _amountController,
+                controller: _totalPriceController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: 'Nhập số tiền',
@@ -48,19 +71,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Lấy giá trị ngôn ngữ từ trường nhập liệu
-                String lang = _langController.text;
-                // Kiểm tra nếu ngôn ngữ là 'vi_VN' thì thực hiện thanh toán
-                if (lang == 'vi_VN') {
-                  // Thực hiện xử lý thanh toán
-                  // Đây là nơi để bạn gọi hàm xử lý thanh toán hoặc mở trang thanh toán
-                  print('Thực hiện thanh toán thành công!');
-                } else {
-                  // Hiển thị thông báo nếu người dùng nhập ngôn ngữ không phù hợp
-                  print('Vui lòng nhập ngôn ngữ là "vi_VN" để thanh toán thành công.');
-                }
-              },
+              onPressed: _handleRecharge,
               child: Text('Tiếp tục thanh toán'),
             ),
             SizedBox(height: 20),
