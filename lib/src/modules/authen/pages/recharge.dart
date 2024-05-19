@@ -58,17 +58,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: TextField(
-                controller: _langController,
-                decoration: InputDecoration(
-                  labelText: 'Nhập ngôn ngữ (vi_VN)',
-                  prefixIcon: Icon(Icons.language),
-                ),
-              ),
-            ),
+
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _handleRecharge,

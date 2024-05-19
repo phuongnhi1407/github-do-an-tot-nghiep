@@ -1,8 +1,7 @@
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/bike.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/listbike.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/mywallet.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/paymentsuccess.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/recharge.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/station.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/tutorial.dart';
@@ -63,19 +62,27 @@ class Menus extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const BikeStationScreen()));
+                                  builder: (context) =>  WalletScreen()));
                         } else if (icon.title == 'Tin tức') {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
                                       const NotificationScreen()));
+                        } else if (icon.title == 'Ví tiền') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const WalletScreen()));
+
                         } else if (icon.title == 'Ví của tôi') {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => PaymentScreen()));
                         }
+
                         // Thêm các điều kiện khác tương tự cho các icon khác
                       },
                       child: Container(

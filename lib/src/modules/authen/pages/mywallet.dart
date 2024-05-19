@@ -1,84 +1,71 @@
-// import 'package:doantotnghiep/src/modules/authen/pages/recharge.dart';
-// import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-//
-// class MyWalletScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final authenProvider = Provider.of<AuthenProvider>(context);
-//
-//     // Gọi phương thức fetchMyWallet để lấy thông tin ví tiền từ API
-//     authenProvider.fetchMyWallet(context);
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Thông tin ví tiền'),
-//       ),
-//       body: Column(
-//         children: [
-//           Expanded(
-//             child: authenProvider.isLoadingWallet
-//                 ? Center(
-//               child: CircularProgressIndicator(),
-//             )
-//                 : authenProvider.walletInfo != null
-//                 ? Padding(
-//               padding: const EdgeInsets.all(20.0),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     'ID Người dùng: ${authenProvider.walletInfo!.userId}',
-//                     style: TextStyle(fontSize: 18),
-//                   ),
-//                   SizedBox(height: 10),
-//                   Text(
-//                     'Số dư hiện tại: ${authenProvider.walletInfo!.currentPoint}',
-//                     style: TextStyle(fontSize: 18),
-//                   ),
-//                   SizedBox(height: 10),
-//                   // Text(
-//                   //   'Nợ phí: ${authenProvider.walletInfo!.debtCharge}',
-//                   //   style: TextStyle(fontSize: 18),
-//                   // ),
-//                 ],
-//               ),
-//             )
-//                 : Center(
-//               child: Text(
-//                 authenProvider.errorMessage ??
-//                     'Không có thông tin ví tiền',
-//                 style: TextStyle(fontSize: 18),
-//               ),
-//             ),
-//           ),
-//           SizedBox(height: 20),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//             children: [
-//               ElevatedButton(
-//                 onPressed: () {
-//                   Navigator.push(context, MaterialPageRoute(builder: (context)=> RechargeScreen()));
-//                 },
-//                 child: Text('Nạp điểm'),
-//               ),
-//               ElevatedButton(
-//                 onPressed: () {
-//                   // Xử lý khi nhấn nút khuyến mãi
-//                 },
-//                 child: Text('Khuyến mãi'),
-//               ),
-//               ElevatedButton(
-//                 onPressed: () {
-//                   // Xử lý khi nhấn nút chia sẻ điểm
-//                 },
-//                 child: Text('Chia sẻ điểm'),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+
+import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
+import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class WalletScreen extends StatefulWidget {
+  const WalletScreen({Key? key}) : super(key: key);
+
+  @override
+  _WalletScreenState createState() => _WalletScreenState();
+}
+
+class _WalletScreenState extends State<WalletScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final authenProvider = Provider.of<AuthenProvider>(context, listen: false);
+    authenProvider.fetchMyWallet(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final authenProvider = Provider.of<AuthenProvider>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Thông tin ví tiền'),
+      ),
+      body: authenProvider.isLoadingWallet
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          : authenProvider.walletInfo != null
+          ? _buildWalletInfo(authenProvider.walletInfo!)
+          : Center(
+        child: Text(
+          'Không có dữ liệu',
+          style: TextStyle(fontSize: 16, color: Colors.red),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWalletInfo(UserWalletData walletInfo) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Số dư hiện tại:',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
+        Text(
+          '${walletInfo.currentPoint} VNĐ',
+          style: TextStyle(fontSize: 20),
+        ),
+        SizedBox(height: 20),
+        Text(
+          'Nợ phí:',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
+        Text(
+          '${walletInfo.debtCharge} VNĐ',
+          style: TextStyle(fontSize: 20),
+        ),
+      ],
+    );
+  }
+}

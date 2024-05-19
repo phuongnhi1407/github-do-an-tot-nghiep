@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/detailstation_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/listbikeinstation_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/notificationlist_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/recharge_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
@@ -14,6 +16,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dar
 import 'package:doantotnghiep/src/modules/authen/dtos/request/station_request.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/tutorial.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/login.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/web.dart';
 import 'package:doantotnghiep/src/widgets/toast/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +34,10 @@ class AuthenProvider extends ChangeNotifier {
   //thongtincanhan
   ProfileData? userInfo;
   bool isLoadingUser = false;
+
+  //thongtintram
+  StationDetailData? dataInfo;
+  bool isLoadingStationDetail = false;
 
   //thongbao
   List<NotificationData>? notificationList; //dstbao
@@ -53,7 +60,7 @@ class AuthenProvider extends ChangeNotifier {
   String? errorMessageChangePassword;
 
   //vitien
-  MyWalletData? walletInfo;
+  UserWalletData? walletInfo;
   bool isLoadingWallet = false;
 
   //ds tram
@@ -466,37 +473,6 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
 
-  //THÔNG TIN VÍ TIỀN
-  Future<void> fetchMyWallet(BuildContext context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    int userId = prefs.getInt("userId")!.toInt();
-    walletInfo = null;
-    isLoadingWallet = true;
-    try {
-      final response = await _authenService.getMyWallet(userId);
-      if (response != null) {
-        if (response.statusCode == 200) {
-          walletInfo = response.data;
-          // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
-        } else {
-          // Xử lý lỗi nếu có
-          ToastCustom().showBottom(context,
-              msg: "Lỗi: ${response.message}", color: Colors.red);
-        }
-        isLoadingWallet = false;
-      } else {
-        // Xử lý lỗi khi response là null
-        ToastCustom().showBottom(context,
-            msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
-      }
-    } catch (error) {
-      isLoadingWallet = false;
-      // Xử lý lỗi nếu có
-      print("Lỗi: $error");
-      ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
-    }
-    notifyListeners();
-  }
 
   // Future<void> performRecharge(
   //     BuildContext context, RechargeRequest request) async {
@@ -646,8 +622,14 @@ class AuthenProvider extends ChangeNotifier {
       final response = await _authenService.recharge(request);
       if (response != null) {
         if (response.statusCode == 200) {
+          RechargeResponse _data = response;
           ToastCustom().showBottom(context,
               msg: "Thanh toán thành công", color: Colors.green);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => WebViewPayment(urlWebPay: _data.data.toString(), )),
+                  (Route<dynamic> route) => false,
+            );
         } else {
           String errorMessage = response.message ?? "Không có thông báo lỗi từ máy chủ";
           ToastCustom().showBottom(context,
@@ -663,5 +645,66 @@ class AuthenProvider extends ChangeNotifier {
           msg: "Đã xảy ra lỗi trong quá trình thanh toán", color: Colors.red);
     }
   }
-
+  //THÔNG TIN CHI TIẾT TRẠM
+  Future<void> fetchDetailStation(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int stationId = prefs.getInt("stationId")!.toInt();
+    dataInfo = null;
+    isLoadingStationDetail = true;
+    try {
+      final response = await _authenService.getDetailStation(stationId);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          dataInfo = response.data;
+          // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
+        } else {
+          // Xử lý lỗi nếu có
+          ToastCustom().showBottom(context,
+              msg: "Lỗi: ${response.message}", color: Colors.red);
+        }
+        isLoadingStationDetail = false;
+      } else {
+        // Xử lý lỗi khi response là null
+        ToastCustom().showBottom(context,
+            msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+      }
+    } catch (error) {
+      isLoadingStationDetail = false;
+      // Xử lý lỗi nếu có
+      print("Lỗi: $error");
+      ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
+    }
+    notifyListeners();
+  }
+//THÔNG TIN VÍ TIỀN
+  Future<void> fetchMyWallet(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userId = prefs.getInt("userId")!.toInt();
+    walletInfo = null;
+    isLoadingWallet = true;
+    try {
+      final response = await _authenService.getMyWallet(userId);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          walletInfo = response.data;
+          // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
+        } else {
+          // Xử lý lỗi nếu có
+          ToastCustom().showBottom(context,
+              msg: "Lỗi: ${response.message}", color: Colors.red);
+        }
+        isLoadingWallet = false;
+      } else {
+        // Xử lý lỗi khi response là null
+        ToastCustom().showBottom(context,
+            msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+      }
+    } catch (error) {
+      isLoadingWallet = false;
+      // Xử lý lỗi nếu có
+      print("Lỗi: $error");
+      ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
+    }
+    notifyListeners();
+  }
 }

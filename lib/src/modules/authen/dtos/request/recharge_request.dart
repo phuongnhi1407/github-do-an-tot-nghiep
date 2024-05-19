@@ -38,12 +38,13 @@ class RechargeRequest {
     data['price'] = this.price ?? 0;
     data['amount'] = this.amount ?? 0;
     data['discount'] = this.discount ?? 0;
-    data['totalPrice'] = this.totalPrice;
-    data['returnUrl'] = this.returnUrl;
+    data['totalPrice'] = this.totalPrice?? 0;
+    data['returnUrl'] = this.returnUrl ;
+    // xi may ban chinh xong xoa ?? string ơ may doan ni di hi
     data['cardList'] = this.cardList;
-    data['redirect'] = this.redirect;
-    data['lang'] = this.lang;
-    data['baseUrl'] = this.baseUrl;
+    data['redirect'] = this.redirect ;
+    data['lang'] = 'vi_VN';
+    data['baseUrl'] = this.baseUrl ;
     return data;
   }
 }

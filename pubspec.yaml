@@ -59,6 +59,7 @@ dependencies:
   rxdart_ext: ^0.2.9
   url_launcher: ^6.2.6
   webview_flutter: ^4.7.0
+  flutter_inappwebview: ^6.0.0
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:doantotnghiep/src/config.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/bakingtransaction_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/changepass_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/detailstation_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/listbikeinstation_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
@@ -264,7 +265,7 @@ class AuthenService {
   }
 
   //THÔNG TIN VÍ TIỀN
-  Future<MyWalletResponse?> getMyWallet(int userId) async {
+  Future<UserWalletResponse?> getMyWallet(int userId) async {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
       //final url = "${config.host}/$PROFILE_URL?Id=3";
@@ -272,7 +273,7 @@ class AuthenService {
       final response = await _apiUtility.get(url);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        return MyWalletResponse.fromJson(jsonResponse);
+        return UserWalletResponse.fromJson(jsonResponse);
       } else {
         print("Không tải được thông tin của bạn");
         return null;
@@ -366,6 +367,26 @@ class AuthenService {
       // Xử lý lỗi trong quá trình gửi yêu cầu
       print('Error: $e');
       // In ra thông báo lỗi cụ thể hoặc xử lý các trường hợp lỗi khác
+      return null;
+    }
+  }
+  //THÔNG TIN TRẠM XE
+
+  Future<StationDetailResponse?> getDetailStation(int stationId) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final url = "${config.host}/$DETAILSTATION_URL?Id=$stationId";
+      final response = await _apiUtility.get(url);
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        return StationDetailResponse.fromJson(responseData);
+      } else {
+        print("Không tải được thông tin của trạm xe. Mã trạng thái: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Lỗi: $e");
       return null;
     }
   }

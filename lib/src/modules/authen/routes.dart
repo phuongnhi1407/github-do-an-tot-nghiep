@@ -44,8 +44,12 @@ final LOCATION_URL = 'master-data/api/map-location/list';
 //STATION
 final STATION_URL = 'master-data/api/station/list';
 
+//DETAILSTATION
+final DETAILSTATION_URL ='master-data/api/station/detail';
+
 //LISTBIKEINSTATION
 final LISTBIKEINSTATION_URL = 'master-data/api/bike/list';
 
 //RECHARFE
 final RECHARGE_URL ='master-data/api/transaction/get-payment-url';
+
