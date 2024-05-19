@@ -1,4 +1,3 @@
-
 import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
 import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:flutter/material.dart';
@@ -42,30 +41,34 @@ class _WalletScreenState extends State<WalletScreen> {
     );
   }
 
-  Widget _buildWalletInfo(UserWalletData walletInfo) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'Số dư hiện tại:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 10),
-        Text(
-          '${walletInfo.currentPoint} VNĐ',
-          style: TextStyle(fontSize: 20),
-        ),
-        SizedBox(height: 20),
-        Text(
-          'Nợ phí:',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 10),
-        Text(
-          '${walletInfo.debtCharge} VNĐ',
-          style: TextStyle(fontSize: 20),
-        ),
-      ],
+  Widget _buildWalletInfo(MyWalletData walletInfo) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Số dư hiện tại:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          Text(
+            '${walletInfo.currentPoint} VNĐ',
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Nợ phí:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          Text(
+            '${walletInfo.debtCharge} VNĐ',
+            style: TextStyle(fontSize: 20),
+          ),
+        ],
+      ),
     );
   }
 }

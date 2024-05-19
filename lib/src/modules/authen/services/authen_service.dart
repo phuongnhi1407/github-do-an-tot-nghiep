@@ -264,18 +264,16 @@ class AuthenService {
     }
   }
 
-  //THÔNG TIN VÍ TIỀN
-  Future<UserWalletResponse?> getMyWallet(int userId) async {
+  Future<MyWalletResponse?> getMyWallet() async {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
-      //final url = "${config.host}/$PROFILE_URL?Id=3";
       final url = "${config.host}/$MYWALLET_URL";
       final response = await _apiUtility.get(url);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        return UserWalletResponse.fromJson(jsonResponse);
+        return MyWalletResponse.fromJson(jsonResponse);
       } else {
-        print("Không tải được thông tin của bạn");
+        print("Không tải được thông tin ví tiền của bạn: ${response.body}");
         return null;
       }
     } catch (e) {
