@@ -60,7 +60,7 @@ class AuthenProvider extends ChangeNotifier {
   String? errorMessageChangePassword;
 
   //vitien
-  UserWalletData? walletInfo;
+  MyWalletData? walletInfo;
   bool isLoadingWallet = false;
 
   //ds tram
@@ -683,33 +683,27 @@ class AuthenProvider extends ChangeNotifier {
 
 //THÔNG TIN VÍ TIỀN
   Future<void> fetchMyWallet(BuildContext context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    int userId = prefs.getInt("userId")!.toInt();
     walletInfo = null;
     isLoadingWallet = true;
     try {
-      final response = await _authenService.getMyWallet(userId);
+      final response = await _authenService.getMyWallet();
       if (response != null) {
         if (response.statusCode == 200) {
           walletInfo = response.data;
-          // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
         } else {
-          // Xử lý lỗi nếu có
           ToastCustom().showBottom(context,
               msg: "Lỗi: ${response.message}", color: Colors.red);
         }
-        isLoadingWallet = false;
       } else {
-        // Xử lý lỗi khi response là null
         ToastCustom().showBottom(context,
             msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
       }
     } catch (error) {
-      isLoadingWallet = false;
-      // Xử lý lỗi nếu có
       print("Lỗi: $error");
       ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
     }
+    isLoadingWallet = false;
     notifyListeners();
   }
 }
+
