@@ -1,6 +1,14 @@
+import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:latlng/latlng.dart';
 
 class PaymentSuccessScreen extends StatelessWidget {
+  const PaymentSuccessScreen(
+      {Key? key, required this.codeTrading, required this.amount})
+      : super(key: key);
+  final codeTrading;
+  final int amount;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +57,7 @@ class PaymentSuccessScreen extends StatelessWidget {
             // Giả sử có chi tiết giao dịch trong đối tượng transactionDetails
             // Bạn có thể thay thế phần này với thông tin thực tế
             Text(
-              'Mã Giao Dịch: 123456\nSố Tiền: 1.000.000 VND\nNgày: 17/05/2024',
+              'Mã Giao Dịch: ${codeTrading}\nSố Tiền: ${amount} VND\nNgày: ${DateTime.now().dayOfYear}/${DateTime.now().month}/${DateTime.now().year}',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16.0,
@@ -59,14 +67,17 @@ class PaymentSuccessScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Điều hướng quay lại trang chủ
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/home', // Thay thế với tên route trang chủ của bạn
-                      (route) => false,
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                  (Route<dynamic> route) => false,
                 );
               },
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Colors.blue, // Màu chữ của nút
-                padding: EdgeInsets.symmetric(vertical: 16.0), // Padding bên trong nút
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.blue, // Màu chữ của nút
+                padding: EdgeInsets.symmetric(
+                    vertical: 16.0), // Padding bên trong nút
                 textStyle: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,

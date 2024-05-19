@@ -473,7 +473,6 @@ class AuthenProvider extends ChangeNotifier {
     }
   }
 
-
   // Future<void> performRecharge(
   //     BuildContext context, RechargeRequest request) async {
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -607,7 +606,9 @@ class AuthenProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> fetchRecharge(BuildContext context, RechargeRequest request) async {
+
+  Future<void> fetchRecharge(
+      BuildContext context, RechargeRequest request) async {
     // "price": 0,
     // "amount": 0,
     // "discount": 0,
@@ -623,17 +624,19 @@ class AuthenProvider extends ChangeNotifier {
       if (response != null) {
         if (response.statusCode == 200) {
           RechargeResponse _data = response;
-          ToastCustom().showBottom(context,
-              msg: "Thanh toán thành công", color: Colors.green);
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => WebViewPayment(urlWebPay: _data.data.toString(), )),
-                  (Route<dynamic> route) => false,
-            );
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WebViewPayment(
+                      urlWebPay: _data.data.toString(),
+                    )),
+          );
         } else {
-          String errorMessage = response.message ?? "Không có thông báo lỗi từ máy chủ";
-          ToastCustom().showBottom(context,
-              msg: errorMessage, color: Colors.red);
+          String errorMessage =
+              response.message ?? "Không có thông báo lỗi từ máy chủ";
+          ToastCustom()
+              .showBottom(context, msg: errorMessage, color: Colors.red);
         }
       } else {
         ToastCustom().showBottom(context,
@@ -645,6 +648,7 @@ class AuthenProvider extends ChangeNotifier {
           msg: "Đã xảy ra lỗi trong quá trình thanh toán", color: Colors.red);
     }
   }
+
   //THÔNG TIN CHI TIẾT TRẠM
   Future<void> fetchDetailStation(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -676,6 +680,7 @@ class AuthenProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
 //THÔNG TIN VÍ TIỀN
   Future<void> fetchMyWallet(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
