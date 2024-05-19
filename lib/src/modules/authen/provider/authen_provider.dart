@@ -706,4 +706,3 @@ class AuthenProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-

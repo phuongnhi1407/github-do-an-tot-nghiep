@@ -6,7 +6,8 @@ class MyWalletResponse {
   MyWalletResponse({this.data, this.message, this.statusCode});
 
   MyWalletResponse.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new MyWalletData.fromJson(json['data']) : null;
+    data =
+        json['data'] != null ? new MyWalletData.fromJson(json['data']) : null;
     message = json['message'];
     statusCode = json['statusCode'];
   }
@@ -23,8 +24,8 @@ class MyWalletResponse {
 }
 
 class MyWalletData {
-  int? currentPoint;
-  int? debtCharge;
+  double? currentPoint;
+  double? debtCharge;
 
   MyWalletData({this.currentPoint, this.debtCharge});
 

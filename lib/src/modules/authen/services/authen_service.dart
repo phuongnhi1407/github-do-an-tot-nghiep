@@ -104,7 +104,6 @@ class AuthenService {
       final response = await _apiUtility.put(url, body: body);
 
       if (response != null && response.statusCode == 200) {
-        
         final responseData = json.decode(response.body);
         if (responseData is Map<String, dynamic>) {
           return SignoutResponse.fromJson(responseData);
@@ -268,7 +267,7 @@ class AuthenService {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
       final url = "${config.host}/$MYWALLET_URL";
-      final response = await _apiUtility.get(url);
+      final response = await _apiUtility.get(url, isHasAuthen: true);
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         return MyWalletResponse.fromJson(jsonResponse);
@@ -349,10 +348,12 @@ class AuthenService {
       final config = await AppConfig.forEnvironment(baseUser: true);
       final urlRecharge = "${config.host}/$RECHARGE_URL";
 
-      final response = await _apiUtility.post(urlRecharge, body: jsonEncode(request) , hasToken: false , hasAuthen: true);
+      final response = await _apiUtility.post(urlRecharge,
+          body: jsonEncode(request), hasToken: false, hasAuthen: true);
 
       if (response.statusCode == 200) {
-        final recharData = RechargeResponse.fromJson(json.decode(response.body));
+        final recharData =
+            RechargeResponse.fromJson(json.decode(response.body));
         print(recharData);
         return recharData;
       } else {
@@ -380,7 +381,8 @@ class AuthenService {
         final responseData = json.decode(response.body);
         return StationDetailResponse.fromJson(responseData);
       } else {
-        print("Không tải được thông tin của trạm xe. Mã trạng thái: ${response.statusCode}");
+        print(
+            "Không tải được thông tin của trạm xe. Mã trạng thái: ${response.statusCode}");
         return null;
       }
     } catch (e) {

@@ -1,4 +1,5 @@
 import 'package:doantotnghiep/src/common/constant.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,44 +11,50 @@ class ApiUtility {
   factory ApiUtility() => _instance;
 
 // get api
-  Future<http.Response> get(String url) {
-    return http
-        .get(Uri.parse(url))
-        .then((http.Response res) => handleResponse(res));
+  Future<http.Response> get(String url, {bool isHasAuthen = false}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return isHasAuthen
+        ? http.get(Uri.parse(url), headers: {
+            'accept': 'text/plain',
+            'Content-Type': 'application/json-patch+json',
+            // 'Token': hasToken ? prefs.getString("token").toString() : "",
+            'Authorization':
+                'Bearer ${isHasAuthen ? prefs.getString("token").toString() : ""}'
+          }).then((http.Response res) => handleResponse(res))
+        : http
+            .get(
+              Uri.parse(url),
+            )
+            .then((http.Response res) => handleResponse(res));
   }
 // post api
 
   Future<http.Response> post(String url,
       {body, hasToken = false, encoding, hasAuthen = false}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var headers  =  {
-      'accept': 'text/plain'   ,
-    'Content-Type': 'application/json' ,
+    var headers = {
+      'accept': 'text/plain',
+      'Content-Type': 'application/json',
+    };
+    ;
 
-    }  ; ;
-
-    if(hasToken && !hasAuthen) {
+    if (hasToken && !hasAuthen) {
       headers = {
         'lang': prefs.getString('culture') ?? "",
         'Content-Type': 'application/json',
         'Token': hasToken ? prefs.getString("token").toString() : "",
-      }  ;
-    }
-     else if(hasAuthen && !hasToken) {
+      };
+    } else if (hasAuthen && !hasToken) {
       headers = {
         'accept': 'text/plain',
-       'Content-Type': 'application/json-patch+json',
+        'Content-Type': 'application/json-patch+json',
         // 'Token': hasToken ? prefs.getString("token").toString() : "",
-        'Authorization': 'Bearer ${hasAuthen ? prefs.getString("token").toString() : ""}'
-
-      }  ;
-
+        'Authorization':
+            'Bearer ${hasAuthen ? prefs.getString("token").toString() : ""}'
+      };
     }
     return http
-        .post(Uri.parse(url),
-            body: body,
-            headers:headers ,
-            encoding: encoding)
+        .post(Uri.parse(url), body: body, headers: headers, encoding: encoding)
         .timeout(Duration(seconds: DURATION_SECONDS_TIME_OUT))
         .then((http.Response response) {
       return handleResponse(response);
