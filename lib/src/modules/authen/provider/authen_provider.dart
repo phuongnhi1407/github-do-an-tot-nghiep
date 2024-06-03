@@ -10,6 +10,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart'
 import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/carrental_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/changepass_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/fogotpass_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/listbikestation_request.dart';
@@ -667,7 +668,7 @@ class AuthenProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
+  //THANH TOÁN
   Future<void> fetchRecharge(
       BuildContext context, RechargeRequest request) async {
     // "price": 0,
@@ -766,4 +767,32 @@ class AuthenProvider extends ChangeNotifier {
     isLoadingWallet = false;
     notifyListeners();
   }
+
+  //KÍCH HOẠT XE
+  Future<void> activateBike(BuildContext context, ActivateBikeRequest request) async {
+    try {
+      final response = await _authenService.getcarrental(request);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          // Handle success
+          ToastCustom().showBottom(context,
+              msg: "Kích hoạt xe thành công", color: Colors.green);
+          // Navigate to success screen or perform other actions
+        } else {
+          // Handle error
+          print("Error: ${response.message}");
+          // Show toast or alert with error message
+        }
+      } else {
+        // Handle null response
+        print("Error: Null response");
+        // Show toast or alert with error message
+      }
+    } catch (error) {
+      // Handle error
+      print("Error: $error");
+      // Show toast or alert with error message
+    }
+  }
 }
+

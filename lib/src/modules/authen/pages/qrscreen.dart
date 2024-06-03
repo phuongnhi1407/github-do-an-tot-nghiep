@@ -1,3 +1,4 @@
+import 'package:doantotnghiep/src/modules/authen/pages/rentalcarsuccess.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -171,8 +172,13 @@ class RentalSuccessScreen extends StatelessWidget {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // Xử lý logic mở khóa xe
-                // Bạn có thể gọi API để thực hiện mở khóa xe
+                // Điều hướng đến trang UnlockSuccessScreen khi mở khóa thành công
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UnlockSuccessScreen(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,

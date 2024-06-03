@@ -55,3 +55,6 @@ final LISTBIKEINSTATION_URL = 'master-data/api/bike/list';
 //RECHARFE
 final RECHARGE_URL ='master-data/api/transaction/get-payment-url';
 
+//CARRENTAL
+final CARRENTAL_URL ='master-data/api/bike/active';
+
