@@ -9,7 +9,7 @@ class UnlockSuccessScreen extends StatefulWidget {
     required this.id,
   }) : super(key: key);
 
-  final String id;
+  final int id;
 
   @override
   _UnlockSuccessScreenState createState() => _UnlockSuccessScreenState();
@@ -18,16 +18,16 @@ class UnlockSuccessScreen extends StatefulWidget {
 class _UnlockSuccessScreenState extends State<UnlockSuccessScreen> {
   final TextEditingController _bikeIdController = TextEditingController();
 
+  AuthenProvider? authenProvider;
   @override
-  void dispose() {
-    _bikeIdController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    authenProvider = Provider.of<AuthenProvider>(context, listen: false);
+    handleBikeId();
   }
-
   void handleBikeId() async {
-    String bikeId = _bikeIdController.text;
-    final authenProvider = Provider.of<AuthenProvider>(context, listen: false);
-    await authenProvider.activateBike(context, int.parse(bikeId));
+    int bikeId = widget.id;
+    await authenProvider?.activateBike(context, bikeId);
   }
 
   @override

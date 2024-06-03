@@ -473,7 +473,7 @@ class AuthenService {
       // lấy URL
       final urlCarrental = "${config.host}/$CARRENTAL_URL";
       final response =
-          await _apiUtility.post(urlCarrental, body: jsonEncode(bikeId));
+          await _apiUtility.post(urlCarrental, body: {"bikeId": bikeId});
 
       if (response.statusCode == 200) {
         final responseData =
