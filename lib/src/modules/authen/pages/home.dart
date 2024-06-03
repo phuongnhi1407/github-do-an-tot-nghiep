@@ -3,7 +3,7 @@ import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/new
 import 'package:doantotnghiep/src/modules/authen/component/componenthomepage/search.dart';
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/transactionhistory.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/newslist.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/notificationlist.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/qrscreen.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/setting.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';

@@ -78,6 +78,10 @@ class _StationScreenState extends State<StationScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
           'Danh sách trạm xe gần nhất',
           style: TextStyle(

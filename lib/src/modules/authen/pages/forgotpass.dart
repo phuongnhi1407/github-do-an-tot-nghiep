@@ -2,11 +2,9 @@ import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChangePasswordScreen extends StatelessWidget {
-  final TextEditingController _oldPasswordController = TextEditingController();
-  final TextEditingController _newPasswordController = TextEditingController();
-  final FocusNode _oldPasswordFocus = FocusNode();
-  final FocusNode _newPasswordFocus = FocusNode();
+class ForgotPasswordScreen extends StatelessWidget {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +16,7 @@ class ChangePasswordScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Đổi mật khẩu',
+          'Quên mật khẩu',
           style: TextStyle(
             color: Colors.white, // Màu chữ trắng
             fontSize: 20, // Kích thước chữ lớn hơn
@@ -34,30 +32,25 @@ class ChangePasswordScreen extends StatelessWidget {
             children: [
               SizedBox(height: 20),
               Image.asset(
-                'assets/images/pass.png',
+                'assets/images/passs.png', // Đường dẫn đến hình ảnh
                 width: 150,
                 height: 150,
               ),
               SizedBox(height: 20),
               TextField(
-                controller: _oldPasswordController,
-                focusNode: _oldPasswordFocus,
+                controller: _usernameController,
                 decoration: InputDecoration(
-                  labelText: 'Old Password',
+                  labelText: 'Tên đăng nhập',
                   fillColor: Colors.green[50],
                   filled: true,
                 ),
                 obscureText: true,
-                onSubmitted: (_) {
-                  FocusScope.of(context).requestFocus(_newPasswordFocus);
-                },
               ),
               SizedBox(height: 10),
               TextField(
-                controller: _newPasswordController,
-                focusNode: _newPasswordFocus,
+                controller: _emailController,
                 decoration: InputDecoration(
-                  labelText: 'New Password',
+                  labelText: 'Email của bạn',
                   fillColor: Colors.green[50],
                   filled: true,
                 ),
@@ -66,12 +59,12 @@ class ChangePasswordScreen extends StatelessWidget {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  final oldPassword = _oldPasswordController.text;
-                  final newPassword = _newPasswordController.text;
-                  context.read<AuthenProvider>().changePassword(context, oldPassword, newPassword);
+                  final username = _usernameController.text;
+                  final email = _emailController.text;
+                  context.read<AuthenProvider>().forgotPassword(context, username, email);
                 },
                 child: Text(
-                  'Change Password',
+                  'Quên mật khẩu',
                   style: TextStyle(color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(

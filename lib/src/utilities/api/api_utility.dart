@@ -65,14 +65,19 @@ class ApiUtility {
   Future<http.Response> put(String url,
       {body, encoding, hasToken = false}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return http
+    return  http
         .put(Uri.parse(url),
             body: body,
-            headers: <String, String>{
+            headers: hasToken ?  {
+              'accept': 'text/plain' ,
               'Content-Type': 'application/json-patch+json',
               'Authorization':
                   'Bearer ${hasToken ? prefs.getString("token").toString() : ""}',
-            },
+            } :{
+              'accept': 'text/plain' ,
+              'Content-Type': 'application/json-patch+json',
+
+            } ,
             encoding: encoding)
         .then((http.Response response) {
       if (response.statusCode == 200) {

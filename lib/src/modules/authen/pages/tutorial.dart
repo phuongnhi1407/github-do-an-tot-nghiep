@@ -7,15 +7,15 @@ class TutorialPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.teal,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        backgroundColor: Colors.lightGreen,
         title: Text(
           'Hướng dẫn',
           style: TextStyle(
-            color: Colors.black, // Màu chữ đen
+            color: Colors.white, // Màu chữ trắng
             fontSize: 20, // Kích thước chữ lớn hơn
             fontWeight: FontWeight.bold, // Chữ đậm
           ),

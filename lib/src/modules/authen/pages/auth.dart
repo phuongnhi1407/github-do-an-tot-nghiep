@@ -39,14 +39,6 @@ class AuthScreen extends StatelessWidget {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context)=> const SignUpScreen()));
                   }),
-                  // Button(label: "ĐĂNG NHẬP", press: () {
-                  //   Navigator.push(context, MaterialPageRoute(
-                  //       builder: (context)=> MapScreen()));
-                  // }),
-                  // Button(label: "ĐĂNG KÝ", press: () {
-                  //   Navigator.push(context, MaterialPageRoute(
-                  //       builder: (context)=> const SignUpScreen()));
-                  // }),
                 ],
               ),
             ),

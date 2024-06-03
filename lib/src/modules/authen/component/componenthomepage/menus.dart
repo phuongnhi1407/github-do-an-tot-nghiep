@@ -1,11 +1,12 @@
 import 'package:doantotnghiep/src/modules/authen/data/icons.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/listnews.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/mywallet.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/paymentsuccess.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/recharge.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/station.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/tutorial.dart';
-import 'package:doantotnghiep/src/modules/authen/pages/newslist.dart';
+import 'package:doantotnghiep/src/modules/authen/pages/notificationlist.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -68,7 +69,7 @@ class Menus extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const NotificationScreen()));
+                                      const ListNewScreen()));
                         } else if (icon.title == 'Ví tiền') {
                           Navigator.push(
                               context,
@@ -80,7 +81,7 @@ class Menus extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PaymentScreen()));
+                                  builder: (context) => WalletScreen()));
                         }
 
                         // Thêm các điều kiện khác tương tự cho các icon khác

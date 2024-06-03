@@ -15,12 +15,16 @@ class NotificationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal, // Đổi màu nền sang màu teal
+        backgroundColor: Colors.teal,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
-          'Thông báo',
+          'Danh sách thông báo',
           style: TextStyle(
             color: Colors.white, // Màu chữ trắng
-            fontSize: 24, // Kích thước chữ lớn hơn
+            fontSize: 20, // Kích thước chữ lớn hơn
             fontWeight: FontWeight.bold, // Chữ đậm
           ),
         ),

@@ -19,7 +19,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     super.initState();
-    authenProvider = Provider.of<AuthenProvider>(context, listen: false); // Khởi tạo AuthenProvider
+    authenProvider = Provider.of<AuthenProvider>(context, listen: false);
   }
 
   void _handleRecharge() async {
@@ -38,41 +38,66 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thanh toán'),
+        backgroundColor: Colors.teal,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Thanh toán',
+          style: TextStyle(
+            color: Colors.white, // Màu chữ trắng
+            fontSize: 20, // Kích thước chữ lớn hơn
+            fontWeight: FontWeight.bold, // Chữ đậm
+          ),
+        ),
+        centerTitle: true, // Căn giữa tiêu đề của AppBar
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 20),
-            Icon(Icons.payment, color: Colors.blue, size: 100.0),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: TextField(
-                controller: _totalPriceController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Nhập số tiền',
-                  prefixIcon: Icon(Icons.monetization_on),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, // Căn giữa các thành phần theo trục dọc
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 20),
+              Image.asset(
+                'assets/images/pay.png',
+                width: 300, // Độ rộng của hình ảnh
+                height: 300, // Độ cao của hình ảnh
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextField(
+                  controller: _totalPriceController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Nhập số tiền',
+                    prefixIcon: Icon(Icons.monetization_on),
+                    border: OutlineInputBorder( // Border cho ô nhập liệu
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
                 ),
               ),
-            ),
-
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _handleRecharge,
-              child: Text('Tiếp tục thanh toán'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Trở về màn hình trước đó khi người dùng nhấn nút
-                Navigator.pop(context);
-              },
-              child: Text('Quay lại'),
-            ),
-          ],
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _handleRecharge,
+                child: Text(
+                  'Tiếp tục thanh toán',
+                  style: TextStyle(color: Colors.white), // Màu chữ của nút
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green, // Màu nền của nút
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

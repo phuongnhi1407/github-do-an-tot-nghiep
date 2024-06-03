@@ -31,10 +31,10 @@ class LoginModel {
   String? typeToken;
   String? urlRedirect;
   bool? isSuperAdmin;
-  List<Null>? roles;
+  // List<String>? roles;
   InfoUser? infoUser;
   bool? isFail;
-  Null? message;
+  String? message;
   int? statusCode;
 
   LoginModel(
@@ -57,7 +57,7 @@ class LoginModel {
     refreshToken = json['refreshToken'];
     expiredRefreshToken = json['expiredRefreshToken'];
     typeToken = json['typeToken'];
-    urlRedirect = json['urlRedirect'];
+    urlRedirect = json['urlRedirect'] ?? '';
     isSuperAdmin = json['isSuperAdmin'];
     // if (json['roles'] != null) {
     //   roles = <Null>[];
@@ -69,7 +69,7 @@ class LoginModel {
         ? new InfoUser.fromJson(json['infoUser'])
         : null;
     isFail = json['isFail'];
-    message = json['message'];
+    message = json['message']?? '';
     statusCode = json['statusCode'];
   }
 

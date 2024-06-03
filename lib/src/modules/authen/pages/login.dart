@@ -1,7 +1,8 @@
 import 'package:doantotnghiep/src/modules/authen/component/page_title_bar.dart';
 import 'package:doantotnghiep/src/modules/authen/component/under_part.dart';
 import 'package:doantotnghiep/src/modules/authen/component/upside.dart';
-import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';// Import trang ForgotPasswordScreen
+import 'package:doantotnghiep/src/modules/authen/pages/forgotpass.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/signup.dart';
 import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:doantotnghiep/src/modules/authen/style/colors.dart';
@@ -26,8 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     authenProvider = Provider.of<AuthenProvider>(context, listen: false);
-    // _userNameController = TextEditingController();
-    // _passwordController = TextEditingController();
   }
 
   void hanleLogin({String? userName, String? password}) async {
@@ -74,10 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Column(
                             children: [
                               Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 5),
+                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                                 width: size.width * 0.8,
                                 decoration: BoxDecoration(
                                   color: kPrimaryLightColor,
@@ -86,16 +83,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: TextField(
                                   controller: _userNameController,
                                   cursorColor: kPrimaryColor,
-                                  keyboardType: TextInputType
-                                      .text, // Thay đổi kiểu nhập liệu thành số
+                                  keyboardType: TextInputType.text, // Thay đổi kiểu nhập liệu thành số
                                   decoration: InputDecoration(
                                     icon: Icon(
                                       Icons.email,
                                       color: kPrimaryColor,
                                     ),
                                     hintText: "Tên tài khoản",
-                                    hintStyle:
-                                        const TextStyle(fontFamily: 'OpenSans'),
+                                    hintStyle: const TextStyle(fontFamily: 'OpenSans'),
                                     border: InputBorder.none,
                                   ),
                                   onChanged: (value) {
@@ -107,10 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 5),
+                                margin: const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                                 width: size.width * 0.8,
                                 decoration: BoxDecoration(
                                   color: kPrimaryLightColor,
@@ -126,8 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       color: kPrimaryColor,
                                     ),
                                     hintText: "Mật khẩu",
-                                    hintStyle:
-                                        TextStyle(fontFamily: 'OpenSans'),
+                                    hintStyle: TextStyle(fontFamily: 'OpenSans'),
                                     suffixIcon: Icon(
                                       Icons.visibility,
                                       color: kPrimaryColor,
@@ -144,7 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               switchListTile(),
-
                               RoundedButton(
                                   text: 'ĐĂNG NHẬP',
                                   press: () async {
@@ -163,19 +154,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const SignUpScreen()));
+                                          const SignUpScreen()));
                                 },
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
-                              const Text(
-                                'Quên mật khẩu?',
-                                style: TextStyle(
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ForgotPasswordScreen(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  'Quên mật khẩu?',
+                                  style: TextStyle(
                                     color: kPrimaryColor,
                                     fontFamily: 'OpenSans',
                                     fontWeight: FontWeight.w600,
-                                    fontSize: 13),
+                                    fontSize: 13,
+                                  ),
+                                ),
                               ),
                               const SizedBox(
                                 height: 20,
@@ -196,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-switchListTile() {
+Widget switchListTile() {
   return Padding(
     padding: const EdgeInsets.only(left: 50, right: 40),
     child: SwitchListTile(

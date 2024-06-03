@@ -16,18 +16,22 @@ class TransactionHistoryScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.teal,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
           'Lịch sử giao dịch',
           style: TextStyle(
-            color: Colors.black, // Màu chữ đen
+            color: Colors.white, // Màu chữ trắng
             fontSize: 20, // Kích thước chữ lớn hơn
             fontWeight: FontWeight.bold, // Chữ đậm
           ),
         ),
         centerTitle: true, // Căn giữa tiêu đề của AppBar
       ),
-      body: authenProvider.isLoading
+      body: authenProvider.isLoadingHistory
           ? Center(
         child: CircularProgressIndicator(),
       )
@@ -47,7 +51,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        transactionhistory.userFullName ?? '',
+                        transactionhistory.transactionType ?? '',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -74,7 +78,6 @@ class TransactionHistoryScreen extends StatelessWidget {
                 ),
               ],
             ),
-            //subtitle: Text(notification.createdDate ?? ''),
             onTap: () {
               // Xử lý khi người dùng chọn một thông báo cụ thể
               // Ví dụ: mở chi tiết thông báo

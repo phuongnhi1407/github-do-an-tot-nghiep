@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/detailstation_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/listbikeinstation_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/listnews_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/notificationlist_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
@@ -10,6 +11,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart'
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/changepass_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/fogotpass_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/listbikestation_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/signup_request.dart';
@@ -43,7 +45,10 @@ class AuthenProvider extends ChangeNotifier {
   List<NotificationData>? notificationList; //dstbao
   bool isLoading = false;
   String? errorMessage;
-
+//tin tức
+  List<ListNewsData>? listnewsList; //dstbao
+  bool isLoadinglistnews = false;
+  String? errorMessagelistnews;
   //tintuc
   bool isLoadingNews = false;
 
@@ -345,7 +350,37 @@ class AuthenProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
+//Tin tức sự kiện
+  Future<void> fetchlistnews(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    userInfo = null;
+    isLoadinglistnews = true;
+    errorMessagelistnews = null;
+    try {
+      final listnewsResponse = await _authenService.getListNews();
+      if (listnewsResponse != null) {
+        if (listnewsResponse.statusCode == 200) {
+          listnewsList = listnewsResponse.data;
+          // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
+        } else {
+          // Xử lý lỗi nếu có
+          ToastCustom().showBottom(context,
+              msg: "Lỗi: ${listnewsResponse.message}", color: Colors.red);
+        }
+        isLoadinglistnews = false;
+      } else {
+        // Xử lý lỗi khi response là null
+        ToastCustom().showBottom(context,
+            msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
+      }
+    } catch (error) {
+      isLoadinglistnews = false;
+      // Xử lý lỗi nếu có
+      print("Lỗi: $error");
+      ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
+    }
+    notifyListeners();
+  }
   //NAP TIEN
   Future<void> fetchBakingTransaction(
       BuildContext context, BakingRequest request) async {
@@ -411,29 +446,29 @@ class AuthenProvider extends ChangeNotifier {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     int userId = prefs.getInt("userId")!.toInt();
     userInfo = null;
-    isLoading = true;
+    isLoadingHistory = true;
     errorMessage = null;
     try {
-      final TransactionHistoryResponse =
+      final transactionHistoryResponse =
           await _authenService.getTransactionHistory(userId);
-      if (TransactionHistoryResponse != null) {
-        if (TransactionHistoryResponse.statusCode == 200) {
-          transactionhistoryList = TransactionHistoryResponse.data;
+      if (transactionHistoryResponse != null) {
+        if (transactionHistoryResponse.statusCode == 200) {
+          transactionhistoryList = transactionHistoryResponse.data;
           // Hiển thị thông tin cá nhân hoặc làm gì đó với dữ liệu đã nhận được
         } else {
           // Xử lý lỗi nếu có
           ToastCustom().showBottom(context,
-              msg: "Lỗi: ${TransactionHistoryResponse.message}",
+              msg: "Lỗi: ${transactionHistoryResponse.message}",
               color: Colors.red);
         }
-        isLoading = false;
+        isLoadingHistory = false;
       } else {
         // Xử lý lỗi khi response là null
         ToastCustom().showBottom(context,
             msg: "Lỗi: Không nhận được dữ liệu từ máy chủ", color: Colors.red);
       }
     } catch (error) {
-      isLoading = false;
+      isLoadingHistory = false;
       // Xử lý lỗi nếu có
       print("Lỗi: $error");
       ToastCustom().showBottom(context, msg: "Lỗi: $error", color: Colors.red);
@@ -472,7 +507,33 @@ class AuthenProvider extends ChangeNotifier {
           msg: 'Failed to change password 1', color: Colors.red);
     }
   }
+//QUÊN MẬT KHẨU
+  Future<void> forgotPassword(
+      BuildContext context, String username, String email) async {
+    try {
+      final request = ForgotPasswordRequest(
+          username: username, email: email);
+      final response = await _authenService.forgotPassword(request);
 
+      if (response != null) {
+        if (response.statusCode == 200) {
+          ToastCustom()
+              .showBottom(context, msg: response.message, color: Colors.green);
+        } else if (response.statusCode == 400) {
+          ToastCustom().showBottom(context,
+              msg: 'Tài khoản hoặc mật khẩu không đúng!', color: Colors.red);
+        } else {
+          ToastCustom().showBottom(context,
+              msg: response.message ?? 'Failed to change password',
+              color: Colors.red);
+        }
+      }
+    } catch (e) {
+      print("Error: $e"); // Print the error for debugging purposes
+      ToastCustom().showBottom(context,
+          msg: 'Failed to change password 1', color: Colors.red);
+    }
+  }
   // Future<void> performRecharge(
   //     BuildContext context, RechargeRequest request) async {
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();

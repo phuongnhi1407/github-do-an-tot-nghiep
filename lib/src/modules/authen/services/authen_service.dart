@@ -3,7 +3,9 @@ import 'package:doantotnghiep/src/config.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/bakingtransaction_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/changepass_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/detailstation_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/fogotpass_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/listbikeinstation_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/listnews_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/login_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/news_model.dart';
@@ -16,6 +18,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/station_model.dart'
 import 'package:doantotnghiep/src/modules/authen/dtos/models/transactionhistory_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/bakingtransaction_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/changepass_request.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/request/fogotpass_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/listbikestation_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/login_request.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/request/recharge_request.dart';
@@ -168,7 +171,25 @@ class AuthenService {
       return null;
     }
   }
+//TIN TỨC
+  Future<ListNewsResponse?> getListNews() async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final url = "${config.host}/$LISTNEWS_URL";
+      final response = await _apiUtility.get(url);
 
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return ListNewsResponse.fromJson(jsonResponse);
+      } else {
+        print("Failed to fetch notifications");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
   //NẠP TIỀN
   Future<Baking?> gettBaking(BakingRequest request) async {
     Baking? resData; // Đổi kiểu dữ liệu sang Baking? (nullable)
@@ -210,7 +231,6 @@ class AuthenService {
     }
     return null;
   }
-
   //LỊCH SỬ NẠP TIỀN
   Future<TransactionHistoryResponse?> getTransactionHistory(int userId) async {
     try {
@@ -247,6 +267,36 @@ class AuthenService {
         final responseData = json.decode(response.body);
         if (responseData is Map<String, dynamic>) {
           return ChangePasswordResponse.fromJson(responseData);
+        } else {
+          // Phản hồi không có định dạng mong đợi
+          throw Exception('Invalid response format');
+        }
+      } else {
+        // Xử lý lỗi theo status code
+        final responseData = json.decode(response.body);
+        throw Exception(responseData['message'] ?? 'An unknown error occurred');
+      }
+    } catch (error) {
+      // Xử lý lỗi mạng
+      print('Error: $error');
+      throw Exception('Error while fetching data: $error');
+    }
+  }
+  //Quên MẬT KHẨU
+  Future<ForgotPasswordResponse?> forgotPassword(ForgotPasswordRequest request) async {
+    try {
+      final config = await AppConfig.forEnvironment(baseUser: true);
+      final url = "${config.host}/$FOGOTPASS_URL";
+      final response = await _apiUtility.put(
+        hasToken: false,
+        url,
+        body: json.encode(request.toJson()), // Chuyển đổi request thành JSON
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        if (responseData is Map<String, dynamic>) {
+          return ForgotPasswordResponse.fromJson(responseData);
         } else {
           // Phản hồi không có định dạng mong đợi
           throw Exception('Invalid response format');

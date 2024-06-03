@@ -23,8 +23,10 @@ final PROFILE_URL = 'master-data/api/user';
 //DELETE
 final DELETE_ACCOUNT_URL = '$PROFILE_URL/del';
 
-//NEWS
+//NOTIFICATION
 final NEWS_URL = 'master-data/api/notification/detail';
+//LISTNEWS
+final LISTNEWS_URL = 'master-data/api/post/list';
 
 //NOTIFICATIONLIST
 final NOTIFICATIONLIST_URL = 'master-data/api/notification/list-received';

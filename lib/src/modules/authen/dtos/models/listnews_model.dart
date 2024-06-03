@@ -1,16 +1,16 @@
-class TransactionHistoryResponse {
-  List<TransactionHistoryData>? data;
+class ListNewsResponse {
+  List<ListNewsData>? data;
   Paging? paging;
   String? message;
   int? statusCode;
 
-  TransactionHistoryResponse({this.data, this.paging, this.message, this.statusCode});
+  ListNewsResponse({this.data, this.paging, this.message, this.statusCode});
 
-  TransactionHistoryResponse.fromJson(Map<String, dynamic> json) {
+  ListNewsResponse.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = <TransactionHistoryData>[];
+      data = <ListNewsData>[];
       json['data'].forEach((v) {
-        data!.add(new TransactionHistoryData.fromJson(v));
+        data!.add(new ListNewsData.fromJson(v));
       });
     }
     paging =
@@ -33,27 +33,30 @@ class TransactionHistoryResponse {
   }
 }
 
-class TransactionHistoryData {
+class ListNewsData {
   int? index;
   int? id;
-  String? transactionType;
-  int? point;
+  String? tilte;
+  String? image;
+  String? content;
   String? createdDate;
   int? totalRows;
 
-  TransactionHistoryData(
+  ListNewsData(
       {this.index,
         this.id,
-        this.transactionType,
-        this.point,
+        this.tilte,
+        this.image,
+        this.content,
         this.createdDate,
         this.totalRows});
 
-  TransactionHistoryData.fromJson(Map<String, dynamic> json) {
+  ListNewsData.fromJson(Map<String, dynamic> json) {
     index = json['index'];
     id = json['id'];
-    transactionType = json['transactionType'];
-    point = json['point'];
+    tilte = json['tilte'];
+    image = json['image'];
+    content = json['content'];
     createdDate = json['createdDate'];
     totalRows = json['totalRows'];
   }
@@ -62,8 +65,9 @@ class TransactionHistoryData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['index'] = this.index;
     data['id'] = this.id;
-    data['transactionType'] = this.transactionType;
-    data['point'] = this.point;
+    data['tilte'] = this.tilte;
+    data['image'] = this.image;
+    data['content'] = this.content;
     data['createdDate'] = this.createdDate;
     data['totalRows'] = this.totalRows;
     return data;
