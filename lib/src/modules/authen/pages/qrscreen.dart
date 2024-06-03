@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:doantotnghiep/src/modules/authen/dtos/models/qr_mode.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/rentalcarsuccess.dart';
+import 'package:doantotnghiep/src/modules/authen/services/authen_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -71,38 +73,62 @@ class _QrscreenState extends State<Qrscreen> {
       ),
     );
   }
-  void scnQR() async {
+
+  scnQR() async {
     String barcodeScanRes;
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Hủy", true, ScanMode.QR);
-      print("Barcode Scan Result: $barcodeScanRes"); // Thêm dòng này để hiển thị giá trị của barcodeScanRes
+      print(
+          "Barcode Scan Result: $barcodeScanRes"); // Thêm dòng này để hiển thị giá trị của barcodeScanRes
       if (barcodeScanRes != '-1') {
         // Kiểm tra xem mã QR có đúng định dạng JSON hay không
-        try {
-          Map<String, dynamic> jsonData = json.decode(barcodeScanRes);
-          var bikeCode = jsonData['bikeCode'];
-          var stationName = jsonData['stationName'];
-          var location = jsonData['location'];
-          // Chuyển hướng đến RentalSuccessScreen khi quét thành công
+        QrModel? getQR = await AuthenService().getQR(barcodeScanRes);
+        if (getQR != null) {
+          var bikeCode = getQR.bikeCode;
+          var stationName = getQR.stationName;
+          var location = getQR.location;
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => RentalSuccessScreen(
-                bikeCode: bikeCode,
-                stationName: stationName,
-                location: location,
+                bikeCode: bikeCode.toString(),
+                stationName: stationName.toString(),
+                location: location.toString(),
               ),
             ),
           );
-        } catch (e) {
-          // Nếu mã QR không phải là JSON, hiển thị thông báo lỗi
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text("Mã QR không hợp lệ"),
             ),
           );
         }
+        // try {
+        //   Map<String, dynamic> jsonData = json.decode(barcodeScanRes);
+        //   var bikeCode = jsonData['bikeCode'];
+        //   var stationName = jsonData['stationName'];
+        //   var location = jsonData['location'];
+        //   // Chuyển hướng đến RentalSuccessScreen khi quét thành công
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => RentalSuccessScreen(
+        //         bikeCode: bikeCode,
+        //         stationName: stationName,
+        //         location: location,
+        //       ),
+        //     ),
+        //   );
+        // } catch (e) {
+        //   // Nếu mã QR không phải là JSON, hiển thị thông báo lỗi
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     SnackBar(
+        //       content: Text("Mã QR không hợp lệ"),
+        //     ),
+        //   );
+        // }
       }
     } on PlatformException {
       barcodeScanRes = "Không thể lấy thông tin nền tảng";
@@ -155,8 +181,8 @@ class RentalSuccessScreen extends StatelessWidget {
             SizedBox(height: 16.0),
             Text(
               'Mã Xe: $bikeCode\n'
-                  'Tên Trạm: $stationName\n'
-                  'Vị Trí: $location',
+              'Tên Trạm: $stationName\n'
+              'Vị Trí: $location',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16.0,
@@ -169,7 +195,7 @@ class RentalSuccessScreen extends StatelessWidget {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
-                      (Route<dynamic> route) => false,
+                  (Route<dynamic> route) => false,
                 );
               },
               style: ElevatedButton.styleFrom(

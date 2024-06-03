@@ -12,6 +12,7 @@ import 'package:doantotnghiep/src/modules/authen/dtos/models/mywallet_model.dart
 import 'package:doantotnghiep/src/modules/authen/dtos/models/news_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/notificationlist_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/profile_model.dart';
+import 'package:doantotnghiep/src/modules/authen/dtos/models/qr_mode.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/recharge_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signout_model.dart';
 import 'package:doantotnghiep/src/modules/authen/dtos/models/signup_model.dart';
@@ -39,7 +40,7 @@ class AuthenService {
     // lay url
     final urlLogin = "${config.host}/$LOGIN_URL";
     final response =
-    await _apiUtility.post(urlLogin, body: jsonEncode(request));
+        await _apiUtility.post(urlLogin, body: jsonEncode(request));
     responseData = LoginResponse.fromJson(json.decode(response.body));
     print(responseData);
     return responseData;
@@ -50,10 +51,9 @@ class AuthenService {
     SignUpResponse responseData;
     final config = await AppConfig.forEnvironment(baseUser: true);
     final urlRegister =
-        "${config
-        .host}/$SIGNUP_URL"; // Đảm bảo REGISTER_URL đã được định nghĩa trong routes.dart
+        "${config.host}/$SIGNUP_URL"; // Đảm bảo REGISTER_URL đã được định nghĩa trong routes.dart
     final response =
-    await _apiUtility.post(urlRegister, body: jsonEncode(request));
+        await _apiUtility.post(urlRegister, body: jsonEncode(request));
     responseData = SignUpResponse.fromJson(json.decode(response.body));
     print(responseData);
     return responseData;
@@ -71,6 +71,21 @@ class AuthenService {
         return ProfileResponse.fromJson(jsonResponse);
       } else {
         print("Không tải được thông tin của bạn");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
+
+  Future<QrModel?> getQR(String url) async {
+    try {
+      final response = await _apiUtility.get(url);
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return QrModel.fromJson(jsonResponse['data']);
+      } else {
         return null;
       }
     } catch (e) {
@@ -139,7 +154,7 @@ class AuthenService {
       //final url = "${config.host}/$NEWS_URL?NotificationId=$notificationId";
       final url = "${config.host}/$NEWS_URL?NotificationId=1";
       final response =
-      await _apiUtility.get(url); // Gửi yêu cầu GET đến máy chủ
+          await _apiUtility.get(url); // Gửi yêu cầu GET đến máy chủ
       if (response != null && response.statusCode == 200) {
         // Nếu phản hồi thành công và không null
         final jsonResponse = json.decode(response.body);
@@ -201,7 +216,7 @@ class AuthenService {
     final config = await AppConfig.forEnvironment(baseUser: true);
     final urlbaking = "${config.host}/$BAKINGTRASACTION_URL";
     final response =
-    await _apiUtility.post(urlbaking, body: jsonEncode(request));
+        await _apiUtility.post(urlbaking, body: jsonEncode(request));
     resData = Baking.fromJson(json.decode(response.body));
     print(resData);
     return resData;
@@ -213,7 +228,7 @@ class AuthenService {
       final config = await AppConfig.forEnvironment(baseUser: true);
       final urlbaking = "${config.host}/$BAKINGTRASACTION_URL";
       final response =
-      await _apiUtility.post(urlbaking, body: jsonEncode(request));
+          await _apiUtility.post(urlbaking, body: jsonEncode(request));
 
       if (response.statusCode == 200) {
         if (response.body != null && response.body.isNotEmpty) {
@@ -411,7 +426,7 @@ class AuthenService {
 
       if (response.statusCode == 200) {
         final recharData =
-        RechargeResponse.fromJson(json.decode(response.body));
+            RechargeResponse.fromJson(json.decode(response.body));
         print(recharData);
         return recharData;
       } else {
@@ -441,8 +456,7 @@ class AuthenService {
         return StationDetailResponse.fromJson(responseData);
       } else {
         print(
-            "Không tải được thông tin của trạm xe. Mã trạng thái: ${response
-                .statusCode}");
+            "Không tải được thông tin của trạm xe. Mã trạng thái: ${response.statusCode}");
         return null;
       }
     } catch (e) {
@@ -458,12 +472,12 @@ class AuthenService {
       final config = await AppConfig.forEnvironment(baseUser: true);
       // lấy URL
       final urlCarrental = "${config.host}/$CARRENTAL_URL";
-      final response = await _apiUtility.post(
-          urlCarrental, body: jsonEncode(request));
+      final response =
+          await _apiUtility.post(urlCarrental, body: jsonEncode(request));
 
       if (response.statusCode == 200) {
-        final responseData = ActivateBikeResponse.fromJson(
-            json.decode(response.body));
+        final responseData =
+            ActivateBikeResponse.fromJson(json.decode(response.body));
         print(responseData);
         return responseData;
       } else {
