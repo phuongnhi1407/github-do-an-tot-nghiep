@@ -1,19 +1,21 @@
 class ActivateBikeResponse {
-  final bool data;
-  final String message;
-  final int statusCode;
+  bool? data;
+  String? message;
+  int? statusCode;
 
-  ActivateBikeResponse({
-    required this.data,
-    required this.message,
-    required this.statusCode,
-  });
+  ActivateBikeResponse({this.data, this.message, this.statusCode});
 
-  factory ActivateBikeResponse.fromJson(Map<String, dynamic> json) {
-    return ActivateBikeResponse(
-      data: json['data'],
-      message: json['message'],
-      statusCode: json['statusCode'],
-    );
+  ActivateBikeResponse.fromJson(Map<String, dynamic> json) {
+    data = json['data'];
+    message = json['message'];
+    statusCode = json['statusCode'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['data'] = this.data;
+    data['message'] = this.message;
+    data['statusCode'] = this.statusCode;
+    return data;
   }
 }

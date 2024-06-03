@@ -769,11 +769,12 @@ class AuthenProvider extends ChangeNotifier {
   }
 
   //KÍCH HOẠT XE
-  Future<void> activateBike(BuildContext context, ActivateBikeRequest request) async {
+  Future<void> activateBike(BuildContext context, int bikeId) async {
     try {
-      final response = await _authenService.getcarrental(request);
+      final response = await _authenService.getcarrental(bikeId);
       if (response != null) {
         if (response.statusCode == 200) {
+
           // Handle success
           ToastCustom().showBottom(context,
               msg: "Kích hoạt xe thành công", color: Colors.green);
@@ -794,5 +795,6 @@ class AuthenProvider extends ChangeNotifier {
       // Show toast or alert with error message
     }
   }
+
 }
 

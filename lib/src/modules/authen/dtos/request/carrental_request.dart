@@ -1,7 +1,7 @@
 class ActivateBikeRequest {
-  final int bikeId;
+  int? bikeId;
 
-  ActivateBikeRequest({required this.bikeId});
+  ActivateBikeRequest({this.bikeId});
 
   Map<String, dynamic> toJson() {
     return {

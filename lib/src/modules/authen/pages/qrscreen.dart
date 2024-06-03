@@ -85,6 +85,7 @@ class _QrscreenState extends State<Qrscreen> {
         // Kiểm tra xem mã QR có đúng định dạng JSON hay không
         QrModel? getQR = await AuthenService().getQR(barcodeScanRes);
         if (getQR != null) {
+          var id = getQR.id;
           var bikeCode = getQR.bikeCode;
           var stationName = getQR.stationName;
           var location = getQR.location;
@@ -92,6 +93,7 @@ class _QrscreenState extends State<Qrscreen> {
             context,
             MaterialPageRoute(
               builder: (context) => RentalSuccessScreen(
+                id: id.toString(),
                 bikeCode: bikeCode.toString(),
                 stationName: stationName.toString(),
                 location: location.toString(),
@@ -142,11 +144,12 @@ class _QrscreenState extends State<Qrscreen> {
 class RentalSuccessScreen extends StatelessWidget {
   const RentalSuccessScreen({
     Key? key,
+    required this.id,
     required this.bikeCode,
     required this.stationName,
     required this.location,
   }) : super(key: key);
-
+  final String id;
   final String bikeCode;
   final String stationName;
   final String location;
@@ -218,7 +221,7 @@ class RentalSuccessScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => UnlockSuccessScreen(),
+                    builder: (context) => UnlockSuccessScreen(id:id),
                   ),
                 );
               },

@@ -1,13 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
+import 'package:provider/provider.dart';
 
-class UnlockSuccessScreen extends StatelessWidget {
+class UnlockSuccessScreen extends StatefulWidget {
+  const UnlockSuccessScreen({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
+
+  final String id;
+
+  @override
+  _UnlockSuccessScreenState createState() => _UnlockSuccessScreenState();
+}
+
+class _UnlockSuccessScreenState extends State<UnlockSuccessScreen> {
+  final TextEditingController _bikeIdController = TextEditingController();
+
+  @override
+  void dispose() {
+    _bikeIdController.dispose();
+    super.dispose();
+  }
+
+  void handleBikeId() async {
+    String bikeId = _bikeIdController.text;
+    final authenProvider = Provider.of<AuthenProvider>(context, listen: false);
+    await authenProvider.activateBike(context, int.parse(bikeId));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Mở khóa thành công'),
-        automaticallyImplyLeading: false, // Ẩn nút quay lại
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -32,7 +60,6 @@ class UnlockSuccessScreen extends StatelessWidget {
             SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: () {
-                // Điều hướng quay lại trang chủ
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
@@ -41,10 +68,10 @@ class UnlockSuccessScreen extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Colors.blue, // Màu chữ của nút
+                backgroundColor: Colors.blue,
                 padding: EdgeInsets.symmetric(
                   vertical: 16.0,
-                ), // Padding bên trong nút
+                ),
                 textStyle: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,

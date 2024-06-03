@@ -467,13 +467,13 @@ class AuthenService {
 
 //KÍCH HOẠT XE THÀNH CÔNG
   Future<ActivateBikeResponse?> getcarrental(
-      ActivateBikeRequest request) async {
+      int bikeId) async {
     try {
       final config = await AppConfig.forEnvironment(baseUser: true);
       // lấy URL
       final urlCarrental = "${config.host}/$CARRENTAL_URL";
       final response =
-          await _apiUtility.post(urlCarrental, body: jsonEncode(request));
+          await _apiUtility.post(urlCarrental, body: jsonEncode(bikeId));
 
       if (response.statusCode == 200) {
         final responseData =
