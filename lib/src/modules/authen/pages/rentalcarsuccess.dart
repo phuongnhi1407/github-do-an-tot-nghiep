@@ -1,3 +1,4 @@
+import 'package:doantotnghiep/src/modules/authen/pages/map.dart';
 import 'package:flutter/material.dart';
 import 'package:doantotnghiep/src/modules/authen/provider/authen_provider.dart';
 import 'package:doantotnghiep/src/modules/authen/pages/home.dart';
@@ -25,6 +26,7 @@ class _UnlockSuccessScreenState extends State<UnlockSuccessScreen> {
     authenProvider = Provider.of<AuthenProvider>(context, listen: false);
     handleBikeId();
   }
+
   void handleBikeId() async {
     int bikeId = widget.id;
     await authenProvider?.activateBike(context, bikeId);
@@ -60,10 +62,9 @@ class _UnlockSuccessScreenState extends State<UnlockSuccessScreen> {
             SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushAndRemoveUntil(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                      (Route<dynamic> route) => false,
+                  MaterialPageRoute(builder: (context) => MapScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
