@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:doantotnghiep/src/modules/authen/pages/rentalcarsuccess.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -69,24 +71,38 @@ class _QrscreenState extends State<Qrscreen> {
       ),
     );
   }
-
   void scnQR() async {
     String barcodeScanRes;
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Hủy", true, ScanMode.QR);
-      if (barcodeScanRes != '-1') { // '-1' là giá trị trả về khi hủy quét
-        // Chuyển hướng đến RentalSuccessScreen khi quét thành công
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => RentalSuccessScreen(
-              bikeCode: 'Bike17',
-              stationName: 'Phạm Văn Đồng',
-              location: '107.5967226 - 16.4771966',
+      print("Barcode Scan Result: $barcodeScanRes"); // Thêm dòng này để hiển thị giá trị của barcodeScanRes
+      if (barcodeScanRes != '-1') {
+        // Kiểm tra xem mã QR có đúng định dạng JSON hay không
+        try {
+          Map<String, dynamic> jsonData = json.decode(barcodeScanRes);
+          var bikeCode = jsonData['bikeCode'];
+          var stationName = jsonData['stationName'];
+          var location = jsonData['location'];
+          // Chuyển hướng đến RentalSuccessScreen khi quét thành công
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RentalSuccessScreen(
+                bikeCode: bikeCode,
+                stationName: stationName,
+                location: location,
+              ),
             ),
-          ),
-        );
+          );
+        } catch (e) {
+          // Nếu mã QR không phải là JSON, hiển thị thông báo lỗi
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Mã QR không hợp lệ"),
+            ),
+          );
+        }
       }
     } on PlatformException {
       barcodeScanRes = "Không thể lấy thông tin nền tảng";
